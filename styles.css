@@ -35,21 +35,49 @@ body {
     list-style: none;
     display: flex;
     gap: 15px;
+    position: relative;
 }
 
 .navigation .nav-list li {
-    display: inline;
+    position: relative;
 }
 
 .navigation .nav-list a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    padding: 10px;
+    display: block;
     transition: color 0.3s;
 }
 
 .navigation .nav-list a:hover {
     color: #ffd700;
+}
+
+/* Dropdown Menu */
+.navigation .nav-list li:hover .dropdown {
+    display: block;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 150px;
+}
+
+.dropdown a {
+    color: #fff;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    background-color: #575757;
 }
 
 /* Hero Section */
@@ -83,6 +111,9 @@ body {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .sidebar h3 {
@@ -101,11 +132,14 @@ body {
 .sidebar-list a {
     text-decoration: none;
     color: #333;
-    transition: color 0.3s;
+    display: block;
+    padding: 8px;
+    transition: background 0.3s;
 }
 
 .sidebar-list a:hover {
-    color: #007BFF;
+    background-color: #007BFF;
+    color: #fff;
 }
 
 /* Blog Section */
@@ -115,6 +149,7 @@ body {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 250px; /* Adjust for fixed sidebar */
 }
 
 .post {
