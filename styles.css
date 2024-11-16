@@ -1,134 +1,151 @@
-/* Reset some basic elements for consistency */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #fff;
-    color: #333;
+    font-family: 'Arial', sans-serif;
     margin: 0;
-    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-/* Header */
-.header {
-    background-color: #0A0A0A;
-    color: white;
+header {
+    background-color: #222;
+    color: #fff;
+    padding: 1rem 2rem;
+}
+
+nav.top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
 }
 
-.logo h1 {
-    font-size: 1.8em;
+nav .logo {
+    font-size: 1.5rem;
     font-weight: bold;
-    margin: 0;
 }
 
-.navigation ul {
+nav .nav-links {
     list-style: none;
     display: flex;
+    gap: 2rem;
 }
 
-.navigation ul li {
-    margin-left: 20px;
+nav .nav-links li {
+    display: inline;
 }
 
-.navigation ul li a {
-    color: white;
+nav .nav-links a {
+    color: #fff;
     text-decoration: none;
-    font-size: 1.1em;
-    transition: color 0.3s ease;
+    font-size: 1.1rem;
 }
 
-.navigation ul li a:hover {
-    color: #00BFFF;
+.container {
+    display: flex;
+    margin: 2rem;
 }
 
-/* Hero Section */
-.hero {
-    background-color: #F0F0F0;
-    padding: 60px 20px;
-    text-align: center;
-    margin-bottom: 40px;
+.sidebar {
+    width: 20%;
+    background-color: #fff;
+    border-right: 2px solid #ddd;
+    padding: 1.5rem;
 }
 
-.hero-content h2 {
-    font-size: 2.5em;
-    color: #0A0A0A;
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.hero-content p {#x1F30E
-    font-size: 1.2em;
-    color: #666;
+.category-list {
+    list-style: none;
+    padding: 0;
 }
 
-/* Blog Post Section */
-.blog-posts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
+.category-list li {
+    margin: 1rem 0;
 }
 
-.post {
-    background-color: #F9F9F9;
-    padding: 20px;
-    border: 1px solid #E0E0E0;
-    border-radius: 10px;
-    transition: box-shadow 0.3s ease;
-}
-
-.post:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.post-title {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    color: #0A0A0A;
-}
-
-.post-date {
-    font-size: 0.9em;
-    color: #999;
-    margin-bottom: 15px;
-}
-
-.post-excerpt {
-    font-size: 1.1em;
+.category-list a {
+    text-decoration: none;
     color: #333;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.content {
+    flex: 1;
+    padding: 0 2rem;
+}
+
+.search-bar {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #222;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 0.5rem;
+}
+
+.highlights {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.highlights h2 {
+    margin-bottom: 1.5rem;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+article {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+article img {
+    width: 100%;
+    height: auto;
+}
+
+article h3 {
+    font-size: 1.3rem;
+    margin: 1rem;
+}
+
+article p {
+    margin: 0 1rem 1rem;
 }
 
 .read-more {
-    font-size: 1em;
-    color: #00BFFF;
+    display: inline-block;
+    margin: 0 1rem 1rem;
+    color: #0066cc;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s ease;
 }
 
-.read-more:hover {
-    color: #007ACC;
-}
-
-/* Footer */
-.footer {
-    background-color: #0A0A0A;
-    color: white;
+footer {
     text-align: center;
-    padding: 20px 0;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-}
-
-.footer p {
-    font-size: 1em;
+    padding: 1rem;
+    background-color: #222;
+    color: #fff;
 }
