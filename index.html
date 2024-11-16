@@ -3,64 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Truth Seeker Blog</title>
+    <title>Truth Seeker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
-            <h1>Truth Seeker</h1>
-        </div>
-        <nav class="navigation">
-            <ul>
+    <header>
+        <nav class="top-bar">
+            <div class="logo">Truth Seeker</div>
+            <ul class="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="shop.html">Shop</a></li>
+                <li><a href="#">Articles</a></li>
+                <li><a href="#">Forum</a></li>
+                <li><a href="#">Shop</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Uncovering Truths in Every Journey</h2>
-            <p>Join us on a path of exploration and discovery.</p>
-        </div>
-    </section>
-
-    <div class="container content-container">
+    <div class="container">
         <aside class="sidebar">
-            <h3>Explore</h3>
-            <ul class="sidebar-list">
-                <li><a href="#">Latest Posts</a></li>
-                <li><a href="#">Popular Topics</a></li>
-                <li><a href="#">Quotes of the Day</a></li>
-                <li><a href="#">Subscribe</a></li>
+            <h2>Categories</h2>
+            <ul class="category-list">
+                <li><a href="#">Philosophy</a></li>
+                <li><a href="#">Science & Technology</a></li>
+                <li><a href="#">History</a></li>
+                <li><a href="#">Politics</a></li>
+                <li><a href="#">Spirituality</a></li>
+                <li><a href="#">Psychology</a></li>
+                <li><a href="#">Ethics & Morality</a></li>
+                <li><a href="#">Culture</a></li>
+                <li><a href="#">Economics</a></li>
+                <li><a href="#">Future Studies</a></li>
             </ul>
         </aside>
 
-    <main class="blog-posts">
-        <article class="post">
-            <h3 class="post-title">The Journey Begins</h3>
-            <p class="post-date">September 21, 2024</p>
-            <p class="post-excerpt">Embarking on the first steps toward uncovering the deeper meanings in life.</p>
-            <a href="#" class="read-more">Read More</a>
-        </article>
+        <main class="content">
+            <div class="search-bar">
+                <input type="text" placeholder="Search for truth...">
+                <button type="submit">Search</button>
+            </div>
+            <section class="highlights">
+                <h2>Featured Articles</h2>
+                <div class="article-grid">
+                    <article>
+                        <img src="https://via.placeholder.com/300x150" alt="Article 1">
+                        <h3>The Philosophy of Existence</h3>
+                        <p>Dive deep into timeless questions about life, meaning, and reality.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </article>
+                    <article>
+                        <img src="https://via.placeholder.com/300x150" alt="Article 2">
+                        <h3>Advancements in AI Ethics</h3>
+                        <p>Explore how the rapid growth of artificial intelligence challenges modern ethics.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </article>
+                    <article>
+                        <img src="https://via.placeholder.com/300x150" alt="Article 3">
+                        <h3>Forgotten History</h3>
+                        <p>Uncover the stories that have shaped civilization but remain largely unknown.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
 
-        <article class="post">
-            <h3 class="post-title">Exploring New Horizons</h3>
-            <p class="post-date">September 22, 2024</p>
-            <p class="post-excerpt">How curiosity can lead to breakthroughs in understanding.</p>
-            <a href="#" class="read-more">Read More</a>
-        </article>
-
-        <!-- Add more blog posts here -->
-    </main>
-
-    <footer class="footer">
-        <p>&copy; 2024 Truth Seeker. All rights reserved.</p>
+    <footer>
+        <p>&copy; 2024 Truth Seeker. All Rights Reserved.</p>
     </footer>
 </body>
 </html>
