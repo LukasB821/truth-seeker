@@ -13,7 +13,7 @@ body {
 header {
     background-color: #222;
     color: #fff;
-    padding: 0.5rem 0.5rem;
+    padding: 1rem 0.5rem;
     width: 100%;
     box-sizing: border-box;
     display: flex;
@@ -168,7 +168,7 @@ nav .nav-links a:hover {
 /* Articles */
 .article-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 3rem;
 }
 
@@ -191,7 +191,7 @@ article img {
 }
 
 article h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 1rem;
 }
 
@@ -264,4 +264,3 @@ footer {
         gap: 0.1rem;
     }
 }
-
