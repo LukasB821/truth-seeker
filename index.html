@@ -1,106 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Truth Seeker</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CryptoX - State-of-the-Art Crypto App</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Web3.js from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
+  <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inconsolata', monospace;
+      background: #fff;
+      color: #333;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Header */
+    .header {
+      background: #001f3f;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    .header .logo img {
+      height: 40px;
+    }
+    .header button {
+      background: #007bff;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.3s ease;
+    }
+    .header button:hover {
+      background: #0056b3;
+    }
+    .header button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+    /* Hamburger Button for Mobile */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: #001f3f;
+      color: #fff;
+      font-size: 20px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: auto;
+      padding-top: 60px;
+      transition: left 0.3s ease-in-out;
+      z-index: 1100;
+    }
+    @media (max-width: 480px) {
+      .sidebar {
+        left: -250px;
+      }
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar li {
+      padding: 15px 20px;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+      position: relative;
+    }
+    .sidebar li:hover,
+    .sidebar li.active {
+      background: #003366;
+    }
+    .sidebar li::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ff9900;
+      transition: width 0.3s ease;
+    }
+    .sidebar li:hover::after {
+      width: 100%;
+    }
+    /* Close Button (inside sidebar) */
+    .close-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+    @media (max-width: 480px) {
+      .close-btn {
+        display: block;
+      }
+    }
+    /* Marquee */
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      background: #007bff;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 16px;
+    }
+    .marquee-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 10s linear infinite;
+    }
+    .marquee-inner span {
+      margin-right: 50px;
+    }
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      padding: 100px 20px 20px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Dashboard */
+    #dashboard button {
+      background: #28a745;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    #dashboard button:hover {
+      background: #218838;
+    }
+    #dashboard button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    /* Social Feed */
+    .post {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .post-header img {
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .post-header span {
+      font-weight: 500;
+    }
+    .follow-btn {
+      margin-left: auto;
+      background: #007bff;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .follow-btn:hover {
+      background: #0056b3;
+    }
+    /* Trading Bot */
+    .trading-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .trading-table th,
+    .trading-table td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    .trading-table th {
+      background: #007bff;
+      color: #fff;
+    }
+    .trading-table tr:hover {
+      background: #f1f1f1;
+    }
+    /* Exchanges */
+    .exchange-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: inline-block;
+      width: calc(33% - 20px);
+      vertical-align: top;
+      text-align: center;
+    }
+    /* Wallet */
+    #walletStatus {
+      font-family: 'Inconsolata', monospace;
+    }
+    #copyAddress {
+      background: #ff9900;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background 0.3s ease;
+    }
+    #copyAddress:hover {
+      background: #e68a00;
+    }
+    /* Responsive Adjustments */
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 250px;
+      }
+      .main-content {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      .exchange-card {
+        width: 100%;
+        margin: 10px 0;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    @media (max-width: 480px) {
+      .main-content {
+        padding-top: 100px;
+      }
+    }
+    /* Sidebar Open State for Mobile */
+    .sidebar.open {
+      left: 0;
+    }
+    /* Overlay Effect */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    #overlay.active {
+      display: block;
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav class="top-bar">
-            <div class="logo">Truth Seeker</div>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Articles</a></li>
-                <li><a href="#">Forum</a></li>
-                <li><a href="#">Shop</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="container">
-        <aside class="sidebar">
-            <h2></h2>
-            <ul class="category-list">
-                <li><a href="#">Philosophy</a></li>
-                <li><a href="#">Science & Technology</a></li>
-                <li><a href="#">History</a></li>
-                <li><a href="#">Politics</a></li>
-                <li><a href="#">Spirituality</a></li>
-                <li><a href="#">Psychology</a></li>
-                <li><a href="#">Ethics & Morality</a></li>
-                <li><a href="#">Culture</a></li>
-                <li><a href="#">Economics</a></li>
-                <li><a href="#">Future Studies</a></li>
-            </ul>
-        </aside>
-
-        <main class="content">
-            <div class="search-bar">
-                <input type="text" placeholder="Search for truth...">
-                <button type="submit">Search</button>
-            </div>
-            <section class="highlights">
-                <h2>Featured Articles</h2>
-                <div class="article-grid">
-                    <article>
-                        <h3>The Philosophy of Existence</h3>
-                        <p>Dive deep into timeless questions about life, meaning, and reality.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </article>
-                    <article>
-                        <h3>Advancements in AI Ethics</h3>
-                        <p>Explore how the rapid growth of artificial intelligence challenges modern ethics.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </article>
-                    <article>
-          <h3>Forgotten History</h3>
-                        <p>Uncover the stories that have shaped civilization but remain largely unknown.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </article>
-                        <article>
-       <h3>Populism’s Rise: A New Era for Democracy?</h3>
-                            <p>An insightful examination of how the populist wave challenges conventional democratic principles and reshapes governance.</p>
-                            <a href="#" class="read-more">Read More</a>
-                        </article>
-                    <article>
-                           <h3>Mystical Minds: When Science Meets the Divine</h3>
-                                <p>How cutting-edge neuroscience uncovers the nature of profound spiritual experiences and their deeper meaning.</p>
-                                                <a href="#" class="read-more">Read More</a>
-               </article>
-                    <article>
-                    <h3>Unmasking the Invisible Biases</h3>
-                                        <p>A candid look at cognitive biases, their silent influence on decision-making, and practical steps for greater self-awareness.</p>
-                                                        <a href="#" class="read-more">Read More</a>
-                       </article>
-                    <article>
-                        <h3>Ethics in the Age of Innovation</h3>
-                                            <p>Navigating the complex moral terrain as advancements in AI and biotech outpace our ethical frameworks.</p>
-                                                            <a href="#" class="read-more">Read More</a>
-                           </article>
-                    <article>
-                        <h3>Globalization’s Cultural Balancing Act</h3>
-                                            <p>A nuanced view on whether global integration enriches or erodes the diversity of cultural identity.</p>
-                                                            <a href="#" class="read-more">Read More</a>
-                           </article>
-                    <article>
-                        <h3>UBI: Bridging the Gap or Breaking the System?</h3>
-                                            <p>An honest appraisal of universal basic income as a potential remedy for economic disparity or a step too far.</p>
-                                                            <a href="#" class="read-more">Read More</a>
-                           </article>
-                    <article>
-                        <h3>Redefining Work in the Age of Machines</h3>
-                                            <p>An exploration of how automation and AI are transforming work and what it means for the future of human potential.</p>
-                                                            <a href="#" class="read-more">Read More</a>
-                           </article>
-                </div>
-            </section>
-        </main>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <img src="https://cdn.prod.website-files.com/66702b538790109994372adc/66743d128ee05d724bb6372a_Toshi%20Logo%20-%20Circular%201.png" alt="CryptoX Logo" class="logo-image">
     </div>
+    <!-- Hamburger button for mobile -->
+    <button id="hamburgerMenu" class="hamburger">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <div class="header-right">
+      <button id="connectWalletHeader">Connect Wallet</button>
+    </div>
+  </div>
+  <!-- Marquee Section -->
+  <div class="marquee">
+    <div class="marquee-inner">
+      <span>Welcome to CryptoX - Your State-of-the-Art Crypto App</span>
+      <span>Welcome to CryptoX - Your State-of-the-Art Crypto App</span>
+    </div>
+  </div>
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <!-- Close button for mobile -->
+    <button id="closeSidebar" class="close-btn">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <ul>
+      <li class="active" data-target="dashboard">
+        <i class="fa-solid fa-gauge"></i> Dashboard
+      </li>
+      <li data-target="wallet">
+        <i class="fa-solid fa-wallet"></i> Wallet
+      </li>
+      <li data-target="social">
+        <i class="fa-solid fa-users"></i> Social
+      </li>
+      <li data-target="trading">
+        <i class="fa-solid fa-robot"></i> Trading Bot
+      </li>
+      <li data-target="exchanges">
+        <i class="fa-solid fa-exchange-alt"></i> Exchanges
+      </li>
+      <li data-target="news">
+        <i class="fa-solid fa-newspaper"></i> News
+      </li>
+      <li data-target="resources">
+        <i class="fa-solid fa-hat-wizard"></i> Resources
+      </li>
+    </ul>
+  </div>
+  <!-- Overlay for Mobile -->
+  <div id="overlay"></div>
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <!-- Dashboard Tab -->
+    <div id="dashboard" class="tab-content active">
+      <h1>Welcome to CryptoX</h1>
+      <p>
+        Claim your daily reward and start exploring our state-of-the-art features!
+      </p>
+      <button id="dailyRewardButton">Claim Daily Reward</button>
+    </div>
+    <!-- Wallet Tab -->
+    <div id="wallet" class="tab-content">
+      <h1>Crypto Wallet</h1>
+      <p>Your wallet details and transactions will appear here.</p>
+      <button id="connectWalletTab">Connect Wallet</button>
+      <p id="walletStatus" style="margin-top: 10px;">Not connected</p>
+      <button id="copyAddress" style="display: none;">Copy Address</button>
+      <!-- Container for Transaction History -->
+      <div id="txHistory" style="margin-top: 20px;"></div>
+    </div>
+    <!-- Social Tab -->
+    <div id="social" class="tab-content">
+      <h1>Social Feed</h1>
+      <div class="post">
+        <div class="post-header">
+          <img src="https://via.placeholder.com/40" alt="avatar" />
+          <span>CryptoGuru</span>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="post-body">
+          <p>Just made a profitable trade with my new trading bot!</p>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-header">
+          <img src="https://via.placeholder.com/40" alt="avatar" />
+          <span>BlockChainBabe</span>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="post-body">
+          <p>Anyone else excited about the upcoming NFT drop?</p>
+        </div>
+      </div>
+    </div>
+    <!-- Trading Bot Tab -->
+    <div id="trading" class="tab-content">
+      <h1>Trading Bot</h1>
+      <p>
+        Bot Status: <span style="color: green;">Active</span>
+      </p>
+      <table class="trading-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Signal</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Exchange</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>09:00</td>
+            <td>Buy</td>
+            <td>$32,000</td>
+            <td>Executed</td>
+            <td>Binance</td>
+          </tr>
+          <tr>
+            <td>10:30</td>
+            <td>Sell</td>
+            <td>$33,000</td>
+            <td>Pending</td>
+            <td>Kraken</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Exchanges Tab -->
+    <div id="exchanges" class="tab-content">
+      <h1>Exchange Integration</h1>
+      <div class="exchange-card">
+        <h2>Binance</h2>
+        <p>Real-time trading data</p>
+      </div>
+      <div class="exchange-card">
+        <h2>Coinbase</h2>
+        <p>Seamless crypto transactions</p>
+      </div>
+      <div class="exchange-card">
+        <h2>Kraken</h2>
+        <p>Robust market analytics</p>
+      </div>
+    </div>
+    <!-- News Tab -->
+    <div id="news" class="tab-content">
+      <h1>News</h1>
+      <div class="post">
+        <div class="post-header">
+          <img src="https://via.placeholder.com/40" alt="avatar" />
+          <span>CryptoNews</span>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="post-body">
+          <p>Breaking: Major update in the crypto market today!</p>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-header">
+          <img src="https://via.placeholder.com/40" alt="avatar" />
+          <span>MarketWatch</span>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="post-body">
+          <p>Latest trends in blockchain technology unveiled.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Resources Tab -->
+    <div id="resources" class="tab-content">
+      <h1>Resources</h1>
+      <div class="post">
+        <div class="post-header">
+          <img src="https://via.placeholder.com/40" alt="avatar" />
+          <span>CryptoGuide</span>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="post-body">
+          <p>Explore our comprehensive guide to understanding cryptocurrencies.</p>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post-header">
+          <img src="https://via.placeholder.com/40" alt="avatar" />
+          <span>Blockchain101</span>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="post-body">
+          <p>Resources and tutorials to help you get started in blockchain technology.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JavaScript for UI Interactions & Web3 Wallet -->
+  <script>
+    // Tab Navigation
+    const tabs = document.querySelectorAll('.sidebar li');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('overlay');
 
-    <footer>
-        <p>&copy; 2024 Truth Seeker. All Rights Reserved.</p>
-    </footer>
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function () {
+        tabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        const target = this.getAttribute('data-target');
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+        document.getElementById(target).classList.add('active');
+        if (window.innerWidth <= 480) {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+        }
+      });
+    });
+
+    // Daily Reward Button
+    document.getElementById('dailyRewardButton').addEventListener('click', function () {
+      alert('Daily reward claimed! You have received 10 tokens.');
+      this.disabled = true;
+      this.innerText = 'Reward Claimed';
+    });
+
+    // Enhanced Wallet Connection using Web3.js & MetaMask
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          // Request account access
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const web3 = new Web3(window.ethereum);
+          const accounts = await web3.eth.getAccounts();
+          const account = accounts[0];
+          let statusText = 'Connected: ' + account;
+
+          // Disable wallet connection buttons
+          document.getElementById('connectWalletHeader').disabled = true;
+          document.getElementById('connectWalletTab').disabled = true;
+          document.getElementById('copyAddress').style.display = 'inline-block';
+
+          // Fetch and display balance in ETH
+          const balanceWei = await web3.eth.getBalance(account);
+          const balanceEth = web3.utils.fromWei(balanceWei, 'ether');
+          statusText += ' | Balance: ' + parseFloat(balanceEth).toFixed(4) + ' ETH';
+          document.getElementById('walletStatus').innerText = statusText;
+
+          // Fetch transaction history via Etherscan API (demo purposes)
+          const txHistoryContainer = document.getElementById('txHistory');
+          txHistoryContainer.innerHTML = '<p>Fetching transaction history...</p>';
+          // Replace "YourApiKeyToken" with your actual Etherscan API key.
+          const etherscanApiKey = 'YourApiKeyToken';
+          const txResponse = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${account}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${etherscanApiKey}`);
+          const txData = await txResponse.json();
+          if (txData.status === "1" && txData.result.length > 0) {
+            let txHtml = '<h3>Recent Transactions</h3><ul>';
+            txData.result.forEach(tx => {
+              txHtml += `<li>Hash: ${tx.hash.substring(0, 10)}... - Value: ${web3.utils.fromWei(tx.value, 'ether')} ETH - <a href="https://etherscan.io/tx/${tx.hash}" target="_blank">View</a></li>`;
+            });
+            txHtml += '</ul>';
+            txHistoryContainer.innerHTML = txHtml;
+          } else {
+            txHistoryContainer.innerHTML = '<p>No transactions found.</p>';
+          }
+        } catch (error) {
+          console.error(error);
+          alert('An error occurred while connecting to the wallet.');
+        }
+      } else {
+        alert('MetaMask is not installed. Please install it to connect your wallet.');
+      }
+    }
+
+    document.getElementById('connectWalletHeader').addEventListener('click', connectWallet);
+    document.getElementById('connectWalletTab').addEventListener('click', connectWallet);
+
+    // Copy Address Button
+    document.getElementById('copyAddress').addEventListener('click', function () {
+      const walletAddress = document.getElementById('walletStatus').innerText.split(': ')[1].split(' |')[0];
+      navigator.clipboard.writeText(walletAddress).then(() => {
+        alert('Address copied to clipboard');
+      });
+    });
+
+    // Hamburger Menu Toggle for Mobile
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+  </script>
 </body>
 </html>
