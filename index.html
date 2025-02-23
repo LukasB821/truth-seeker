@@ -7,8 +7,6 @@
   <!-- Google Fonts & Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Web3.js from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
   <style>
     /* Global Styles */
     * {
@@ -182,7 +180,7 @@
       padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 20px;
       transition: background 0.3s ease;
     }
     #dashboard button:hover {
@@ -217,8 +215,11 @@
       background: #007bff;
       color: #fff;
       padding: 5px 10px;
-      border-radius: 8px;
+      border: none;
+      border-radius: 4px; /* Slightly rounded square */
       cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
       transition: background 0.3s ease;
     }
     .follow-btn:hover {
@@ -270,6 +271,89 @@
     }
     #copyAddress:hover {
       background: #e68a00;
+    }
+    /* Wallet Page Additional Styles */
+    .wallet-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    .wallet-section h2 {
+      margin-top: 0;
+    }
+    /* New Button Styles for Wallet Connect & Follow */
+    #connectWalletTab {
+      background: #007bff;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px; /* Slightly rounded square */
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.3s ease;
+    }
+    #connectWalletTab:hover {
+      background: #0056b3;
+    }
+    #sendPayment {
+      background: #007bff;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.3s ease;
+    }
+    #receivePayment {
+      background: #007bff;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.3s ease;
+    }
+    /* Bar Graph Styles */
+    .bar-graph {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .bars {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      height: 200px;
+      border-bottom: 2px solid #333;
+    }
+    .bar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .bar {
+      width: 40px;
+      background: #007bff;
+      border-radius: 4px 4px 0 0;
+    }
+    .value {
+      font-size: 12px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .label {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #333;
     }
     /* Responsive Adjustments */
     @media (max-width: 480px) {
@@ -374,20 +458,65 @@
     <!-- Dashboard Tab -->
     <div id="dashboard" class="tab-content active">
       <h1>Welcome to CryptoX</h1>
-      <p>
-        Claim your daily reward and start exploring our state-of-the-art features!
-      </p>
+      <p>Claim your daily reward and start exploring our state-of-the-art features!</p>
       <button id="dailyRewardButton">Claim Daily Reward</button>
+      <!-- Bar Graph -->
+      <div class="bar-graph">
+        <h2>Monthly Token Earnings</h2>
+        <div class="bars">
+          <div class="bar-container">
+            <span class="value">10</span>
+            <div class="bar" style="height: 50px;"></div>
+            <span class="label">Jan</span>
+          </div>
+          <div class="bar-container">
+            <span class="value">20</span>
+            <div class="bar" style="height: 100px;"></div>
+            <span class="label">Feb</span>
+          </div>
+          <div class="bar-container">
+            <span class="value">15</span>
+            <div class="bar" style="height: 75px;"></div>
+            <span class="label">Mar</span>
+          </div>
+          <div class="bar-container">
+            <span class="value">25</span>
+            <div class="bar" style="height: 125px;"></div>
+            <span class="label">Apr</span>
+          </div>
+          <div class="bar-container">
+            <span class="value">30</span>
+            <div class="bar" style="height: 150px;"></div>
+            <span class="label">May</span>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Wallet Tab -->
     <div id="wallet" class="tab-content">
-      <h1>Crypto Wallet</h1>
-      <p>Your wallet details and transactions will appear here.</p>
-      <button id="connectWalletTab">Connect Wallet</button>
-      <p id="walletStatus" style="margin-top: 10px;">Not connected</p>
-      <button id="copyAddress" style="display: none;">Copy Address</button>
-      <!-- Container for Transaction History -->
-      <div id="txHistory" style="margin-top: 20px;"></div>
+      <h1>Wallet Dashboard</h1>
+      <div class="wallet-section">
+        <h2>Wallet Connection</h2>
+        <p id="walletStatus">Not connected</p>
+        <button id="connectWalletTab">Connect Wallet</button>
+        <button id="copyAddress" style="display: none;">Copy Address</button>
+      </div>
+      <div class="wallet-section">
+        <h2>Wallet Details</h2>
+        <p><strong>Wallet Address:</strong> <span id="walletAddress">N/A</span></p>
+        <p><strong>Balance:</strong> <span id="walletBalance">0 sats</span></p>
+      </div>
+      <div class="wallet-section">
+        <h2>Recent Transactions</h2>
+        <ul id="transactionsList">
+          <li>No transactions yet.</li>
+        </ul>
+      </div>
+      <div class="wallet-section">
+        <h2>Actions</h2>
+        <button id="sendPayment">Send Payment</button>
+        <button id="receivePayment">Receive Payment</button>
+      </div>
     </div>
     <!-- Social Tab -->
     <div id="social" class="tab-content">
@@ -416,9 +545,7 @@
     <!-- Trading Bot Tab -->
     <div id="trading" class="tab-content">
       <h1>Trading Bot</h1>
-      <p>
-        Bot Status: <span style="color: green;">Active</span>
-      </p>
+      <p>Bot Status: <span style="color: green;">Active</span></p>
       <table class="trading-table">
         <thead>
           <tr>
@@ -512,7 +639,7 @@
       </div>
     </div>
   </div>
-  <!-- JavaScript for UI Interactions & Web3 Wallet -->
+  <!-- JavaScript for UI Interactions and Bluewallet Integration -->
   <script>
     // Tab Navigation
     const tabs = document.querySelectorAll('.sidebar li');
@@ -541,60 +668,81 @@
       this.innerText = 'Reward Claimed';
     });
 
-    // Enhanced Wallet Connection using Web3.js & MetaMask
-    async function connectWallet() {
-      if (window.ethereum) {
-        try {
-          // Request account access
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.getAccounts();
-          const account = accounts[0];
-          let statusText = 'Connected: ' + account;
-
-          // Disable wallet connection buttons
-          document.getElementById('connectWalletHeader').disabled = true;
-          document.getElementById('connectWalletTab').disabled = true;
-          document.getElementById('copyAddress').style.display = 'inline-block';
-
-          // Fetch and display balance in ETH
-          const balanceWei = await web3.eth.getBalance(account);
-          const balanceEth = web3.utils.fromWei(balanceWei, 'ether');
-          statusText += ' | Balance: ' + parseFloat(balanceEth).toFixed(4) + ' ETH';
-          document.getElementById('walletStatus').innerText = statusText;
-
-          // Fetch transaction history via Etherscan API (demo purposes)
-          const txHistoryContainer = document.getElementById('txHistory');
-          txHistoryContainer.innerHTML = '<p>Fetching transaction history...</p>';
-          // Replace "YourApiKeyToken" with your actual Etherscan API key.
-          const etherscanApiKey = 'YourApiKeyToken';
-          const txResponse = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${account}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${etherscanApiKey}`);
-          const txData = await txResponse.json();
-          if (txData.status === "1" && txData.result.length > 0) {
-            let txHtml = '<h3>Recent Transactions</h3><ul>';
-            txData.result.forEach(tx => {
-              txHtml += `<li>Hash: ${tx.hash.substring(0, 10)}... - Value: ${web3.utils.fromWei(tx.value, 'ether')} ETH - <a href="https://etherscan.io/tx/${tx.hash}" target="_blank">View</a></li>`;
-            });
-            txHtml += '</ul>';
-            txHistoryContainer.innerHTML = txHtml;
-          } else {
-            txHistoryContainer.innerHTML = '<p>No transactions found.</p>';
-          }
-        } catch (error) {
-          console.error(error);
-          alert('An error occurred while connecting to the wallet.');
-        }
+    // Bluewallet Integration using WebLN
+    function connectWallet() {
+      if (window.webln) {
+        window.webln.enable()
+          .then(() => window.webln.getInfo())
+          .then(info => {
+            // Using the node public key as the wallet identifier.
+            const pubkey = info.node.pubkey;
+            document.getElementById('walletStatus').innerText = 'Connected: ' + pubkey;
+            document.getElementById('walletAddress').innerText = pubkey;
+            // For demonstration, update balance and transactions.
+            document.getElementById('walletBalance').innerText = '1500 sats';
+            // Disable connect buttons and show copy functionality.
+            document.getElementById('connectWalletHeader').disabled = true;
+            document.getElementById('connectWalletTab').disabled = true;
+            document.getElementById('copyAddress').style.display = 'inline-block';
+          })
+          .catch(error => {
+            console.error("WebLN Error:", error);
+            alert("Error connecting wallet: " + error.message);
+          });
       } else {
-        alert('MetaMask is not installed. Please install it to connect your wallet.');
+        alert("No WebLN provider found. Please install Bluewallet or another WebLN-compatible Lightning wallet.");
       }
     }
 
+    // Send Payment Function using Bluewallet's WebLN support
+    function sendPayment() {
+      if (window.webln && window.webln.sendPayment) {
+        const invoice = prompt("Enter Lightning Invoice to pay:");
+        if (invoice) {
+          window.webln.sendPayment(invoice)
+            .then(result => {
+              alert("Payment sent successfully!\nPreimage: " + result.preimage);
+            })
+            .catch(error => {
+              console.error("Send Payment Error:", error);
+              alert("Payment failed: " + error.message);
+            });
+        }
+      } else {
+        alert("sendPayment is not supported. Please ensure you are using Bluewallet or another WebLN-compatible wallet.");
+      }
+    }
+
+    // Receive Payment Function using WebLN’s makeInvoice (if supported)
+    function receivePayment() {
+      if (window.webln && window.webln.makeInvoice) {
+        const amount = prompt("Enter the amount in sats for the invoice:");
+        if (amount) {
+          window.webln.makeInvoice({ amount: parseInt(amount, 10) })
+            .then(result => {
+              alert("Invoice created:\n" + result.invoice);
+            })
+            .catch(error => {
+              console.error("Invoice Creation Error:", error);
+              alert("Invoice creation failed: " + error.message);
+            });
+        }
+      } else {
+        alert("makeInvoice is not supported by your wallet. Please check if Bluewallet is up-to-date or use a different WebLN-compatible wallet.");
+      }
+    }
+
+    // Attach wallet connection event listeners
     document.getElementById('connectWalletHeader').addEventListener('click', connectWallet);
     document.getElementById('connectWalletTab').addEventListener('click', connectWallet);
 
+    // Update Wallet Action Buttons to use Bluewallet/WebLN functions
+    document.getElementById('sendPayment').addEventListener('click', sendPayment);
+    document.getElementById('receivePayment').addEventListener('click', receivePayment);
+
     // Copy Address Button
     document.getElementById('copyAddress').addEventListener('click', function () {
-      const walletAddress = document.getElementById('walletStatus').innerText.split(': ')[1].split(' |')[0];
+      const walletAddress = document.getElementById('walletAddress').innerText;
       navigator.clipboard.writeText(walletAddress).then(() => {
         alert('Address copied to clipboard');
       });
