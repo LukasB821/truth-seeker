@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: 'Inconsolata', monospace;
+  background: #fff;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.splash-container {
+  text-align: center;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #001f3f;
+  margin-bottom: 30px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.create-account {
+  background: #28a745;
+}
+
+.create-account:hover {
+  background: #218838;
+}
+
+.login {
+  background: #ff9900;
+}
+
+.login:hover {
+  background: #e68a00;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .title {
+    font-size: 36px;
+  }
+  .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+}
