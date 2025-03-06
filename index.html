@@ -4,16 +4,76 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HodlVitality - State-of-the-Art Crypto App</title>
-
-  <!-- External Libraries -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- External Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-  <!-- Internal Styles -->
   <style>
-    /*** Global Styles ***/
+    /* Splash Screen Styles */
+    #splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .splash-container {
+      text-align: center;
+    }
+    .splash-container .title {
+      font-size: 48px;
+      font-weight: 700;
+      color: #001f3f;
+      margin-bottom: 30px;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .btn {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+    .create-account {
+      background: #28a745;
+    }
+    .create-account:hover {
+      background: #218838;
+    }
+    .login {
+      background: #ff9900;
+    }
+    .login:hover {
+      background: #e68a00;
+    }
+    /* Responsive Splash Screen */
+    @media (max-width: 480px) {
+      .splash-container .title {
+        font-size: 36px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    }
+
+    /* Global & Main Content Styles */
     * {
       box-sizing: border-box;
     }
@@ -25,8 +85,11 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
-    /*** Header Styles ***/
+    /* Hide main content until splash is dismissed */
+    #mainContent {
+      display: none;
+    }
+    /* Header */
     .header {
       background: #001f3f;
       color: #fff;
@@ -70,8 +133,7 @@
       cursor: pointer;
       margin-right: 10px;
     }
-
-    /*** Sidebar Styles ***/
+    /* Sidebar */
     .sidebar {
       width: 250px;
       background: #001f3f;
@@ -125,8 +187,7 @@
       top: 15px;
       right: 15px;
     }
-
-    /*** Marquee Styles ***/
+    /* Marquee */
     .marquee {
       width: 100%;
       overflow: hidden;
@@ -148,8 +209,7 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
-
-    /*** Main Content Styles ***/
+    /* Main Content Area */
     .main-content {
       margin-left: 250px;
       padding: 100px 20px 20px;
@@ -166,8 +226,7 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-
-    /*** Dashboard Styles ***/
+    /* Dashboard */
     #dashboard button {
       background: #28a745;
       color: #fff;
@@ -217,8 +276,7 @@
       font-size: 14px;
       color: #333;
     }
-
-    /*** Wallet Styles ***/
+    /* Wallet */
     #walletStatus {
       font-family: 'Inconsolata', monospace;
     }
@@ -262,8 +320,7 @@
     #receivePayment:hover {
       background: #0056b3;
     }
-
-    /*** Social Styles ***/
+    /* Social */
     .post {
       background: #fff;
       border-radius: 12px;
@@ -306,7 +363,7 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 10px;
       font-weight: 700;
       text-decoration: none;
       transition: background 0.3s ease;
@@ -340,8 +397,7 @@
       height: 3px;
       background: #007bff;
     }
-
-    /*** Trading Bot Styles ***/
+    /* Trading Bot */
     .trading-table {
       width: 100%;
       border-collapse: collapse;
@@ -369,8 +425,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-
-    /*** Exchanges Styles ***/
+    /* Exchanges */
     .exchange-card {
       background: #fff;
       border-radius: 12px;
@@ -382,16 +437,14 @@
       vertical-align: top;
       text-align: center;
     }
-
-    /*** Help Creator Styles ***/
+    /* Help Creator */
     #helpCreatorQR {
       width: 300px;
       height: 300px;
       margin: 100px auto;
       cursor: pointer;
     }
-
-    /*** Overlay Styles ***/
+    /* Overlay for Mobile */
     #overlay {
       display: none;
       position: fixed;
@@ -408,8 +461,7 @@
       display: block;
       opacity: 1;
     }
-
-    /*** Responsive Design ***/
+    /* Responsive Design */
     @media (max-width: 480px) {
       .sidebar {
         left: -250px;
@@ -436,314 +488,333 @@
   </style>
 </head>
 <body>
-  <!-- Header Section -->
-  <div class="header">
-    <div class="logo">
-      <img src="hodlvitality.jpeg" alt="HodlVitality Logo" class="logo-image">
-    </div>
-    <button id="hamburgerMenu" class="hamburger">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-    <div class="header-right">
-      <button id="connectWalletHeader">Connect Wallet</button>
+  <!-- Splash Screen -->
+  <div id="splashScreen">
+    <div class="splash-container">
+      <h1 class="title">HodlVitality</h1>
+      <div class="button-container">
+        <button class="btn create-account">Create Account</button>
+        <a href="#" id="loginButton" class="btn login">Login</a>
+      </div>
     </div>
   </div>
 
-  <!-- Marquee Section -->
-  <div class="marquee">
-    <div class="marquee-inner">
-      <span>Welcome to HodlVitality - Your State-of-the-Art Crypto App</span>
-      <span>Welcome to HodlVitality - Your State-of-the-Art Crypto App</span>
+  <!-- Main Content -->
+  <div id="mainContent">
+    <!-- Header Section -->
+    <div class="header">
+      <div class="logo">
+        <img src="hodlvitality.jpeg" alt="HodlVitality Logo" class="logo-image">
+      </div>
+      <button id="hamburgerMenu" class="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="header-right">
+        <button id="connectWalletHeader">Connect Wallet</button>
+      </div>
     </div>
-  </div>
 
-  <!-- Sidebar Navigation -->
-  <div class="sidebar">
-    <button id="closeSidebar" class="close-btn">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-    <ul>
-      <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</li>
-      <li data-target="wallet"><i class="fa-solid fa-wallet"></i> Wallet</li>
-      <li data-target="social"><i class="fa-solid fa-users"></i> Social</li>
-      <li data-target="trading"><i class="fa-solid fa-robot"></i> Trading Bot</li>
-      <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA</li>
-      <li data-target="exchanges"><i class="fa-solid fa-exchange-alt"></i> Exchanges</li>
-      <li data-target="news"><i class="fa-solid fa-newspaper"></i> News</li>
-      <li data-target="resources"><i class="fa-solid fa-hat-wizard"></i> Resources</li>
-      <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> Help Creator</li>
-    </ul>
-  </div>
+    <!-- Marquee Section -->
+    <div class="marquee">
+      <div class="marquee-inner">
+        <span>Welcome to HodlVitality - Your State-of-the-Art Crypto App</span>
+        <span>Welcome to HodlVitality - Your State-of-the-Art Crypto App</span>
+      </div>
+    </div>
 
-  <!-- Overlay for Mobile -->
-  <div id="overlay"></div>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+      <button id="closeSidebar" class="close-btn">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <ul>
+        <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+        <li data-target="wallet"><i class="fa-solid fa-wallet"></i> Wallet</li>
+        <li data-target="social"><i class="fa-solid fa-users"></i> Social</li>
+        <li data-target="trading"><i class="fa-solid fa-robot"></i> Trading Bot</li>
+        <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA</li>
+        <li data-target="exchanges"><i class="fa-solid fa-exchange-alt"></i> Exchanges</li>
+        <li data-target="news"><i class="fa-solid fa-newspaper"></i> News</li>
+        <li data-target="resources"><i class="fa-solid fa-hat-wizard"></i> Resources</li>
+        <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> Help Creator</li>
+      </ul>
+    </div>
 
-  <!-- Main Content Area -->
-  <div class="main-content">
-    <!-- Dashboard Tab -->
-    <div id="dashboard" class="tab-content active">
-      <h1>HodlVitality</h1>
-      <p>Claim your daily reward and start exploring our state-of-the-art features!</p>
-      <button id="dailyRewardButton">Claim Daily Reward</button>
-      <div class="bar-graph">
-        <h2>Monthly Token Earnings</h2>
-        <div class="bars">
-          <div class="bar-container">
-            <span class="value">10</span>
-            <div class="bar" style="height: 50px;"></div>
-            <span class="label">Jan</span>
-          </div>
-          <div class="bar-container">
-            <span class="value">20</span>
-            <div class="bar" style="height: 100px;"></div>
-            <span class="label">Feb</span>
-          </div>
-          <div class="bar-container">
-            <span class="value">15</span>
-            <div class="bar" style="height: 75px;"></div>
-            <span class="label">Mar</span>
-          </div>
-          <div class="bar-container">
-            <span class="value">25</span>
-            <div class="bar" style="height: 125px;"></div>
-            <span class="label">Apr</span>
-          </div>
-          <div class="bar-container">
-            <span class="value">30</span>
-            <div class="bar" style="height: 150px;"></div>
-            <span class="label">May</span>
+    <!-- Overlay for Mobile -->
+    <div id="overlay"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Dashboard Tab -->
+      <div id="dashboard" class="tab-content active">
+        <h1>HodlVitality</h1>
+        <p>Claim your daily reward and start exploring our state-of-the-art features!</p>
+        <button id="dailyRewardButton">Claim Daily Reward</button>
+        <div class="bar-graph">
+          <h2>Monthly Token Earnings</h2>
+          <div class="bars">
+            <div class="bar-container">
+              <span class="value">10</span>
+              <div class="bar" style="height: 50px;"></div>
+              <span class="label">Jan</span>
+            </div>
+            <div class="bar-container">
+              <span class="value">20</span>
+              <div class="bar" style="height: 100px;"></div>
+              <span class="label">Feb</span>
+            </div>
+            <div class="bar-container">
+              <span class="value">15</span>
+              <div class="bar" style="height: 75px;"></div>
+              <span class="label">Mar</span>
+            </div>
+            <div class="bar-container">
+              <span class="value">25</span>
+              <div class="bar" style="height: 125px;"></div>
+              <span class="label">Apr</span>
+            </div>
+            <div class="bar-container">
+              <span class="value">30</span>
+              <div class="bar" style="height: 150px;"></div>
+              <span class="label">May</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Wallet Tab -->
-    <div id="wallet" class="tab-content">
-      <h1>Wallet Dashboard</h1>
-      <div class="wallet-section">
-        <h2>Wallet Connection</h2>
-        <p id="walletStatus">Not connected</p>
-        <button id="connectWalletTab">Connect Wallet</button>
-        <button id="copyAddress" style="display: none;">Copy Address</button>
+      <!-- Wallet Tab -->
+      <div id="wallet" class="tab-content">
+        <h1>Wallet Dashboard</h1>
+        <div class="wallet-section">
+          <h2>Wallet Connection</h2>
+          <p id="walletStatus">Not connected</p>
+          <button id="connectWalletTab">Connect Wallet</button>
+          <button id="copyAddress" style="display: none;">Copy Address</button>
+        </div>
+        <div class="wallet-section">
+          <h2>Wallet Details</h2>
+          <p><strong>Wallet Address:</strong> <span id="walletAddress">N/A</span></p>
+          <p><strong>Balance:</strong> <span id="walletBalance">0 sats</span></p>
+        </div>
+        <div class="wallet-section">
+          <h2>Recent Transactions</h2>
+          <ul id="transactionsList">
+            <li>No transactions yet.</li>
+          </ul>
+        </div>
+        <div class="wallet-section">
+          <h2>Actions</h2>
+          <button id="sendPayment">Send Payment</button>
+          <button id="receivePayment">Receive Payment</button>
+        </div>
       </div>
-      <div class="wallet-section">
-        <h2>Wallet Details</h2>
-        <p><strong>Wallet Address:</strong> <span id="walletAddress">N/A</span></p>
-        <p><strong>Balance:</strong> <span id="walletBalance">0 sats</span></p>
-      </div>
-      <div class="wallet-section">
-        <h2>Recent Transactions</h2>
-        <ul id="transactionsList">
-          <li>No transactions yet.</li>
-        </ul>
-      </div>
-      <div class="wallet-section">
-        <h2>Actions</h2>
-        <button id="sendPayment">Send Payment</button>
-        <button id="receivePayment">Receive Payment</button>
-      </div>
-    </div>
 
-    <!-- Social Tab -->
-    <div id="social" class="tab-content">
-      <h1>Social Feed</h1>
-      <div class="social-tabs">
-        <div class="social-tab active" data-tab="following">For You</div>
-        <div class="social-tab" data-tab="yourpage">Your Page</div>
+      <!-- Social Tab -->
+      <div id="social" class="tab-content">
+        <h1>Social Feed</h1>
+        <div class="social-tabs">
+          <div class="social-tab active" data-tab="following">For You</div>
+          <div class="social-tab" data-tab="yourpage">Your Page</div>
+        </div>
+        <div class="social-feed" id="following">
+          <div class="post">
+            <div class="post-header">
+              <img src="https://via.placeholder.com/40" alt="avatar" />
+              <span>CryptoGuru</span>
+              <button class="follow-btn">Follow</button>
+              <a class="send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345">⚡️</a>
+            </div>
+            <div class="post-body">
+              <p>Just made a profitable trade with my new trading bot!</p>
+            </div>
+          </div>
+          <div class="post">
+            <div class="post-header">
+              <img src="https://via.placeholder.com/40" alt="avatar" />
+              <span>BlockChainBabe</span>
+              <button class="follow-btn">Follow</button>
+              <a class="send-btn" href="bravewallet://pay?address=bc1qblockchainbabeaddress67890">⚡️</a>
+            </div>
+            <div class="post-body">
+              <p>Anyone else excited about the upcoming NFT drop?</p>
+            </div>
+          </div>
+        </div>
+        <div class="social-feed" id="yourpage" style="display: none;">
+          <div class="post">
+            <div class="post-header">
+              <img src="https://via.placeholder.com/40" alt="avatar" />
+              <span>YourUsername</span>
+              <button class="follow-btn">Edit Post</button>
+            </div>
+            <div class="post-body">
+              <p>This is a post from your page. Share your latest thoughts or updates here.</p>
+            </div>
+          </div>
+          <div class="post">
+            <div class="post-header">
+              <img src="https://via.placeholder.com/40" alt="avatar" />
+              <span>YourUsername</span>
+              <button class="follow-btn">Edit Post</button>
+            </div>
+            <div class="post-body">
+              <p>Another update from your page. Engage with your followers by posting regularly.</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="social-feed" id="following">
+
+      <!-- Trading Bot Tab -->
+      <div id="trading" class="tab-content">
+        <h1>Trading Bot</h1>
+        <p>Bot Status: <span style="color: green;">Active</span></p>
+        <canvas id="bitcoinChart"></canvas>
+        <div id="priceSuggestions"></div>
+        <table class="trading-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Signal</th>
+              <th>Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>09:00</td>
+              <td>Buy</td>
+              <td>$32,000</td>
+              <td>Executed</td>
+            </tr>
+            <tr>
+              <td>10:30</td>
+              <td>Sell</td>
+              <td>$33,000</td>
+              <td>Pending</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DCA Tab -->
+      <div id="dca" class="tab-content">
+        <h1>DCA Overview</h1>
+        <canvas id="dcaChart"></canvas>
+        <table class="trading-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Amount</th>
+              <th>Market Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>09:30</td>
+              <td>0.005 BTC</td>
+              <td>$34,200</td>
+            </tr>
+            <tr>
+              <td>13:45</td>
+              <td>0.007 BTC</td>
+              <td>$34,100</td>
+            </tr>
+            <tr>
+              <td>16:10</td>
+              <td>0.006 BTC</td>
+              <td>$33,750</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Exchanges Tab -->
+      <div id="exchanges" class="tab-content">
+        <h1>Exchange Integration</h1>
+        <div class="exchange-card">
+          <h2>Binance</h2>
+          <p>Real-time trading data</p>
+        </div>
+        <div class="exchange-card">
+          <h2>Coinbase</h2>
+          <p>Seamless crypto transactions</p>
+        </div>
+        <div class="exchange-card">
+          <h2>Kraken</h2>
+          <p>Robust market analytics</p>
+        </div>
+      </div>
+
+      <!-- News Tab -->
+      <div id="news" class="tab-content">
+        <h1>News</h1>
         <div class="post">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
-            <span>CryptoGuru</span>
+            <span>CryptoNews</span>
             <button class="follow-btn">Follow</button>
-            <a class="send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345">Pay</a>
           </div>
           <div class="post-body">
-            <p>Just made a profitable trade with my new trading bot!</p>
+            <p>Breaking: Major update in the crypto market today!</p>
           </div>
         </div>
         <div class="post">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
-            <span>BlockChainBabe</span>
+            <span>MarketWatch</span>
             <button class="follow-btn">Follow</button>
-            <a class="send-btn" href="bravewallet://pay?address=bc1qblockchainbabeaddress67890">Pay</a>
           </div>
           <div class="post-body">
-            <p>Anyone else excited about the upcoming NFT drop?</p>
+            <p>Latest trends in blockchain technology unveiled.</p>
           </div>
         </div>
       </div>
-      <div class="social-feed" id="yourpage" style="display: none;">
+
+      <!-- Resources Tab -->
+      <div id="resources" class="tab-content">
+        <h1>Resources</h1>
         <div class="post">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
-            <span>YourUsername</span>
-            <button class="follow-btn">Edit Post</button>
+            <span>CryptoGuide</span>
+            <button class="follow-btn">Follow</button>
           </div>
           <div class="post-body">
-            <p>This is a post from your page. Share your latest thoughts or updates here.</p>
+            <p>Explore our comprehensive guide to understanding cryptocurrencies.</p>
           </div>
         </div>
         <div class="post">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
-            <span>YourUsername</span>
-            <button class="follow-btn">Edit Post</button>
+            <span>Blockchain101</span>
+            <button class="follow-btn">Follow</button>
           </div>
           <div class="post-body">
-            <p>Another update from your page. Engage with your followers by posting regularly.</p>
+            <p>Resources and tutorials to help you get started in blockchain technology.</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Trading Bot Tab -->
-    <div id="trading" class="tab-content">
-      <h1>Trading Bot</h1>
-      <p>Bot Status: <span style="color: green;">Active</span></p>
-      <canvas id="bitcoinChart"></canvas>
-      <div id="priceSuggestions"></div>
-      <table class="trading-table">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Signal</th>
-            <th>Price</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>09:00</td>
-            <td>Buy</td>
-            <td>$32,000</td>
-            <td>Executed</td>
-          </tr>
-          <tr>
-            <td>10:30</td>
-            <td>Sell</td>
-            <td>$33,000</td>
-            <td>Pending</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- DCA Tab -->
-    <div id="dca" class="tab-content">
-      <h1>DCA Overview</h1>
-      <canvas id="dcaChart"></canvas>
-      <table class="trading-table">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Amount</th>
-            <th>Market Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>09:30</td>
-            <td>0.005 BTC</td>
-            <td>$34,200</td>
-          </tr>
-          <tr>
-            <td>13:45</td>
-            <td>0.007 BTC</td>
-            <td>$34,100</td>
-          </tr>
-          <tr>
-            <td>16:10</td>
-            <td>0.006 BTC</td>
-            <td>$33,750</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Exchanges Tab -->
-    <div id="exchanges" class="tab-content">
-      <h1>Exchange Integration</h1>
-      <div class="exchange-card">
-        <h2>Binance</h2>
-        <p>Real-time trading data</p>
+      <!-- Help Creator Tab -->
+      <div id="helpcreator" class="tab-content">
+        <h1>Help Creator</h1>
+        <p>Scan the QR code below with your Brave wallet to receive payments. (Simulated Address)</p>
+        <a href="bravewallet://pay?address=simulatedBraveWalletReceiveAddress" id="helpCreatorLink">
+          <div id="helpCreatorQR"></div>
+        </a>
       </div>
-      <div class="exchange-card">
-        <h2>Coinbase</h2>
-        <p>Seamless crypto transactions</p>
-      </div>
-      <div class="exchange-card">
-        <h2>Kraken</h2>
-        <p>Robust market analytics</p>
-      </div>
-    </div>
-
-    <!-- News Tab -->
-    <div id="news" class="tab-content">
-      <h1>News</h1>
-      <div class="post">
-        <div class="post-header">
-          <img src="https://via.placeholder.com/40" alt="avatar" />
-          <span>CryptoNews</span>
-          <button class="follow-btn">Follow</button>
-        </div>
-        <div class="post-body">
-          <p>Breaking: Major update in the crypto market today!</p>
-        </div>
-      </div>
-      <div class="post">
-        <div class="post-header">
-          <img src="https://via.placeholder.com/40" alt="avatar" />
-          <span>MarketWatch</span>
-          <button class="follow-btn">Follow</button>
-        </div>
-        <div class="post-body">
-          <p>Latest trends in blockchain technology unveiled.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Resources Tab -->
-    <div id="resources" class="tab-content">
-      <h1>Resources</h1>
-      <div class="post">
-        <div class="post-header">
-          <img src="https://via.placeholder.com/40" alt="avatar" />
-          <span>CryptoGuide</span>
-          <button class="follow-btn">Follow</button>
-        </div>
-        <div class="post-body">
-          <p>Explore our comprehensive guide to understanding cryptocurrencies.</p>
-        </div>
-      </div>
-      <div class="post">
-        <div class="post-header">
-          <img src="https://via.placeholder.com/40" alt="avatar" />
-          <span>Blockchain101</span>
-          <button class="follow-btn">Follow</button>
-        </div>
-        <div class="post-body">
-          <p>Resources and tutorials to help you get started in blockchain technology.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Help Creator Tab -->
-    <div id="helpcreator" class="tab-content">
-      <h1>Help Creator</h1>
-      <p>Scan the QR code below with your Brave wallet to receive payments. (Simulated Address)</p>
-      <a href="bravewallet://pay?address=simulatedBraveWalletReceiveAddress" id="helpCreatorLink">
-        <div id="helpCreatorQR"></div>
-      </a>
     </div>
   </div>
 
   <!-- JavaScript Section -->
   <script>
-    /*** Ensure DOM is Loaded ***/
     document.addEventListener('DOMContentLoaded', () => {
+      // Splash screen Login button event
+      document.getElementById('loginButton').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('splashScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+      });
 
       /*** Tab Navigation ***/
       const tabs = document.querySelectorAll('.sidebar li');
@@ -872,8 +943,8 @@
           datasets: [{
             label: 'BTC Daily Avg Price (USD)',
             data: priceData,
-            backgroundColor: 'rgba(0, 123, 255, 0.2)',
-            borderColor: 'rgba(0, 123, 255, 1)',
+            backgroundColor: 'rgba(255, 165, 0, 0.5)',
+            borderColor: 'rgba(255, 165, 0, 1)',
             borderWidth: 2,
             fill: true,
             tension: 0.4
@@ -946,7 +1017,7 @@
         text: "bravewallet://pay?address=simulatedBraveWalletReceiveAddress",
         width: 300,
         height: 300,
-        colorDark: "#000000",
+        colorDark: "#000080",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
