@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HodlVitality - State-of-the-Art Crypto App</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Anton&display=swap" rel="stylesheet" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- External Libraries -->
@@ -19,7 +19,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #fff;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -29,48 +29,15 @@
       text-align: center;
     }
     .splash-container .title {
-      font-size: 48px;
-      font-weight: 700;
-      color: #001f3f;
+      font-family: 'Anton', sans-serif;
+      font-size: 60px;
+      color: #00ffff;
       margin-bottom: 30px;
     }
     .button-container {
       display: flex;
       justify-content: center;
       gap: 20px;
-    }
-    .btn {
-      padding: 15px 30px;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      color: #fff;
-      transition: background 0.3s ease;
-    }
-    .create-account {
-      background: #28a745;
-    }
-    .create-account:hover {
-      background: #218838;
-    }
-    .login {
-      background: #ff9900;
-    }
-    .login:hover {
-      background: #e68a00;
-    }
-    /* Responsive Splash Screen */
-    @media (max-width: 480px) {
-      .splash-container .title {
-        font-size: 36px;
-      }
-      .btn {
-        padding: 10px 20px;
-        font-size: 16px;
-      }
     }
 
     /* Global & Main Content Styles */
@@ -80,19 +47,22 @@
     body {
       margin: 0;
       font-family: 'Inconsolata', monospace;
-      background: #fff;
-      color: #333;
+      background: linear-gradient(135deg, #121212, #1e1e1e);
+      color: #e0e0e0;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-    /* Hide main content until splash is dismissed */
+    h1, h2, h3 {
+      font-family: 'Anton', sans-serif;
+    }
     #mainContent {
       display: none;
     }
+
     /* Header */
     .header {
-      background: #001f3f;
-      color: #fff;
+      background: #121212;
+      color: #e0e0e0;
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
@@ -106,39 +76,24 @@
     .header .logo img {
       height: 40px;
     }
-    .header button {
-      background: #007bff;
-      border: none;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 700;
-      transition: background 0.3s ease;
-    }
-    .header button:hover {
-      background: #0056b3;
-    }
-    .header button:disabled {
-      background: #555;
-      cursor: not-allowed;
-    }
     .hamburger {
       display: none;
       background: none;
       border: none;
-      color: #fff;
+      color: #e0e0e0;
       font-size: 24px;
       cursor: pointer;
       margin-right: 10px;
     }
+
     /* Sidebar */
     .sidebar {
       width: 250px;
-      background: #001f3f;
-      color: #fff;
+      background: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(10px);
+      color: #e0e0e0;
       font-size: 20px;
+      font-family: 'Anton', sans-serif;
       position: fixed;
       top: 0;
       bottom: 0;
@@ -156,43 +111,37 @@
     .sidebar li {
       padding: 15px 20px;
       cursor: pointer;
-      border-bottom: 1px solid #444;
-      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .sidebar li:hover,
+    @media (hover: hover) {
+      .sidebar li:hover {
+        background: rgba(0, 255, 255, 0.1);
+      }
+    }
+    .sidebar li:active {
+      background: rgba(0, 255, 255, 0.2);
+    }
     .sidebar li.active {
-      background: #003366;
-    }
-    .sidebar li::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: #ff9900;
-      transition: width 0.3s ease;
-    }
-    .sidebar li:hover::after {
-      width: 100%;
+      background: rgba(0, 255, 255, 0.2);
     }
     .close-btn {
       display: none;
       background: none;
       border: none;
-      color: #fff;
+      color: #e0e0e0;
       font-size: 24px;
       cursor: pointer;
       position: absolute;
       top: 15px;
       right: 15px;
     }
+
     /* Marquee */
     .marquee {
       width: 100%;
       overflow: hidden;
-      background: #007bff;
-      color: #fff;
+      background: #00ffff;
+      color: #121212;
       padding: 10px 0;
       text-align: center;
       font-size: 16px;
@@ -209,6 +158,7 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
+
     /* Main Content Area */
     .main-content {
       margin-left: 250px;
@@ -226,29 +176,47 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    /* Dashboard */
-    #dashboard button {
-      background: #28a745;
-      color: #fff;
-      padding: 10px 20px;
+
+    /* Glass Card Style */
+    .glass-card {
+      background: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .glass-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Button Styles */
+    .btn {
+      background: transparent;
+      border: 2px solid #00ffff;
+      color: #00ffff;
+      padding: 15px 30px;
       border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 20px;
-      transition: background 0.3s ease;
+      text-decoration: none;
+      transition: all 0.3s ease;
     }
-    #dashboard button:hover {
-      background: #218838;
+    .btn:hover {
+      background: #00ffff;
+      color: #121212;
     }
-    #dashboard button:disabled {
-      background: #aaa;
+    .btn:disabled {
+      border-color: #555;
+      color: #555;
       cursor: not-allowed;
     }
-    .bar-graph {
-      margin-top: 20px;
-      padding: 20px;
-      background: #f9f9f9;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+    /* Dashboard */
+    #dashboard button {
+      font-size: 20px;
     }
     .bars {
       display: flex;
@@ -263,71 +231,22 @@
     }
     .bar {
       width: 40px;
-      background: #007bff;
+      background: #00ffff;
       border-radius: 4px 4px 0 0;
     }
-    .value {
+    .value, .label {
       font-size: 12px;
-      color: #333;
-      margin-bottom: 5px;
+      color: #e0e0e0;
+      margin: 5px 0;
     }
-    .label {
-      margin-top: 5px;
-      font-size: 14px;
-      color: #333;
-    }
+
     /* Wallet */
-    #walletStatus {
-      font-family: 'Inconsolata', monospace;
-    }
-    #copyAddress {
-      background: #ff9900;
-      color: #fff;
-      padding: 5px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-left: 10px;
-      transition: background 0.3s ease;
-    }
-    #copyAddress:hover {
-      background: #e68a00;
-    }
-    .wallet-section {
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      background: #f9f9f9;
-    }
-    .wallet-section h2 {
-      margin-top: 0;
-    }
-    #connectWalletTab,
-    #sendPayment,
-    #receivePayment {
-      background: #007bff;
-      border: none;
-      color: #fff;
+    #copyAddress, #connectWalletTab, #sendPayment, #receivePayment {
       padding: 10px 20px;
-      border-radius: 4px;
-      cursor: pointer;
       font-size: 13px;
-      font-weight: 700;
-      transition: background 0.3s ease;
     }
-    #connectWalletTab:hover,
-    #sendPayment:hover,
-    #receivePayment:hover {
-      background: #0056b3;
-    }
+
     /* Social */
-    .post {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
     .post-header {
       display: flex;
       align-items: center;
@@ -337,56 +256,27 @@
       border-radius: 50%;
       margin-right: 10px;
     }
-    .post-header span {
-      font-weight: 500;
-    }
-    .follow-btn {
+    .follow-btn, .send-btn {
       margin-left: auto;
-      background: #007bff;
-      color: #fff;
       padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 700;
-      transition: background 0.3s ease;
-    }
-    .follow-btn:hover {
-      background: #0056b3;
+      font-size: 10px;
     }
     .send-btn {
       margin-left: 10px;
-      background: #ff9900;
-      color: #fff;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-    .send-btn:hover {
-      background: #e68a00;
     }
     .social-tabs {
       display: flex;
-      border-bottom: 2px solid #ddd;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
       margin-bottom: 20px;
     }
     .social-tab {
       flex: 1;
       text-align: center;
       padding: 10px;
-      font-weight: 500;
       cursor: pointer;
-      position: relative;
     }
     .social-tab.active {
-      font-weight: 700;
-      color: #007bff;
+      color: #00ffff;
     }
     .social-tab.active::after {
       content: '';
@@ -395,55 +285,46 @@
       left: 0;
       width: 100%;
       height: 3px;
-      background: #007bff;
+      background: #00ffff;
     }
+
     /* Trading Bot */
     .trading-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
     }
-    .trading-table th,
-    .trading-table td {
+    .trading-table th, .trading-table td {
       padding: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-align: left;
     }
     .trading-table th {
-      background: #007bff;
-      color: #fff;
+      background: rgba(0, 255, 255, 0.2);
+      color: #e0e0e0;
     }
-    .trading-table tr:hover {
-      background: #f1f1f1;
-    }
-    #bitcoinChart,
-    #dcaChart {
+    #bitcoinChart, #dcaChart, #walletGainsChart, #tradingBotGainsChart {
       max-width: 100%;
       height: 300px;
-      margin: 20px 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+
     /* Exchanges */
     .exchange-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      margin: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: inline-block;
       width: calc(33% - 20px);
+      display: inline-block;
       vertical-align: top;
       text-align: center;
     }
+
     /* Help Creator */
     #helpCreatorQR {
       width: 300px;
       height: 300px;
       margin: 100px auto;
-      cursor: pointer;
+      background: #fff;
+      padding: 10px;
+      border-radius: 12px;
     }
+
     /* Overlay for Mobile */
     #overlay {
       display: none;
@@ -452,7 +333,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 1000;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
@@ -461,14 +342,15 @@
       display: block;
       opacity: 1;
     }
+
     /* Responsive Design */
     @media (max-width: 480px) {
       .sidebar {
         left: -250px;
-        width: 250px;
       }
       .sidebar.open {
         left: 0;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
       }
       .main-content {
         margin-left: 0;
@@ -484,6 +366,18 @@
         width: 100%;
         margin: 10px 0;
       }
+      .splash-container .title {
+        font-size: 36px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    }
+
+    /* Prevent Scrolling on Body When Sidebar is Open */
+    .no-scroll {
+      overflow: hidden;
     }
   </style>
 </head>
@@ -510,7 +404,7 @@
         <i class="fa-solid fa-bars"></i>
       </button>
       <div class="header-right">
-        <button id="connectWalletHeader">Connect Wallet</button>
+        <button id="connectWalletHeader" class="btn">Connect Wallet</button>
       </div>
     </div>
 
@@ -550,8 +444,8 @@
       <div id="dashboard" class="tab-content active">
         <h1>HodlVitality</h1>
         <p>Claim your daily reward and start exploring our state-of-the-art features!</p>
-        <button id="dailyRewardButton">Claim Daily Reward</button>
-        <div class="bar-graph">
+        <button id="dailyRewardButton" class="btn">Claim Daily Reward</button>
+        <div class="bar-graph glass-card">
           <h2>Monthly Token Earnings</h2>
           <div class="bars">
             <div class="bar-container">
@@ -586,27 +480,27 @@
       <!-- Wallet Tab -->
       <div id="wallet" class="tab-content">
         <h1>Wallet Dashboard</h1>
-        <div class="wallet-section">
+        <div class="wallet-section glass-card">
           <h2>Wallet Connection</h2>
           <p id="walletStatus">Not connected</p>
-          <button id="connectWalletTab">Connect Wallet</button>
-          <button id="copyAddress" style="display: none;">Copy Address</button>
+          <button id="connectWalletTab" class="btn">Connect Wallet</button>
+          <button id="copyAddress" class="btn" style="display: none;">Copy Address</button>
         </div>
-        <div class="wallet-section">
+        <div class="wallet-section glass-card">
           <h2>Wallet Details</h2>
           <p><strong>Wallet Address:</strong> <span id="walletAddress">N/A</span></p>
           <p><strong>Balance:</strong> <span id="walletBalance">0 sats</span></p>
         </div>
-        <div class="wallet-section">
+        <div class="wallet-section glass-card">
           <h2>Recent Transactions</h2>
           <ul id="transactionsList">
             <li>No transactions yet.</li>
           </ul>
         </div>
-        <div class="wallet-section">
+        <div class="wallet-section glass-card">
           <h2>Actions</h2>
-          <button id="sendPayment">Send Payment</button>
-          <button id="receivePayment">Receive Payment</button>
+          <button id="sendPayment" class="btn">Send Payment</button>
+          <button id="receivePayment" class="btn">Receive Payment</button>
         </div>
       </div>
 
@@ -618,23 +512,23 @@
           <div class="social-tab" data-tab="yourpage">Your Page</div>
         </div>
         <div class="social-feed" id="following">
-          <div class="post">
+          <div class="post glass-card">
             <div class="post-header">
               <img src="https://via.placeholder.com/40" alt="avatar" />
-              <span>CryptoGuru</span>
-              <button class="follow-btn">Follow</button>
-              <a class="send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345">⚡️</a>
+              <span>CG</span>
+              <button class="btn follow-btn">Follow</button>
+              <a class="btn send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345">⚡️</a>
             </div>
             <div class="post-body">
               <p>Just made a profitable trade with my new trading bot!</p>
             </div>
           </div>
-          <div class="post">
+          <div class="post glass-card">
             <div class="post-header">
               <img src="https://via.placeholder.com/40" alt="avatar" />
-              <span>BlockChainBabe</span>
-              <button class="follow-btn">Follow</button>
-              <a class="send-btn" href="bravewallet://pay?address=bc1qblockchainbabeaddress67890">⚡️</a>
+              <span>BCB</span>
+              <button class="btn follow-btn">Follow</button>
+              <a class="btn send-btn" href="bravewallet://pay?address=bc1qblockchainbabeaddress67890">⚡️</a>
             </div>
             <div class="post-body">
               <p>Anyone else excited about the upcoming NFT drop?</p>
@@ -642,21 +536,21 @@
           </div>
         </div>
         <div class="social-feed" id="yourpage" style="display: none;">
-          <div class="post">
+          <div class="post glass-card">
             <div class="post-header">
               <img src="https://via.placeholder.com/40" alt="avatar" />
               <span>YourUsername</span>
-              <button class="follow-btn">Edit Post</button>
+              <button class="btn follow-btn">Edit Post</button>
             </div>
             <div class="post-body">
               <p>This is a post from your page. Share your latest thoughts or updates here.</p>
             </div>
           </div>
-          <div class="post">
+          <div class="post glass-card">
             <div class="post-header">
               <img src="https://via.placeholder.com/40" alt="avatar" />
               <span>YourUsername</span>
-              <button class="follow-btn">Edit Post</button>
+              <button class="btn follow-btn">Edit Post</button>
             </div>
             <div class="post-body">
               <p>Another update from your page. Engage with your followers by posting regularly.</p>
@@ -668,79 +562,83 @@
       <!-- Trading Bot Tab -->
       <div id="trading" class="tab-content">
         <h1>Trading Bot</h1>
-        <p>Bot Status: <span style="color: green;">Active</span></p>
+        <p>Bot Status: <span style="color: #00ff00;">Active</span></p>
         <canvas id="bitcoinChart"></canvas>
         <div id="priceSuggestions"></div>
-        <table class="trading-table">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Signal</th>
-              <th>Price</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>09:00</td>
-              <td>Buy</td>
-              <td>$32,000</td>
-              <td>Executed</td>
-            </tr>
-            <tr>
-              <td>10:30</td>
-              <td>Sell</td>
-              <td>$33,000</td>
-              <td>Pending</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="glass-card">
+          <table class="trading-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Signal</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>09:00</td>
+                <td>Buy</td>
+                <td>$32,000</td>
+                <td>Executed</td>
+              </tr>
+              <tr>
+                <td>10:30</td>
+                <td>Sell</td>
+                <td>$33,000</td>
+                <td>Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- DCA Tab -->
       <div id="dca" class="tab-content">
         <h1>DCA Overview</h1>
         <canvas id="dcaChart"></canvas>
-        <table class="trading-table">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Amount</th>
-              <th>Market Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>09:30</td>
-              <td>0.005 BTC</td>
-              <td>$34,200</td>
-            </tr>
-            <tr>
-              <td>13:45</td>
-              <td>0.007 BTC</td>
-              <td>$34,100</td>
-            </tr>
-            <tr>
-              <td>16:10</td>
-              <td>0.006 BTC</td>
-              <td>$33,750</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="glass-card">
+          <table class="trading-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Amount</th>
+                <th>Market Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>09:30</td>
+                <td>0.005 BTC</td>
+                <td>$34,200</td>
+              </tr>
+              <tr>
+                <td>13:45</td>
+                <td>0.007 BTC</td>
+                <td>$34,100</td>
+              </tr>
+              <tr>
+                <td>16:10</td>
+                <td>0.006 BTC</td>
+                <td>$33,750</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Exchanges Tab -->
       <div id="exchanges" class="tab-content">
         <h1>Exchange Integration</h1>
-        <div class="exchange-card">
+        <div class="exchange-card glass-card">
           <h2>Binance</h2>
           <p>Real-time trading data</p>
         </div>
-        <div class="exchange-card">
+        <div class="exchange-card glass-card">
           <h2>Coinbase</h2>
           <p>Seamless crypto transactions</p>
         </div>
-        <div class="exchange-card">
+        <div class="exchange-card glass-card">
           <h2>Kraken</h2>
           <p>Robust market analytics</p>
         </div>
@@ -749,21 +647,21 @@
       <!-- News Tab -->
       <div id="news" class="tab-content">
         <h1>News</h1>
-        <div class="post">
+        <div class="post glass-card">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
             <span>CryptoNews</span>
-            <button class="follow-btn">Follow</button>
+            <button class="btn follow-btn">Follow</button>
           </div>
           <div class="post-body">
             <p>Breaking: Major update in the crypto market today!</p>
           </div>
         </div>
-        <div class="post">
+        <div class="post glass-card">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
             <span>MarketWatch</span>
-            <button class="follow-btn">Follow</button>
+            <button class="btn follow-btn">Follow</button>
           </div>
           <div class="post-body">
             <p>Latest trends in blockchain technology unveiled.</p>
@@ -774,21 +672,21 @@
       <!-- Resources Tab -->
       <div id="resources" class="tab-content">
         <h1>Resources</h1>
-        <div class="post">
+        <div class="post glass-card">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
             <span>CryptoGuide</span>
-            <button class="follow-btn">Follow</button>
+            <button class="btn follow-btn">Follow</button>
           </div>
           <div class="post-body">
             <p>Explore our comprehensive guide to understanding cryptocurrencies.</p>
           </div>
         </div>
-        <div class="post">
+        <div class="post glass-card">
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar" />
             <span>Blockchain101</span>
-            <button class="follow-btn">Follow</button>
+            <button class="btn follow-btn">Follow</button>
           </div>
           <div class="post-body">
             <p>Resources and tutorials to help you get started in blockchain technology.</p>
@@ -799,7 +697,7 @@
       <!-- Help Creator Tab -->
       <div id="helpcreator" class="tab-content">
         <h1>Help Creator</h1>
-        <p>I'm working on improving the functionalities of the app! Making this a dApp and incorporating the best features of the web3 ecosystem.</p>
+        <p>I'm working on improving the functionalities of the app! Making this a dApp and incorporating the best features of the web3 ecosystem. (Not a real code for now) </p>
         <a href="bravewallet://pay?address=simulatedBraveWalletReceiveAddress" id="helpCreatorLink">
           <div id="helpCreatorQR"></div>
         </a>
@@ -808,17 +706,11 @@
       <!-- Account Tab -->
       <div id="account" class="tab-content">
         <h1>Account Overview</h1>
-        <div class="post">
+        <div class="post glass-card">
           <h2>Wallet Gains</h2>
-          <ul>
-            <li>Daily: 2% gain</li>
-            <li>Weekly: 5% gain</li>
-            <li>Monthly: 10% gain</li>
-            <li>Yearly: 50% gain</li>
-            <li>All Time: 100% gain</li>
-          </ul>
+          <canvas id="walletGainsChart"></canvas>
         </div>
-        <div class="post">
+        <div class="post glass-card">
           <h2>Social Top Post</h2>
           <div class="post-header">
             <img src="https://via.placeholder.com/40" alt="avatar">
@@ -828,21 +720,15 @@
             <p>This is your top social post. Engage with your followers!</p>
           </div>
         </div>
-        <div class="post">
+        <div class="post glass-card">
           <h2>Trading Bot Gains</h2>
-          <ul>
-            <li>Daily: 1% gain</li>
-            <li>Weekly: 3% gain</li>
-            <li>Monthly: 8% gain</li>
-            <li>Yearly: 40% gain</li>
-            <li>All Time: 90% gain</li>
-          </ul>
+          <canvas id="tradingBotGainsChart"></canvas>
         </div>
-        <div class="post">
+        <div class="post glass-card">
           <h2>DCA Cost Average</h2>
           <p>Your current cost average is $34,000.</p>
         </div>
-        <div class="post">
+        <div class="post glass-card">
           <h2>Integrated Exchanges</h2>
           <ul>
             <li>Binance</li>
@@ -880,6 +766,7 @@
           if (window.innerWidth <= 480) {
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
           }
         });
       });
@@ -891,16 +778,19 @@
       hamburgerMenu.addEventListener('click', () => {
         sidebar.classList.add('open');
         overlay.classList.add('active');
+        document.body.classList.add('no-scroll');
       });
 
       closeSidebar.addEventListener('click', () => {
         sidebar.classList.remove('open');
         overlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
       });
 
       overlay.addEventListener('click', () => {
         sidebar.classList.remove('open');
         overlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
       });
 
       /*** Daily Reward Button ***/
@@ -991,15 +881,19 @@
           datasets: [{
             label: 'BTC Daily Avg Price (USD)',
             data: priceData,
-            backgroundColor: 'rgba(255, 165, 0, 0.5)',
-            borderColor: 'rgba(255, 165, 0, 1)',
+            backgroundColor: 'rgba(0, 255, 255, 0.2)',
+            borderColor: 'rgba(0, 255, 255, 1)',
             borderWidth: 2,
             fill: true,
             tension: 0.4
           }]
         },
         options: {
-          scales: { y: { beginAtZero: false } }
+          scales: {
+            y: { beginAtZero: false, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+            x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+          },
+          plugins: { legend: { labels: { color: '#e0e0e0' } } }
         }
       });
 
@@ -1026,8 +920,8 @@
               {
                 label: 'Market Price (USD)',
                 data: marketPriceData,
-                borderColor: 'rgba(0, 123, 255, 1)',
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                borderColor: 'rgba(0, 255, 0, 1)',
+                backgroundColor: 'rgba(0, 255, 0, 0.2)',
                 borderWidth: 2,
                 fill: true,
                 tension: 0.4
@@ -1036,14 +930,68 @@
                 label: 'DCA Purchases',
                 data: dcaPurchases,
                 type: 'scatter',
-                backgroundColor: 'rgba(0, 123, 255, 1)',
+                backgroundColor: 'rgba(0, 255, 0, 1)',
                 pointRadius: 6,
                 showLine: false
               }
             ]
           },
           options: {
-            scales: { y: { beginAtZero: false } }
+            scales: {
+              y: { beginAtZero: false, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+              x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+            },
+            plugins: { legend: { labels: { color: '#e0e0e0' } } }
+          }
+        });
+      }
+
+      /*** Wallet Gains Chart ***/
+      if (document.getElementById('walletGainsChart')) {
+        const walletGainsCtx = document.getElementById('walletGainsChart').getContext('2d');
+        const walletGainsChart = new Chart(walletGainsCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'All Time'],
+            datasets: [{
+              label: 'Wallet Gains (%)',
+              data: [2, 5, 10, 50, 100],
+              backgroundColor: 'rgba(0, 255, 255, 0.5)',
+              borderColor: 'rgba(0, 255, 255, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: { beginAtZero: true, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+              x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+
+      /*** Trading Bot Gains Chart ***/
+      if (document.getElementById('tradingBotGainsChart')) {
+        const tradingBotGainsCtx = document.getElementById('tradingBotGainsChart').getContext('2d');
+        const tradingBotGainsChart = new Chart(tradingBotGainsCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'All Time'],
+            datasets: [{
+              label: 'Trading Bot Gains (%)',
+              data: [1, 3, 8, 40, 90],
+              backgroundColor: 'rgba(0, 255, 255, 0.5)',
+              borderColor: 'rgba(0, 255, 255, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: { beginAtZero: true, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+              x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+            },
+            plugins: { legend: { display: false } }
           }
         });
       }
@@ -1065,7 +1013,7 @@
         text: "bravewallet://pay?address=simulatedBraveWalletReceiveAddress",
         width: 300,
         height: 300,
-        colorDark: "#000080",
+        colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
       });
