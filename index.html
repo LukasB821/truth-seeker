@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HodlVitality - State-of-the-Art Crypto App</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Anton&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700&family=Anton&display=swap" rel="stylesheet" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <!-- External Libraries -->
@@ -24,45 +24,84 @@
       justify-content: center;
       align-items: center;
       z-index: 2000;
+      animation: fadeIn 0.5s ease-in-out;
     }
     .splash-container {
       text-align: center;
+      padding: 20px;
+      max-width: 90%;
     }
     .splash-container .title {
       font-family: 'Anton', sans-serif;
       font-size: 60px;
       color: #00ffff;
       margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      letter-spacing: 2px;
+      animation: glow 2s infinite alternate;
     }
     .button-container {
       display: flex;
       justify-content: center;
       gap: 20px;
+      flex-wrap: wrap;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); }
+      to { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
     }
 
     /* Global & Main Content Styles */
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --primary: #00ffff;
+      --primary-dark: #00c8c8;
+      --background: #121212;
+      --surface: #1e1e1e;
+      --surface-light: #2a2a2a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --success: #00ffaa;
+      --warning: #ffcc00;
+      --error: #ff4444;
     }
     body {
-      margin: 0;
       font-family: 'Inconsolata', monospace;
-      background: linear-gradient(135deg, #121212, #1e1e1e);
-      color: #e0e0e0;
+      background: var(--background);
+      color: var(--text-primary);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
     }
-    h1, h2, h3 {
+    h1, h2, h3, h4, h5, h6 {
       font-family: 'Anton', sans-serif;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.75rem; }
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
     }
     #mainContent {
       display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    #mainContent.active {
+      opacity: 1;
     }
 
     /* Header */
     .header {
-      background: #121212;
-      color: #e0e0e0;
+      background: rgba(18, 18, 18, 0.9);
+      color: var(--text-primary);
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
@@ -72,36 +111,53 @@
       left: 0;
       right: 0;
       z-index: 1000;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .header .logo img {
       height: 40px;
+      transition: transform 0.3s ease;
+    }
+    .header .logo:hover img {
+      transform: scale(1.1);
     }
     .hamburger {
       display: none;
       background: none;
       border: none;
-      color: #e0e0e0;
+      color: var(--text-primary);
       font-size: 24px;
       cursor: pointer;
       margin-right: 10px;
+      transition: color 0.3s ease;
+    }
+    .hamburger:hover {
+      color: var(--primary);
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     /* Sidebar */
     .sidebar {
-      width: 250px;
-      background: rgba(30, 30, 30, 0.8);
+      width: 280px;
+      background: rgba(30, 30, 30, 0.95);
       backdrop-filter: blur(10px);
-      color: #e0e0e0;
-      font-size: 20px;
+      color: var(--text-primary);
+      font-size: 18px;
       font-family: 'Anton', sans-serif;
       position: fixed;
       top: 0;
       bottom: 0;
       left: 0;
       overflow-y: auto;
-      padding-top: 60px;
-      transition: left 0.3s ease-in-out;
+      padding-top: 80px;
+      transition: all 0.3s ease-in-out;
       z-index: 1100;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
     .sidebar ul {
       list-style: none;
@@ -109,60 +165,104 @@
       margin: 0;
     }
     .sidebar li {
-      padding: 15px 20px;
+      padding: 18px 25px;
       cursor: pointer;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .sidebar li i {
+      margin-right: 15px;
+      font-size: 20px;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+    .sidebar li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+      transition: all 0.6s ease;
     }
     @media (hover: hover) {
       .sidebar li:hover {
-        background: rgba(0, 255, 255, 0.1);
+        background: rgba(0, 255, 255, 0.05);
+      }
+      .sidebar li:hover::before {
+        left: 100%;
+      }
+      .sidebar li:hover i {
+        color: var(--primary);
+        transform: scale(1.1);
       }
     }
     .sidebar li:active {
-      background: rgba(0, 255, 255, 0.2);
+      background: rgba(0, 255, 255, 0.1);
     }
     .sidebar li.active {
-      background: rgba(0, 255, 255, 0.2);
+      background: rgba(0, 255, 255, 0.1);
+      border-left: 4px solid var(--primary);
+    }
+    .sidebar li.active i {
+      color: var(--primary);
     }
     .close-btn {
       display: none;
       background: none;
       border: none;
-      color: #e0e0e0;
+      color: var(--text-primary);
       font-size: 24px;
       cursor: pointer;
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 25px;
+      right: 25px;
+      transition: color 0.3s ease;
+    }
+    .close-btn:hover {
+      color: var(--primary);
     }
 
     /* Marquee */
     .marquee {
       width: 100%;
       overflow: hidden;
-      background: #00ffff;
+      background: linear-gradient(90deg, var(--primary), #00c8c8);
       color: #121212;
-      padding: 10px 0;
+      padding: 12px 0;
       text-align: center;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      z-index: 900;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
     .marquee-inner {
       display: inline-block;
       white-space: nowrap;
-      animation: marquee 10s linear infinite;
+      animation: marquee 20s linear infinite;
     }
     .marquee-inner span {
-      margin-right: 50px;
+      margin-right: 60px;
+      display: inline-block;
+      padding: 0 10px;
     }
     @keyframes marquee {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+      100% { transform: translateX(-50%); }
     }
 
     /* Main Content Area */
     .main-content {
-      margin-left: 250px;
-      padding: 100px 20px 20px;
+      margin-left: 280px;
+      padding: 130px 30px 30px;
       transition: margin-left 0.3s ease-in-out;
     }
     .tab-content {
@@ -173,156 +273,462 @@
       display: block;
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Glass Card Style */
     .glass-card {
-      background: rgba(30, 30, 30, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
+      background: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
     .glass-card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 8px rgba(0, 255, 255, 0.2);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 255, 255, 0.15);
+      border-color: rgba(0, 255, 255, 0.3);
+    }
+    .glass-card h2 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
     }
 
     /* Button Styles */
     .btn {
       background: transparent;
-      border: 2px solid #00ffff;
-      color: #00ffff;
-      padding: 15px 30px;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 12px 24px;
       border-radius: 8px;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 120px;
+    }
+    .btn i {
+      font-size: 14px;
     }
     .btn:hover {
-      background: #00ffff;
+      background: var(--primary);
       color: #121212;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
     }
     .btn:disabled {
       border-color: #555;
       color: #555;
       cursor: not-allowed;
+      background: transparent;
+      box-shadow: none;
+    }
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 14px;
+      min-width: auto;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #121212;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+    .btn-success {
+      border-color: var(--success);
+      color: var(--success);
+    }
+    .btn-success:hover {
+      background: var(--success);
+      color: #121212;
+      box-shadow: 0 0 15px rgba(0, 255, 170, 0.3);
+    }
+    .btn-warning {
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+    .btn-warning:hover {
+      background: var(--warning);
+      color: #121212;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+    }
+    .btn-danger {
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .btn-danger:hover {
+      background: var(--error);
+      color: #121212;
+      box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
     }
 
     /* Dashboard */
     #dashboard button {
-      font-size: 20px;
+      font-size: 18px;
+      margin-bottom: 20px;
     }
     .bars {
       display: flex;
       justify-content: space-around;
       align-items: flex-end;
-      height: 200px;
+      height: 220px;
+      margin-top: 30px;
     }
     .bar-container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: all 0.3s ease;
+    }
+    .bar-container:hover {
+      transform: translateY(-5px);
     }
     .bar {
       width: 40px;
-      background: #00ffff;
+      background: linear-gradient(to top, var(--primary), #00c8c8);
       border-radius: 4px 4px 0 0;
+      transition: height 0.5s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
     }
-    .value, .label {
-      font-size: 12px;
-      color: #e0e0e0;
-      margin: 5px 0;
+    .value {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    .label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: rgba(30, 30, 30, 0.7);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .stat-card h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--text-secondary);
+    }
+    .stat-card .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
     }
 
     /* Wallet */
-    #copyAddress, #connectWalletTab, #sendPayment, #receivePayment {
-      padding: 10px 20px;
-      font-size: 13px;
+    .wallet-section {
+      margin-bottom: 25px;
+    }
+    .wallet-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 15px 0;
+    }
+    .wallet-info-item {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+    }
+    .wallet-info-item strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text-secondary);
+    }
+    #walletAddress {
+      word-break: break-all;
+      font-family: monospace;
+      color: var(--primary);
+    }
+    .wallet-actions {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .transaction-item {
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    .transaction-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .transaction-type {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .transaction-in {
+      background: rgba(0, 255, 170, 0.2);
+      color: var(--success);
+    }
+    .transaction-out {
+      background: rgba(255, 68, 68, 0.2);
+      color: var(--error);
     }
 
     /* Social */
+    .post {
+      margin-bottom: 20px;
+    }
     .post-header {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     .post-header img {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      margin-right: 10px;
+      margin-right: 15px;
+      object-fit: cover;
+      border: 2px solid var(--primary);
     }
-    .follow-btn, .send-btn {
+    .post-header span {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .post-actions {
       margin-left: auto;
-      padding: 5px 10px;
-      font-size: 10px;
+      display: flex;
+      gap: 10px;
     }
-    .send-btn {
-      margin-left: 10px;
+    .post-body {
+      padding: 0 10px;
+    }
+    .post-body p {
+      font-size: 15px;
+      line-height: 1.5;
     }
     .social-tabs {
       display: flex;
       border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      position: relative;
     }
     .social-tab {
       flex: 1;
       text-align: center;
-      padding: 10px;
+      padding: 12px;
       cursor: pointer;
+      position: relative;
+      transition: color 0.3s ease;
+      font-weight: bold;
+    }
+    .social-tab:hover {
+      color: var(--primary);
     }
     .social-tab.active {
-      color: #00ffff;
+      color: var(--primary);
     }
     .social-tab.active::after {
       content: '';
       position: absolute;
-      bottom: 0;
+      bottom: -2px;
       left: 0;
       width: 100%;
       height: 3px;
-      background: #00ffff;
+      background: var(--primary);
+    }
+    .social-feed {
+      animation: fadeIn 0.5s ease;
     }
 
     /* Trading Bot */
     .trading-table {
       width: 100%;
       border-collapse: collapse;
+      margin: 20px 0;
     }
     .trading-table th, .trading-table td {
-      padding: 10px;
+      padding: 12px 15px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-align: left;
     }
     .trading-table th {
-      background: rgba(0, 255, 255, 0.2);
-      color: #e0e0e0;
+      background: rgba(0, 255, 255, 0.1);
+      color: var(--primary);
+      font-weight: normal;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    .trading-table tr:last-child td {
+      border-bottom: none;
+    }
+    .trading-table tr:hover td {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .status-active {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .status-pending {
+      color: var(--warning);
+      font-weight: bold;
+    }
+    .status-executed {
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .chart-container {
+      position: relative;
+      height: 350px;
+      margin-bottom: 30px;
     }
     #bitcoinChart, #dcaChart, #walletGainsChart, #tradingBotGainsChart {
-      max-width: 100%;
-      height: 300px;
+      width: 100%;
+      height: 100%;
+    }
+    .trading-controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
     /* Exchanges */
+    .exchanges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
     .exchange-card {
-      width: calc(33% - 20px);
-      display: inline-block;
-      vertical-align: top;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px;
+      transition: all 0.3s ease;
+    }
+    .exchange-card:hover {
+      transform: translateY(-5px);
+    }
+    .exchange-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      background: rgba(0, 255, 255, 0.1);
+      border: 2px solid var(--primary);
+    }
+    .exchange-icon i {
+      font-size: 36px;
+      color: var(--primary);
+    }
+    .exchange-card h2 {
+      margin-bottom: 10px;
       text-align: center;
+    }
+    .exchange-card p {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .exchange-stats {
+      width: 100%;
+      margin-top: 15px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .stat-label {
+      color: var(--text-secondary);
+    }
+    .stat-value {
+      color: var(--text-primary);
+      font-weight: bold;
     }
 
     /* Help Creator */
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px 0;
+    }
     #helpCreatorQR {
-      width: 300px;
-      height: 300px;
-      margin: 100px auto;
+      width: 250px;
+      height: 250px;
       background: #fff;
-      padding: 10px;
-      border-radius: 12px;
+      padding: 15px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .donate-text {
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+    .donate-address {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      word-break: break-all;
+      margin: 15px 0;
+      text-align: center;
+      border-left: 3px solid var(--primary);
+    }
+
+    /* Account */
+    .account-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .account-section {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .account-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+    }
+    .account-stats {
+      margin-top: auto;
     }
 
     /* Overlay for Mobile */
@@ -333,10 +739,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1050;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
+      backdrop-filter: blur(5px);
     }
     #overlay.active {
       display: block;
@@ -344,17 +751,19 @@
     }
 
     /* Responsive Design */
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       .sidebar {
-        left: -250px;
+        left: -280px;
       }
       .sidebar.open {
         left: 0;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
       }
       .main-content {
         margin-left: 0;
-        padding-top: 100px;
+        padding-top: 120px;
+        padding-left: 20px;
+        padding-right: 20px;
       }
       .hamburger {
         display: block;
@@ -362,17 +771,91 @@
       .close-btn {
         display: block;
       }
-      .exchange-card {
-        width: 100%;
-        margin: 10px 0;
+      .marquee {
+        top: 60px;
+        padding: 10px 0;
       }
+      .marquee-inner span {
+        margin-right: 30px;
+      }
+      .glass-card {
+        padding: 20px;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .exchanges-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
       .splash-container .title {
-        font-size: 36px;
+        font-size: 42px;
       }
       .btn {
         padding: 10px 20px;
-        font-size: 16px;
+        font-size: 15px;
       }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .wallet-actions {
+        flex-direction: column;
+      }
+      .wallet-actions .btn {
+        width: 100%;
+      }
+      .trading-controls {
+        flex-direction: column;
+      }
+      .trading-controls .btn {
+        width: 100%;
+      }
+      .social-tabs {
+        flex-direction: column;
+        border-bottom: none;
+      }
+      .social-tab {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .social-tab.active::after {
+        display: none;
+      }
+    }
+
+    /* Utility Classes */
+    .text-primary {
+      color: var(--primary);
+    }
+    .text-success {
+      color: var(--success);
+    }
+    .text-warning {
+      color: var(--warning);
+    }
+    .text-error {
+      color: var(--error);
+    }
+    .text-center {
+      text-align: center;
+    }
+    .mb-0 {
+      margin-bottom: 0;
+    }
+    .mt-20 {
+      margin-top: 20px;
+    }
+    .mt-30 {
+      margin-top: 30px;
+    }
+    .mb-20 {
+      margin-bottom: 20px;
+    }
+    .mb-30 {
+      margin-bottom: 30px;
     }
 
     /* Prevent Scrolling on Body When Sidebar is Open */
@@ -386,9 +869,14 @@
   <div id="splashScreen">
     <div class="splash-container">
       <h1 class="title">HodlVitality</h1>
+      <p>Your state-of-the-art cryptocurrency companion</p>
       <div class="button-container">
-        <button class="btn create-account">Create Account</button>
-        <a href="#" id="loginButton" class="btn login">Login</a>
+        <button class="btn btn-primary create-account">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+        <a href="#" id="loginButton" class="btn login">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </a>
       </div>
     </div>
   </div>
@@ -404,15 +892,18 @@
         <i class="fa-solid fa-bars"></i>
       </button>
       <div class="header-right">
-        <button id="connectWalletHeader" class="btn">Connect Wallet</button>
+        <button id="connectWalletHeader" class="btn btn-sm">
+          <i class="fas fa-wallet"></i> Connect Wallet
+        </button>
       </div>
     </div>
 
     <!-- Marquee Section -->
     <div class="marquee">
       <div class="marquee-inner">
-        <span>Welcome to HodlVitality - Your State-of-the-Art Crypto App</span>
-        <span>Welcome to HodlVitality - Your State-of-the-Art Crypto App</span>
+        <span>🔥 Welcome to HodlVitality - Your State-of-the-Art Crypto App 🔥</span>
+        <span>🚀 Bitcoin: $42,350 (+2.5%) | Ethereum: $2,250 (+1.8%) | Solana: $95 (+3.2%) 🚀</span>
+        <span>💎 New Feature: Lightning Network integration now live! 💎</span>
       </div>
     </div>
 
@@ -422,7 +913,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
       <ul>
-        <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</li>
+        <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</li>
         <li data-target="wallet"><i class="fa-solid fa-wallet"></i> Wallet</li>
         <li data-target="social"><i class="fa-solid fa-users"></i> Social</li>
         <li data-target="trading"><i class="fa-solid fa-robot"></i> Trading Bot</li>
@@ -442,10 +933,37 @@
     <div class="main-content">
       <!-- Dashboard Tab -->
       <div id="dashboard" class="tab-content active">
-        <h1>HodlVitality</h1>
-        <p>Claim your daily reward and start exploring our state-of-the-art features!</p>
-        <button id="dailyRewardButton" class="btn">Claim Daily Reward</button>
-        <div class="bar-graph glass-card">
+        <h1>Dashboard</h1>
+        <p class="mb-30">Welcome back! Here's your cryptocurrency overview.</p>
+
+        <div class="glass-card">
+          <h2>Daily Reward</h2>
+          <p>Claim your daily reward to get started!</p>
+          <button id="dailyRewardButton" class="btn btn-primary mt-20">
+            <i class="fas fa-gift"></i> Claim Daily Reward
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Portfolio Value</h3>
+            <div class="stat-value text-primary">$12,450</div>
+          </div>
+          <div class="stat-card">
+            <h3>24h Change</h3>
+            <div class="stat-value text-success">+2.5%</div>
+          </div>
+          <div class="stat-card">
+            <h3>Total Gains</h3>
+            <div class="stat-value text-primary">+15.8%</div>
+          </div>
+          <div class="stat-card">
+            <h3>Next DCA</h3>
+            <div class="stat-value">12:00 PM</div>
+          </div>
+        </div>
+
+        <div class="glass-card">
           <h2>Monthly Token Earnings</h2>
           <div class="bars">
             <div class="bar-container">
@@ -480,80 +998,182 @@
       <!-- Wallet Tab -->
       <div id="wallet" class="tab-content">
         <h1>Wallet Dashboard</h1>
-        <div class="wallet-section glass-card">
+        <p class="mb-30">Manage your cryptocurrency assets and transactions.</p>
+
+        <div class="glass-card">
           <h2>Wallet Connection</h2>
-          <p id="walletStatus">Not connected</p>
-          <button id="connectWalletTab" class="btn">Connect Wallet</button>
-          <button id="copyAddress" class="btn" style="display: none;">Copy Address</button>
+          <p id="walletStatus">Wallet not connected</p>
+          <div class="wallet-actions">
+            <button id="connectWalletTab" class="btn">
+              <i class="fas fa-plug"></i> Connect Wallet
+            </button>
+            <button id="copyAddress" class="btn" style="display: none;">
+              <i class="fas fa-copy"></i> Copy Address
+            </button>
+          </div>
         </div>
-        <div class="wallet-section glass-card">
+
+        <div class="glass-card">
           <h2>Wallet Details</h2>
-          <p><strong>Wallet Address:</strong> <span id="walletAddress">N/A</span></p>
-          <p><strong>Balance:</strong> <span id="walletBalance">0 sats</span></p>
+          <div class="wallet-info">
+            <div class="wallet-info-item">
+              <strong>Wallet Address</strong>
+              <span id="walletAddress">N/A</span>
+            </div>
+            <div class="wallet-info-item">
+              <strong>Balance</strong>
+              <span id="walletBalance">0 sats</span>
+            </div>
+            <div class="wallet-info-item">
+              <strong>Network</strong>
+              <span>Bitcoin Mainnet</span>
+            </div>
+          </div>
         </div>
-        <div class="wallet-section glass-card">
+
+        <div class="glass-card">
           <h2>Recent Transactions</h2>
           <ul id="transactionsList">
-            <li>No transactions yet.</li>
+            <li class="transaction-item">
+              <div>
+                <span class="transaction-type transaction-in">IN</span>
+                <span>0.005 BTC</span>
+              </div>
+              <div>
+                <span>2 hours ago</span>
+              </div>
+            </li>
+            <li class="transaction-item">
+              <div>
+                <span class="transaction-type transaction-out">OUT</span>
+                <span>0.002 BTC</span>
+              </div>
+              <div>
+                <span>1 day ago</span>
+              </div>
+            </li>
+            <li class="transaction-item">
+              <div>
+                <span>No recent transactions</span>
+              </div>
+            </li>
           </ul>
         </div>
-        <div class="wallet-section glass-card">
-          <h2>Actions</h2>
-          <button id="sendPayment" class="btn">Send Payment</button>
-          <button id="receivePayment" class="btn">Receive Payment</button>
+
+        <div class="glass-card">
+          <h2>Quick Actions</h2>
+          <div class="wallet-actions">
+            <button id="sendPayment" class="btn btn-warning">
+              <i class="fas fa-paper-plane"></i> Send Payment
+            </button>
+            <button id="receivePayment" class="btn btn-success">
+              <i class="fas fa-qrcode"></i> Receive Payment
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Social Tab -->
       <div id="social" class="tab-content">
         <h1>Social Feed</h1>
+        <p class="mb-30">Connect with other crypto enthusiasts in the community.</p>
+
         <div class="social-tabs">
           <div class="social-tab active" data-tab="following">For You</div>
           <div class="social-tab" data-tab="yourpage">Your Page</div>
+          <div class="social-tab" data-tab="discover">Discover</div>
         </div>
+
         <div class="social-feed" id="following">
-          <div class="post glass-card">
+          <div class="glass-card post">
             <div class="post-header">
-              <img src="https://via.placeholder.com/40" alt="avatar" />
-              <span>CG</span>
-              <button class="btn follow-btn">Follow</button>
-              <a class="btn send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345">⚡️</a>
+              <img src="https://i.pravatar.cc/150?img=3" alt="avatar" />
+              <span>CryptoGuru</span>
+              <div class="post-actions">
+                <button class="btn btn-sm follow-btn">
+                  <i class="fas fa-user-plus"></i> Follow
+                </button>
+                <a class="btn btn-sm btn-success send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345">
+                  <i class="fas fa-bolt"></i> Tip
+                </a>
+              </div>
             </div>
             <div class="post-body">
-              <p>Just made a profitable trade with my new trading bot!</p>
+              <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. #crypto #tradingbot</p>
             </div>
           </div>
-          <div class="post glass-card">
+
+          <div class="glass-card post">
             <div class="post-header">
-              <img src="https://via.placeholder.com/40" alt="avatar" />
-              <span>BCB</span>
-              <button class="btn follow-btn">Follow</button>
-              <a class="btn send-btn" href="bravewallet://pay?address=bc1qblockchainbabeaddress67890">⚡️</a>
+              <img src="https://i.pravatar.cc/150?img=5" alt="avatar" />
+              <span>BlockchainBabe</span>
+              <div class="post-actions">
+                <button class="btn btn-sm follow-btn">
+                  <i class="fas fa-user-plus"></i> Follow
+                </button>
+                <a class="btn btn-sm btn-success send-btn" href="bravewallet://pay?address=bc1qblockchainbabeaddress67890">
+                  <i class="fas fa-bolt"></i> Tip
+                </a>
+              </div>
             </div>
             <div class="post-body">
-              <p>Anyone else excited about the upcoming NFT drop?</p>
+              <p>Anyone else excited about the upcoming NFT drop? I've been using HodlVitality to track my portfolio and it's been a game changer! 🚀 #NFT #crypto</p>
+            </div>
+          </div>
+
+          <div class="glass-card post">
+            <div class="post-header">
+              <img src="https://i.pravatar.cc/150?img=8" alt="avatar" />
+              <span>BitcoinMaxi</span>
+              <div class="post-actions">
+                <button class="btn btn-sm follow-btn">
+                  <i class="fas fa-user-plus"></i> Follow
+                </button>
+                <a class="btn btn-sm btn-success send-btn" href="bravewallet://pay?address=bc1qbitcoinmaxiaddress13579">
+                  <i class="fas fa-bolt"></i> Tip
+                </a>
+              </div>
+            </div>
+            <div class="post-body">
+              <p>Just stacked another 0.01 BTC using HodlVitality's DCA feature. Set it and forget it! #StackingSats #Bitcoin</p>
             </div>
           </div>
         </div>
+
         <div class="social-feed" id="yourpage" style="display: none;">
-          <div class="post glass-card">
+          <div class="glass-card post">
             <div class="post-header">
-              <img src="https://via.placeholder.com/40" alt="avatar" />
+              <img src="https://i.pravatar.cc/150?img=1" alt="avatar" />
               <span>YourUsername</span>
-              <button class="btn follow-btn">Edit Post</button>
+              <div class="post-actions">
+                <button class="btn btn-sm follow-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+              </div>
             </div>
             <div class="post-body">
-              <p>This is a post from your page. Share your latest thoughts or updates here.</p>
+              <p>This is a post from your page. Share your latest thoughts or updates here with the community.</p>
             </div>
           </div>
-          <div class="post glass-card">
-            <div class="post-header">
-              <img src="https://via.placeholder.com/40" alt="avatar" />
-              <span>YourUsername</span>
-              <button class="btn follow-btn">Edit Post</button>
-            </div>
-            <div class="post-body">
-              <p>Another update from your page. Engage with your followers by posting regularly.</p>
+        </div>
+
+        <div class="social-feed" id="discover" style="display: none;">
+          <div class="glass-card">
+            <h2>Discover Communities</h2>
+            <p>Find and join crypto communities that match your interests.</p>
+            <div class="wallet-actions">
+              <button class="btn btn-sm">
+                <i class="fas fa-bitcoin"></i> Bitcoin
+              </button>
+              <button class="btn btn-sm">
+                <i class="fab fa-ethereum"></i> Ethereum
+              </button>
+              <button class="btn btn-sm">
+                <i class="fas fa-chart-line"></i> Trading
+              </button>
+              <button class="btn btn-sm">
+                <i class="fas fa-coins"></i> DeFi
+              </button>
             </div>
           </div>
         </div>
@@ -562,31 +1182,71 @@
       <!-- Trading Bot Tab -->
       <div id="trading" class="tab-content">
         <h1>Trading Bot</h1>
-        <p>Bot Status: <span style="color: #00ff00;">Active</span></p>
-        <canvas id="bitcoinChart"></canvas>
-        <div id="priceSuggestions"></div>
+        <p class="mb-30">Automate your trading strategies with our intelligent bot.</p>
+
+        <div class="trading-controls">
+          <button class="btn btn-success">
+            <i class="fas fa-play"></i> Start Bot
+          </button>
+          <button class="btn btn-warning">
+            <i class="fas fa-pause"></i> Pause Bot
+          </button>
+          <button class="btn btn-danger">
+            <i class="fas fa-stop"></i> Stop Bot
+          </button>
+          <button class="btn">
+            <i class="fas fa-cog"></i> Settings
+          </button>
+        </div>
+
         <div class="glass-card">
+          <h2>Bitcoin Price Chart</h2>
+          <div class="chart-container">
+            <canvas id="bitcoinChart"></canvas>
+          </div>
+          <div id="priceSuggestions" class="mt-20"></div>
+        </div>
+
+        <div class="glass-card">
+          <h2>Recent Trades</h2>
           <table class="trading-table">
             <thead>
               <tr>
                 <th>Time</th>
                 <th>Signal</th>
                 <th>Price</th>
+                <th>Amount</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>09:00</td>
-                <td>Buy</td>
-                <td>$32,000</td>
-                <td>Executed</td>
+                <td><span class="text-success">Buy</span></td>
+                <td>$42,120</td>
+                <td>0.005 BTC</td>
+                <td><span class="status-executed">Executed</span></td>
               </tr>
               <tr>
                 <td>10:30</td>
-                <td>Sell</td>
-                <td>$33,000</td>
-                <td>Pending</td>
+                <td><span class="text-warning">Sell</span></td>
+                <td>$42,800</td>
+                <td>0.005 BTC</td>
+                <td><span class="status-executed">Executed</span></td>
+              </tr>
+              <tr>
+                <td>12:15</td>
+                <td><span class="text-success">Buy</span></td>
+                <td>$42,350</td>
+                <td>0.007 BTC</td>
+                <td><span class="status-active">Active</span></td>
+              </tr>
+              <tr>
+                <td>14:45</td>
+                <td><span class="text-success">Buy</span></td>
+                <td>$42,000</td>
+                <td>0.010 BTC</td>
+                <td><span class="status-pending">Pending</span></td>
               </tr>
             </tbody>
           </table>
@@ -595,32 +1255,86 @@
 
       <!-- DCA Tab -->
       <div id="dca" class="tab-content">
-        <h1>DCA Overview</h1>
-        <canvas id="dcaChart"></canvas>
+        <h1>Dollar-Cost Averaging</h1>
+        <p class="mb-30">Automatically invest at regular intervals, regardless of price.</p>
+
         <div class="glass-card">
+          <h2>DCA Performance</h2>
+          <div class="chart-container">
+            <canvas id="dcaChart"></canvas>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <h2>Current Strategy</h2>
+          <div class="wallet-info">
+            <div class="wallet-info-item">
+              <strong>Asset</strong>
+              <span>Bitcoin (BTC)</span>
+            </div>
+            <div class="wallet-info-item">
+              <strong>Frequency</strong>
+              <span>Daily</span>
+            </div>
+            <div class="wallet-info-item">
+              <strong>Amount</strong>
+              <span>$50</span>
+            </div>
+            <div class="wallet-info-item">
+              <strong>Next Purchase</strong>
+              <span>Tomorrow, 12:00 PM</span>
+            </div>
+          </div>
+          <div class="wallet-actions mt-20">
+            <button class="btn btn-primary">
+              <i class="fas fa-edit"></i> Edit Strategy
+            </button>
+            <button class="btn btn-danger">
+              <i class="fas fa-stop"></i> Pause DCA
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <h2>Purchase History</h2>
           <table class="trading-table">
             <thead>
               <tr>
+                <th>Date</th>
                 <th>Time</th>
                 <th>Amount</th>
-                <th>Market Price</th>
+                <th>Price</th>
+                <th>BTC Received</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>09:30</td>
-                <td>0.005 BTC</td>
-                <td>$34,200</td>
+                <td>Today</td>
+                <td>12:00</td>
+                <td>$50</td>
+                <td>$42,350</td>
+                <td>0.00118 BTC</td>
               </tr>
               <tr>
-                <td>13:45</td>
-                <td>0.007 BTC</td>
-                <td>$34,100</td>
+                <td>Yesterday</td>
+                <td>12:00</td>
+                <td>$50</td>
+                <td>$41,800</td>
+                <td>0.001196 BTC</td>
               </tr>
               <tr>
-                <td>16:10</td>
-                <td>0.006 BTC</td>
-                <td>$33,750</td>
+                <td>2 days ago</td>
+                <td>12:00</td>
+                <td>$50</td>
+                <td>$42,100</td>
+                <td>0.001188 BTC</td>
+              </tr>
+              <tr>
+                <td>3 days ago</td>
+                <td>12:00</td>
+                <td>$50</td>
+                <td>$41,500</td>
+                <td>0.001205 BTC</td>
               </tr>
             </tbody>
           </table>
@@ -630,111 +1344,354 @@
       <!-- Exchanges Tab -->
       <div id="exchanges" class="tab-content">
         <h1>Exchange Integration</h1>
-        <div class="exchange-card glass-card">
-          <h2>Binance</h2>
-          <p>Real-time trading data</p>
-        </div>
-        <div class="exchange-card glass-card">
-          <h2>Coinbase</h2>
-          <p>Seamless crypto transactions</p>
-        </div>
-        <div class="exchange-card glass-card">
-          <h2>Kraken</h2>
-          <p>Robust market analytics</p>
+        <p class="mb-30">Connect your exchange accounts for seamless trading.</p>
+
+        <div class="exchanges-grid">
+          <div class="glass-card exchange-card">
+            <div class="exchange-icon">
+              <i class="fab fa-bitcoin"></i>
+            </div>
+            <h2>Binance</h2>
+            <p>World's leading cryptocurrency exchange</p>
+            <button class="btn btn-sm">
+              <i class="fas fa-link"></i> Connect
+            </button>
+            <div class="exchange-stats">
+              <div class="stat-row">
+                <span class="stat-label">Status:</span>
+                <span class="stat-value text-success">Connected</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Balance:</span>
+                <span class="stat-value">0.5 BTC</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card exchange-card">
+            <div class="exchange-icon">
+              <i class="fab fa-ethereum"></i>
+            </div>
+            <h2>Coinbase</h2>
+            <p>Secure platform for crypto trading</p>
+            <button class="btn btn-sm">
+              <i class="fas fa-link"></i> Connect
+            </button>
+            <div class="exchange-stats">
+              <div class="stat-row">
+                <span class="stat-label">Status:</span>
+                <span class="stat-value">Not Connected</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card exchange-card">
+            <div class="exchange-icon">
+              <i class="fas fa-anchor"></i>
+            </div>
+            <h2>Kraken</h2>
+            <p>Professional trading platform</p>
+            <button class="btn btn-sm">
+              <i class="fas fa-link"></i> Connect
+            </button>
+            <div class="exchange-stats">
+              <div class="stat-row">
+                <span class="stat-label">Status:</span>
+                <span class="stat-value">Not Connected</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- News Tab -->
       <div id="news" class="tab-content">
-        <h1>News</h1>
-        <div class="post glass-card">
+        <h1>Crypto News</h1>
+        <p class="mb-30">Stay updated with the latest in cryptocurrency.</p>
+
+        <div class="glass-card post">
           <div class="post-header">
-            <img src="https://via.placeholder.com/40" alt="avatar" />
+            <img src="https://i.pravatar.cc/150?img=11" alt="avatar" />
             <span>CryptoNews</span>
-            <button class="btn follow-btn">Follow</button>
+            <button class="btn btn-sm follow-btn">
+              <i class="fas fa-bell"></i> Follow
+            </button>
           </div>
           <div class="post-body">
-            <p>Breaking: Major update in the crypto market today!</p>
+            <h3>Bitcoin Surpasses $42,000 Amid Institutional Demand</h3>
+            <p>Bitcoin has broken through the $42,000 resistance level as institutional investors continue to show strong interest in the cryptocurrency market. Analysts suggest this could be the beginning of a new bull run.</p>
+            <p class="text-secondary">Published 2 hours ago</p>
           </div>
         </div>
-        <div class="post glass-card">
+
+        <div class="glass-card post">
           <div class="post-header">
-            <img src="https://via.placeholder.com/40" alt="avatar" />
+            <img src="https://i.pravatar.cc/150?img=12" alt="avatar" />
             <span>MarketWatch</span>
-            <button class="btn follow-btn">Follow</button>
+            <button class="btn btn-sm follow-btn">
+              <i class="fas fa-bell"></i> Follow
+            </button>
           </div>
           <div class="post-body">
-            <p>Latest trends in blockchain technology unveiled.</p>
+            <h3>Ethereum's London Upgrade Goes Live</h3>
+            <p>The long-awaited London hard fork has been successfully implemented on the Ethereum network, introducing EIP-1559 which changes the fee structure and begins burning a portion of transaction fees.</p>
+            <p class="text-secondary">Published 5 hours ago</p>
+          </div>
+        </div>
+
+        <div class="glass-card post">
+          <div class="post-header">
+            <img src="https://i.pravatar.cc/150?img=13" alt="avatar" />
+            <span>BlockchainDaily</span>
+            <button class="btn btn-sm follow-btn">
+              <i class="fas fa-bell"></i> Follow
+            </button>
+          </div>
+          <div class="post-body">
+            <h3>New Regulations Proposed for Stablecoins</h3>
+            <p>Financial regulators are considering new rules for stablecoin issuers that would require them to maintain reserves equivalent to the value of tokens in circulation and submit to regular audits.</p>
+            <p class="text-secondary">Published yesterday</p>
           </div>
         </div>
       </div>
 
       <!-- Resources Tab -->
       <div id="resources" class="tab-content">
-        <h1>Resources</h1>
-        <div class="post glass-card">
-          <div class="post-header">
-            <img src="https://via.placeholder.com/40" alt="avatar" />
-            <span>CryptoGuide</span>
-            <button class="btn follow-btn">Follow</button>
-          </div>
-          <div class="post-body">
-            <p>Explore our comprehensive guide to understanding cryptocurrencies.</p>
+        <h1>Learning Resources</h1>
+        <p class="mb-30">Expand your cryptocurrency knowledge with these resources.</p>
+
+        <div class="glass-card">
+          <h2>Beginner Guides</h2>
+          <div class="wallet-info">
+            <div class="wallet-info-item">
+              <h3>Bitcoin Whitepaper</h3>
+              <p>The original Bitcoin whitepaper by Satoshi Nakamoto</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-book"></i> Read
+              </button>
+            </div>
+            <div class="wallet-info-item">
+              <h3>Crypto Security 101</h3>
+              <p>Learn how to keep your crypto safe</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-shield-alt"></i> Learn
+              </button>
+            </div>
           </div>
         </div>
-        <div class="post glass-card">
-          <div class="post-header">
-            <img src="https://via.placeholder.com/40" alt="avatar" />
-            <span>Blockchain101</span>
-            <button class="btn follow-btn">Follow</button>
+
+        <div class="glass-card">
+          <h2>Advanced Trading</h2>
+          <div class="wallet-info">
+            <div class="wallet-info-item">
+              <h3>Technical Analysis</h3>
+              <p>Master chart patterns and indicators</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-chart-line"></i> Study
+              </button>
+            </div>
+            <div class="wallet-info-item">
+              <h3>Risk Management</h3>
+              <p>Strategies to protect your capital</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-chess"></i> Explore
+              </button>
+            </div>
           </div>
-          <div class="post-body">
-            <p>Resources and tutorials to help you get started in blockchain technology.</p>
+        </div>
+
+        <div class="glass-card">
+          <h2>Video Tutorials</h2>
+          <div class="wallet-info">
+            <div class="wallet-info-item">
+              <h3>Wallet Setup</h3>
+              <p>How to securely set up a crypto wallet</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-play"></i> Watch
+              </button>
+            </div>
+            <div class="wallet-info-item">
+              <h3>DCA Explained</h3>
+              <p>Understanding dollar-cost averaging</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-play"></i> Watch
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Help Creator Tab -->
       <div id="helpcreator" class="tab-content">
-        <h1>Help Creator</h1>
-        <p>I'm working on improving the functionalities of the app! Making this a dApp and incorporating the best features of the web3 ecosystem. (Not a real code for now) </p>
-        <a href="bravewallet://pay?address=simulatedBraveWalletReceiveAddress" id="helpCreatorLink">
+        <h1>Support the Creator</h1>
+        <div class="donate-text">
+          <p>I'm continuously working to improve HodlVitality and add new features. If you find this app valuable, consider supporting my work with a donation.</p>
+          <p>Your support helps fund development, server costs, and allows me to dedicate more time to building the best crypto experience possible.</p>
+        </div>
+
+        <div class="qr-container">
           <div id="helpCreatorQR"></div>
-        </a>
+          <p>Scan to donate via Lightning Network</p>
+          <div class="donate-address">
+            bc1qsimulateddonationaddress1234567890
+          </div>
+          <button class="btn btn-primary" onclick="navigator.clipboard.writeText('bc1qsimulateddonationaddress1234567890')">
+            <i class="fas fa-copy"></i> Copy Address
+          </button>
+        </div>
+
+        <div class="glass-card mt-30">
+          <h2>Development Roadmap</h2>
+          <ul style="list-style-type: none;">
+            <li style="margin-bottom: 15px;">
+              <h3><span class="text-success">✓</span> Wallet Integration (Current)</h3>
+              <p>Connect your existing wallets to track all your assets in one place</p>
+            </li>
+            <li style="margin-bottom: 15px;">
+              <h3><span class="text-primary">→</span> Advanced Trading Features (Next)</h3>
+              <p>More indicators, backtesting, and strategy customization</p>
+            </li>
+            <li style="margin-bottom: 15px;">
+              <h3><span class="text-secondary">○</span> Mobile App (Future)</h3>
+              <p>Full-featured mobile experience with notifications</p>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- Account Tab -->
       <div id="account" class="tab-content">
         <h1>Account Overview</h1>
-        <div class="post glass-card">
-          <h2>Wallet Gains</h2>
-          <canvas id="walletGainsChart"></canvas>
-        </div>
-        <div class="post glass-card">
-          <h2>Social Top Post</h2>
-          <div class="post-header">
-            <img src="https://via.placeholder.com/40" alt="avatar">
-            <span>TopUser</span>
+
+        <div class="account-grid">
+          <div class="glass-card account-section">
+            <img src="https://i.pravatar.cc/150?img=1" class="account-avatar" alt="User Avatar">
+            <h2 class="text-center">Username</h2>
+            <p class="text-center text-secondary">Member since June 2023</p>
+            <div class="account-stats">
+              <div class="stat-row">
+                <span class="stat-label">Followers:</span>
+                <span class="stat-value">128</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Following:</span>
+                <span class="stat-value">42</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Posts:</span>
+                <span class="stat-value">18</span>
+              </div>
+            </div>
           </div>
-          <div class="post-body">
-            <p>This is your top social post. Engage with your followers!</p>
+
+          <div class="glass-card account-section">
+            <h2>Wallet Gains</h2>
+            <div class="chart-container" style="height: 250px;">
+              <canvas id="walletGainsChart"></canvas>
+            </div>
+            <div class="account-stats">
+              <div class="stat-row">
+                <span class="stat-label">All Time:</span>
+                <span class="stat-value text-success">+125%</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">This Year:</span>
+                <span class="stat-value text-success">+45%</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="post glass-card">
-          <h2>Trading Bot Gains</h2>
-          <canvas id="tradingBotGainsChart"></canvas>
-        </div>
-        <div class="post glass-card">
-          <h2>DCA Cost Average</h2>
-          <p>Your current cost average is $34,000.</p>
-        </div>
-        <div class="post glass-card">
-          <h2>Integrated Exchanges</h2>
-          <ul>
-            <li>Binance</li>
-            <li>Coinbase</li>
-            <li>Kraken</li>
-          </ul>
+
+          <div class="glass-card account-section">
+            <h2>Trading Bot Performance</h2>
+            <div class="chart-container" style="height: 250px;">
+              <canvas id="tradingBotGainsChart"></canvas>
+            </div>
+            <div class="account-stats">
+              <div class="stat-row">
+                <span class="stat-label">Win Rate:</span>
+                <span class="stat-value text-success">72%</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Total Profit:</span>
+                <span class="stat-value">0.15 BTC</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card account-section">
+            <h2>DCA Statistics</h2>
+            <div class="account-stats">
+              <div class="stat-row">
+                <span class="stat-label">Total Invested:</span>
+                <span class="stat-value">$3,250</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">BTC Accumulated:</span>
+                <span class="stat-value">0.075 BTC</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Average Price:</span>
+                <span class="stat-value">$43,333</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Current Value:</span>
+                <span class="stat-value text-success">$3,450 (+6.2%)</span>
+              </div>
+            </div>
+            <button class="btn btn-primary mt-20">
+              <i class="fas fa-chart-line"></i> View Detailed Stats
+            </button>
+          </div>
+
+          <div class="glass-card account-section">
+            <h2>Account Settings</h2>
+            <ul style="list-style-type: none;">
+              <li style="margin-bottom: 15px;">
+                <button class="btn btn-sm" style="width: 100%; text-align: left;">
+                  <i class="fas fa-user"></i> Profile Settings
+                </button>
+              </li>
+              <li style="margin-bottom: 15px;">
+                <button class="btn btn-sm" style="width: 100%; text-align: left;">
+                  <i class="fas fa-bell"></i> Notification Preferences
+                </button>
+              </li>
+              <li style="margin-bottom: 15px;">
+                <button class="btn btn-sm" style="width: 100%; text-align: left;">
+                  <i class="fas fa-lock"></i> Security Settings
+                </button>
+              </li>
+              <li>
+                <button class="btn btn-sm" style="width: 100%; text-align: left;">
+                  <i class="fas fa-moon"></i> Dark Mode
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass-card account-section">
+            <h2>Connected Exchanges</h2>
+            <ul style="list-style-type: none;">
+              <li style="margin-bottom: 15px; display: flex; align-items: center;">
+                <i class="fab fa-bitcoin" style="margin-right: 10px; color: var(--primary);"></i>
+                <span>Binance</span>
+                <span class="text-success" style="margin-left: auto;">Connected</span>
+              </li>
+              <li style="margin-bottom: 15px; display: flex; align-items: center;">
+                <i class="fab fa-ethereum" style="margin-right: 10px; color: #627eea;"></i>
+                <span>Coinbase</span>
+                <span style="margin-left: auto;">Not Connected</span>
+              </li>
+              <li style="display: flex; align-items: center;">
+                <i class="fas fa-anchor" style="margin-right: 10px; color: #5825fc;"></i>
+                <span>Kraken</span>
+                <span style="margin-left: auto;">Not Connected</span>
+              </li>
+            </ul>
+            <button class="btn btn-primary mt-20">
+              <i class="fas fa-plus"></i> Add Exchange
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -748,6 +1705,9 @@
         e.preventDefault();
         document.getElementById('splashScreen').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('mainContent').classList.add('active');
+        }, 10);
       });
 
       /*** Tab Navigation ***/
@@ -763,7 +1723,7 @@
           const contents = document.querySelectorAll('.tab-content');
           contents.forEach(content => content.classList.remove('active'));
           document.getElementById(target).classList.add('active');
-          if (window.innerWidth <= 480) {
+          if (window.innerWidth <= 768) {
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
             document.body.classList.remove('no-scroll');
@@ -795,9 +1755,32 @@
 
       /*** Daily Reward Button ***/
       document.getElementById('dailyRewardButton').addEventListener('click', function () {
-        alert('Daily reward claimed! You have received 10 tokens.');
+        this.innerHTML = '<i class="fas fa-check"></i> Reward Claimed';
+        this.classList.remove('btn-primary');
+        this.classList.add('btn-success');
         this.disabled = true;
-        this.innerText = 'Reward Claimed';
+
+        // Show notification
+        const notification = document.createElement('div');
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = 'rgba(0, 255, 170, 0.9)';
+        notification.style.color = '#121212';
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '8px';
+        notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        notification.style.zIndex = '2000';
+        notification.style.animation = 'fadeIn 0.3s ease';
+        notification.innerHTML = '<i class="fas fa-gift"></i> Daily reward claimed! You received 10 tokens.';
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = 'fadeIn 0.3s ease reverse';
+          setTimeout(() => {
+            notification.remove();
+          }, 300);
+        }, 3000);
       });
 
       /*** Wallet Functions ***/
@@ -807,19 +1790,53 @@
             .then(() => window.webln.getInfo())
             .then(info => {
               const pubkey = info.node.pubkey;
-              document.getElementById('walletStatus').innerText = 'Connected: ' + pubkey;
+              document.getElementById('walletStatus').innerText = 'Connected: Lightning Wallet';
               document.getElementById('walletAddress').innerText = pubkey;
-              document.getElementById('walletBalance').innerText = '1500 sats';
+              document.getElementById('walletBalance').innerText = '1,500 sats';
+              document.getElementById('connectWalletHeader').innerHTML = '<i class="fas fa-check-circle"></i> Connected';
+              document.getElementById('connectWalletTab').innerHTML = '<i class="fas fa-check-circle"></i> Connected';
               document.getElementById('connectWalletHeader').disabled = true;
               document.getElementById('connectWalletTab').disabled = true;
               document.getElementById('copyAddress').style.display = 'inline-block';
+
+              // Update transaction list
+              const transactionsList = document.getElementById('transactionsList');
+              transactionsList.innerHTML = `
+                <li class="transaction-item">
+                  <div>
+                    <span class="transaction-type transaction-in">IN</span>
+                    <span>0.005 BTC</span>
+                  </div>
+                  <div>
+                    <span>2 hours ago</span>
+                  </div>
+                </li>
+                <li class="transaction-item">
+                  <div>
+                    <span class="transaction-type transaction-out">OUT</span>
+                    <span>0.002 BTC</span>
+                  </div>
+                  <div>
+                    <span>1 day ago</span>
+                  </div>
+                </li>
+                <li class="transaction-item">
+                  <div>
+                    <span class="transaction-type transaction-in">IN</span>
+                    <span>0.001 BTC</span>
+                  </div>
+                  <div>
+                    <span>3 days ago</span>
+                  </div>
+                </li>
+              `;
             })
             .catch(error => {
               console.error("WebLN Error:", error);
-              alert("Error connecting wallet: " + error.message);
+              showNotification('Error connecting wallet: ' + error.message, 'error');
             });
         } else {
-          alert("No WebLN provider found. Please install Brave wallet or another WebLN-compatible Lightning wallet.");
+          showNotification("No WebLN provider found. Please install a WebLN-compatible Lightning wallet.", 'warning');
         }
       }
 
@@ -829,15 +1846,15 @@
           if (invoice) {
             window.webln.sendPayment(invoice)
               .then(result => {
-                alert("Payment sent successfully!\nPreimage: " + result.preimage);
+                showNotification("Payment sent successfully!", 'success');
               })
               .catch(error => {
                 console.error("Send Payment Error:", error);
-                alert("Payment failed: " + error.message);
+                showNotification("Payment failed: " + error.message, 'error');
               });
           }
         } else {
-          alert("sendPayment is not supported. Please ensure you are using Brave wallet or another WebLN-compatible wallet.");
+          showNotification("sendPayment is not supported by your wallet. Please check if your wallet is up-to-date.", 'warning');
         }
       }
 
@@ -847,16 +1864,79 @@
           if (amount) {
             window.webln.makeInvoice({ amount: parseInt(amount, 10) })
               .then(result => {
-                alert("Invoice created:\n" + result.invoice);
+                const invoice = result.invoice;
+                const notification = document.createElement('div');
+                notification.style.position = 'fixed';
+                notification.style.top = '50%';
+                notification.style.left = '50%';
+                notification.style.transform = 'translate(-50%, -50%)';
+                notification.style.backgroundColor = 'rgba(30, 30, 30, 0.95)';
+                notification.style.color = 'white';
+                notification.style.padding = '25px';
+                notification.style.borderRadius = '12px';
+                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                notification.style.zIndex = '2000';
+                notification.style.width = '90%';
+                notification.style.maxWidth = '500px';
+                notification.style.border = '1px solid var(--primary)';
+                notification.innerHTML = `
+                  <h3 style="margin-bottom: 15px; color: var(--primary);">Invoice Created</h3>
+                  <p style="word-break: break-all; margin-bottom: 20px; font-family: monospace;">${invoice}</p>
+                  <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button id="copyInvoiceBtn" class="btn btn-sm btn-primary" style="flex: 1;">
+                      <i class="fas fa-copy"></i> Copy Invoice
+                    </button>
+                    <button id="closeInvoiceBtn" class="btn btn-sm" style="flex: 1;">
+                      <i class="fas fa-times"></i> Close
+                    </button>
+                  </div>
+                `;
+                document.body.appendChild(notification);
+
+                document.getElementById('copyInvoiceBtn').addEventListener('click', () => {
+                  navigator.clipboard.writeText(invoice).then(() => {
+                    showNotification('Invoice copied to clipboard', 'success');
+                  });
+                });
+
+                document.getElementById('closeInvoiceBtn').addEventListener('click', () => {
+                  notification.remove();
+                });
               })
               .catch(error => {
                 console.error("Invoice Creation Error:", error);
-                alert("Invoice creation failed: " + error.message);
+                showNotification("Invoice creation failed: " + error.message, 'error');
               });
           }
         } else {
-          alert("makeInvoice is not supported by your wallet. Please check if Brave wallet is up-to-date or use a different WebLN-compatible wallet.");
+          showNotification("makeInvoice is not supported by your wallet. Please check if your wallet is up-to-date.", 'warning');
         }
+      }
+
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = type === 'error' ? 'rgba(255, 68, 68, 0.9)' : 
+                                           type === 'success' ? 'rgba(0, 255, 170, 0.9)' : 
+                                           type === 'warning' ? 'rgba(255, 204, 0, 0.9)' : 
+                                           'rgba(0, 255, 255, 0.9)';
+        notification.style.color = type === 'warning' ? '#121212' : '#ffffff';
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '8px';
+        notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        notification.style.zIndex = '2000';
+        notification.style.animation = 'fadeIn 0.3s ease';
+        notification.innerHTML = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = 'fadeIn 0.3s ease reverse';
+          setTimeout(() => {
+            notification.remove();
+          }, 300);
+        }, 3000);
       }
 
       /*** Wallet Event Listeners ***/
@@ -867,50 +1947,103 @@
       document.getElementById('copyAddress').addEventListener('click', () => {
         const walletAddress = document.getElementById('walletAddress').innerText;
         navigator.clipboard.writeText(walletAddress).then(() => {
-          alert('Address copied to clipboard');
+          showNotification('Wallet address copied to clipboard', 'success');
         });
       });
 
       /*** Trading Bot Chart ***/
       const ctx = document.getElementById('bitcoinChart').getContext('2d');
-      const priceData = [32000, 33000, 32500, 33500, 34000, 33800, 34500];
+      const priceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350];
       const bitcoinChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           datasets: [{
-            label: 'BTC Daily Avg Price (USD)',
+            label: 'BTC Price (USD)',
             data: priceData,
-            backgroundColor: 'rgba(0, 255, 255, 0.2)',
+            backgroundColor: 'rgba(0, 255, 255, 0.1)',
             borderColor: 'rgba(0, 255, 255, 1)',
             borderWidth: 2,
             fill: true,
-            tension: 0.4
+            tension: 0.4,
+            pointBackgroundColor: 'rgba(0, 255, 255, 1)',
+            pointRadius: 4,
+            pointHoverRadius: 6
           }]
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           scales: {
-            y: { beginAtZero: false, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-            x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+            y: { 
+              beginAtZero: false, 
+              ticks: { 
+                color: '#e0e0e0',
+                callback: function(value) {
+                  return '$' + value.toLocaleString();
+                }
+              }, 
+              grid: { 
+                color: 'rgba(255, 255, 255, 0.1)' 
+              } 
+            },
+            x: { 
+              ticks: { 
+                color: '#e0e0e0' 
+              }, 
+              grid: { 
+                color: 'rgba(255, 255, 255, 0.1)' 
+              } 
+            }
           },
-          plugins: { legend: { labels: { color: '#e0e0e0' } } }
+          plugins: { 
+            legend: { 
+              labels: { 
+                color: '#e0e0e0',
+                font: {
+                  family: 'Inconsolata'
+                }
+              } 
+            },
+            tooltip: {
+              backgroundColor: 'rgba(30, 30, 30, 0.9)',
+              titleColor: '#00ffff',
+              bodyColor: '#e0e0e0',
+              borderColor: 'rgba(0, 255, 255, 0.3)',
+              borderWidth: 1,
+              padding: 12,
+              callbacks: {
+                label: function(context) {
+                  return 'Price: $' + context.parsed.y.toLocaleString();
+                }
+              }
+            }
+          }
         }
       });
 
       const buySuggestion = Math.min(...priceData);
       const sellSuggestion = Math.max(...priceData);
       document.getElementById('priceSuggestions').innerHTML =
-        '<p><strong>Buy Suggestion:</strong> Consider buying if the price drops below $' + buySuggestion + '.</p>' +
-        '<p><strong>Sell Suggestion:</strong> Consider selling if the price rises above $' + sellSuggestion + '.</p>';
+        `<div class="wallet-info" style="margin-top: 20px;">
+          <div class="wallet-info-item">
+            <strong>Buy Suggestion</strong>
+            <span>Consider buying if the price drops below $${buySuggestion.toLocaleString()}</span>
+          </div>
+          <div class="wallet-info-item">
+            <strong>Sell Suggestion</strong>
+            <span>Consider selling if the price rises above $${sellSuggestion.toLocaleString()}</span>
+          </div>
+        </div>`;
 
       /*** DCA Chart ***/
       if (document.getElementById('dcaChart')) {
         const ctxDCA = document.getElementById('dcaChart').getContext('2d');
-        const marketPriceData = [34000, 34200, 33800, 34100, 33900, 33750, 34050];
+        const marketPriceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350];
         const dcaPurchases = [
-          { x: 'Tue', y: 34200 },
-          { x: 'Thu', y: 34100 },
-          { x: 'Sat', y: 33750 }
+          { x: 1, y: 42120 },
+          { x: 3, y: 42800 },
+          { x: 5, y: 42300 }
         ];
         const dcaChart = new Chart(ctxDCA, {
           type: 'line',
@@ -920,28 +2053,78 @@
               {
                 label: 'Market Price (USD)',
                 data: marketPriceData,
-                borderColor: 'rgba(0, 255, 0, 1)',
-                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                borderColor: 'rgba(0, 255, 170, 1)',
+                backgroundColor: 'rgba(0, 255, 170, 0.1)',
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointBackgroundColor: 'rgba(0, 255, 170, 1)',
+                pointRadius: 4,
+                pointHoverRadius: 6
               },
               {
                 label: 'DCA Purchases',
                 data: dcaPurchases,
                 type: 'scatter',
-                backgroundColor: 'rgba(0, 255, 0, 1)',
+                backgroundColor: 'rgba(0, 255, 255, 1)',
                 pointRadius: 6,
+                pointHoverRadius: 8,
                 showLine: false
               }
             ]
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
-              y: { beginAtZero: false, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-              x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+              y: { 
+                beginAtZero: false, 
+                ticks: { 
+                  color: '#e0e0e0',
+                  callback: function(value) {
+                    return '$' + value.toLocaleString();
+                  }
+                }, 
+                grid: { 
+                  color: 'rgba(255, 255, 255, 0.1)' 
+                } 
+              },
+              x: { 
+                ticks: { 
+                  color: '#e0e0e0' 
+                }, 
+                grid: { 
+                  color: 'rgba(255, 255, 255, 0.1)' 
+                } 
+              }
             },
-            plugins: { legend: { labels: { color: '#e0e0e0' } } }
+            plugins: { 
+              legend: { 
+                labels: { 
+                  color: '#e0e0e0',
+                  font: {
+                    family: 'Inconsolata'
+                  }
+                } 
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 30, 30, 0.9)',
+                titleColor: '#00ffff',
+                bodyColor: '#e0e0e0',
+                borderColor: 'rgba(0, 255, 255, 0.3)',
+                borderWidth: 1,
+                padding: 12,
+                callbacks: {
+                  label: function(context) {
+                    if (context.datasetIndex === 0) {
+                      return 'Market Price: $' + context.parsed.y.toLocaleString();
+                    } else {
+                      return 'DCA Purchase: $' + context.parsed.y.toLocaleString();
+                    }
+                  }
+                }
+              }
+            }
           }
         });
       }
@@ -955,18 +2138,67 @@
             labels: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'All Time'],
             datasets: [{
               label: 'Wallet Gains (%)',
-              data: [2, 5, 10, 50, 100],
-              backgroundColor: 'rgba(0, 255, 255, 0.5)',
-              borderColor: 'rgba(0, 255, 255, 1)',
+              data: [2, 5, 10, 45, 125],
+              backgroundColor: [
+                'rgba(0, 255, 255, 0.7)',
+                'rgba(0, 255, 255, 0.7)',
+                'rgba(0, 255, 255, 0.7)',
+                'rgba(0, 255, 170, 0.7)',
+                'rgba(0, 255, 170, 0.7)'
+              ],
+              borderColor: [
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 255, 170, 1)',
+                'rgba(0, 255, 170, 1)'
+              ],
               borderWidth: 1
             }]
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
-              y: { beginAtZero: true, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-              x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+              y: { 
+                beginAtZero: true, 
+                ticks: { 
+                  color: '#e0e0e0',
+                  callback: function(value) {
+                    return value + '%';
+                  }
+                }, 
+                grid: { 
+                  color: 'rgba(255, 255, 255, 0.1)' 
+                } 
+              },
+              x: { 
+                ticks: { 
+                  color: '#e0e0e0' 
+                }, 
+                grid: { 
+                  color: 'rgba(255, 255, 255, 0.1)' 
+                } 
+              }
             },
-            plugins: { legend: { display: false } }
+            plugins: { 
+              legend: { 
+                display: false 
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 30, 30, 0.9)',
+                titleColor: '#00ffff',
+                bodyColor: '#e0e0e0',
+                borderColor: 'rgba(0, 255, 255, 0.3)',
+                borderWidth: 1,
+                padding: 12,
+                callbacks: {
+                  label: function(context) {
+                    return 'Gain: ' + context.parsed.y + '%';
+                  }
+                }
+              }
+            }
           }
         });
       }
@@ -981,17 +2213,66 @@
             datasets: [{
               label: 'Trading Bot Gains (%)',
               data: [1, 3, 8, 40, 90],
-              backgroundColor: 'rgba(0, 255, 255, 0.5)',
-              borderColor: 'rgba(0, 255, 255, 1)',
+              backgroundColor: [
+                'rgba(0, 255, 255, 0.7)',
+                'rgba(0, 255, 255, 0.7)',
+                'rgba(0, 255, 255, 0.7)',
+                'rgba(0, 255, 170, 0.7)',
+                'rgba(0, 255, 170, 0.7)'
+              ],
+              borderColor: [
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 255, 255, 1)',
+                'rgba(0, 255, 170, 1)',
+                'rgba(0, 255, 170, 1)'
+              ],
               borderWidth: 1
             }]
           },
           options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
-              y: { beginAtZero: true, ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-              x: { ticks: { color: '#e0e0e0' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+              y: { 
+                beginAtZero: true, 
+                ticks: { 
+                  color: '#e0e0e0',
+                  callback: function(value) {
+                    return value + '%';
+                  }
+                }, 
+                grid: { 
+                  color: 'rgba(255, 255, 255, 0.1)' 
+                } 
+              },
+              x: { 
+                ticks: { 
+                  color: '#e0e0e0' 
+                }, 
+                grid: { 
+                  color: 'rgba(255, 255, 255, 0.1)' 
+                } 
+              }
             },
-            plugins: { legend: { display: false } }
+            plugins: { 
+              legend: { 
+                display: false 
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 30, 30, 0.9)',
+                titleColor: '#00ffff',
+                bodyColor: '#e0e0e0',
+                borderColor: 'rgba(0, 255, 255, 0.3)',
+                borderWidth: 1,
+                padding: 12,
+                callbacks: {
+                  label: function(context) {
+                    return 'Gain: ' + context.parsed.y + '%';
+                  }
+                }
+              }
+            }
           }
         });
       }
@@ -1010,9 +2291,9 @@
 
       /*** QR Code Generation ***/
       new QRCode(document.getElementById("helpCreatorQR"), {
-        text: "bravewallet://pay?address=simulatedBraveWalletReceiveAddress",
-        width: 300,
-        height: 300,
+        text: "bitcoin:bc1qsimulateddonationaddress1234567890?amount=0.0001&label=HodlVitality%20Donation",
+        width: 250,
+        height: 250,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
