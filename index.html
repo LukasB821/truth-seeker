@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HodlVitality - State-of-the-Art Crypto App</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700&family=Anton&display=swap" rel="stylesheet" />
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700&family=Anton&family=Road+Rage&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- External Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -101,14 +98,14 @@
       margin-bottom: 1rem;
       font-weight: 400;
     }
-    h1 { 
+    h1 {
       font-size: 2.5rem;
       background: linear-gradient(90deg, var(--primary), var(--primary-dark));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    h2 { 
+    h2 {
       font-size: 2rem;
       position: relative;
       padding-bottom: 10px;
@@ -189,8 +186,11 @@
       background: rgba(30, 30, 30, 0.95);
       backdrop-filter: blur(10px);
       color: var(--text-primary);
-      font-size: 21px;
+      /* --- IMPROVEMENT: Changed font for readability --- */
       font-family: 'Anton', sans-serif;
+      font-size: 28px; /* Adjusted font size */
+      letter-spacing: 1px;
+      /* --- End Improvement --- */
       position: fixed;
       top: 0;
       bottom: 0;
@@ -218,9 +218,11 @@
     }
     .sidebar li i {
       margin-right: 15px;
-      font-size: 20px;
+      font-size: 20px; /* Keep icon size consistent */
       color: var(--text-secondary);
       transition: all 0.3s ease;
+      width: 25px; /* Ensure consistent icon alignment */
+      text-align: center;
     }
     .sidebar li::before {
       content: '';
@@ -235,6 +237,7 @@
     @media (hover: hover) {
       .sidebar li:hover {
         background: rgba(0, 255, 255, 0.05);
+        color: var(--primary); /* Highlight text on hover */
       }
       .sidebar li:hover::before {
         left: 100%;
@@ -248,8 +251,11 @@
       background: rgba(0, 255, 255, 0.1);
     }
     .sidebar li.active {
-      background: rgba(0, 255, 255, 0.1);
+       /* --- IMPROVEMENT: Stronger active background --- */
+      background: rgba(0, 255, 255, 0.15);
+       /* --- End Improvement --- */
       border-left: 4px solid var(--primary);
+      color: var(--primary); /* Ensure active text is highlighted */
     }
     .sidebar li.active i {
       color: var(--primary);
@@ -381,6 +387,7 @@
       position: relative;
       overflow: hidden;
       z-index: 1;
+      font-family: 'Inconsolata', monospace; /* Ensure button text uses main font */
     }
     .btn::before {
       content: '';
@@ -458,7 +465,7 @@
 
     /* Dashboard */
     #dashboard button {
-      font-size: 18px;
+      /* font-size: 18px; */ /* Use default .btn font-size */
       margin-bottom: 20px;
     }
     .bars {
@@ -569,10 +576,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease;
     }
     .transaction-item:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .transaction-item:last-child {
+        border-bottom: none; /* Remove border from last item */
     }
     .transaction-type {
       display: inline-block;
@@ -611,13 +621,20 @@
       object-fit: cover;
       border: 2px solid var(--primary);
       transition: all 0.3s ease;
+      cursor: pointer; /* --- IMPROVEMENT: Indicate clickable avatar --- */
     }
-    .post-header:hover img {
-      transform: scale(1.05);
+    .post-header img:hover { /* --- IMPROVEMENT: Avatar hover effect --- */
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
     }
     .post-header span {
       font-weight: bold;
       font-size: 16px;
+      transition: color 0.3s ease; /* --- IMPROVEMENT: Smooth color transition --- */
+      cursor: pointer; /* --- IMPROVEMENT: Indicate clickable username --- */
+    }
+    .post-header span:hover { /* --- IMPROVEMENT: Username hover effect --- */
+        color: var(--primary);
     }
     .post-actions {
       margin-left: auto;
@@ -631,6 +648,32 @@
       font-size: 15px;
       line-height: 1.6;
       margin-bottom: 15px;
+      color: var(--text-primary); /* Ensure user post text is primary color */
+      white-space: pre-wrap; /* Preserve line breaks from textarea */
+      word-wrap: break-word; /* Break long words */
+    }
+    .post-meta { /* --- IMPROVEMENT: Container for meta items --- */
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 15px;
+    }
+    .post-meta-item { /* --- IMPROVEMENT: Styling for individual meta items --- */
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: color 0.3s ease;
+    }
+    .post-meta-item:first-child {
+        margin-left: 0;
+    }
+    .post-meta-item i {
+        font-size: 12px;
+    }
+    .post-meta-item:hover { /* --- IMPROVEMENT: Subtle hover on meta --- */
+        color: var(--text-primary);
     }
     .social-tabs {
       display: flex;
@@ -646,6 +689,8 @@
       position: relative;
       transition: all 0.3s ease;
       font-weight: bold;
+      font-family: 'Anton', sans-serif; /* Use Anton for tabs */
+      letter-spacing: 1px;
     }
     .social-tab:hover {
       color: var(--primary);
@@ -670,6 +715,45 @@
     .social-feed {
       animation: fadeIn 0.5s ease;
     }
+    .community-tag { /* --- IMPROVEMENT: Styling for Discover tab buttons --- */
+      border-radius: 20px;
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--text-secondary);
+      font-weight: normal; /* Override bold from .btn */
+    }
+    .community-tag i {
+      margin-right: 8px;
+    }
+    .community-tag:hover {
+      background: var(--primary);
+      color: var(--background);
+      border-color: var(--primary);
+      box-shadow: none; /* Override default .btn hover shadow */
+    }
+    /* --- End Improvement --- */
+
+    /* Create Post Area */
+    #createPostTextarea {
+        width: 100%;
+        height: 100px;
+        padding: 15px; /* Increased padding */
+        border-radius: 8px;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        font-family: 'Inconsolata', monospace;
+        font-size: 15px; /* Consistent font size */
+        resize: vertical; /* Allow vertical resize */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    #createPostTextarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+
 
     /* Trading Bot */
     .trading-table {
@@ -678,12 +762,16 @@
       margin: 20px 0;
       background: rgba(30, 30, 30, 0.7);
       border-radius: 8px;
-      overflow: hidden;
+      overflow: hidden; /* Needed for border-radius */
+      border-spacing: 0; /* Remove potential spacing */
     }
     .trading-table th, .trading-table td {
-      padding: 14px 20px;
+      /* --- IMPROVEMENT: Increased padding --- */
+      padding: 16px 20px;
+      /* --- End Improvement --- */
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       text-align: left;
+      transition: background-color 0.3s ease; /* Add transition */
     }
     .trading-table th {
       background: rgba(0, 255, 255, 0.1);
@@ -693,11 +781,17 @@
       font-size: 14px;
       letter-spacing: 1px;
     }
-    .trading-table tr:last-child td {
+    .trading-table tbody tr:last-child td {
       border-bottom: none;
     }
-    .trading-table tr:hover td {
-      background: rgba(255, 255, 255, 0.05);
+    /* --- IMPROVEMENT: Zebra striping --- */
+    .trading-table tbody tr:nth-child(even) td {
+        background-color: rgba(255, 255, 255, 0.03);
+    }
+    /* --- End Improvement --- */
+    .trading-table tbody tr:hover td {
+      /* Ensure hover overrides zebra stripe */
+      background-color: rgba(255, 255, 255, 0.07);
     }
     .status-active {
       color: var(--success);
@@ -791,12 +885,21 @@
       justify-content: space-between;
       margin-bottom: 8px;
       font-size: 14px;
-      padding: 8px 0;
+      /* --- IMPROVEMENT: Consistent padding and hover --- */
+      padding: 10px 5px;
       border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      transition: background-color 0.2s ease;
+      border-radius: 4px;
+      /* --- End Improvement --- */
     }
     .stat-row:last-child {
       border-bottom: none;
     }
+    /* --- IMPROVEMENT: Hover effect for stat rows --- */
+    .stat-row:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+    /* --- End Improvement --- */
     .stat-label {
       color: var(--text-secondary);
     }
@@ -872,7 +975,15 @@
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
     }
     .account-stats {
-      margin-top: auto;
+      margin-top: auto; /* Pushes stats to bottom if needed */
+    }
+    .account-stats .stat-row { /* Apply stat-row styling here too */
+        padding: 10px 5px;
+        transition: background-color 0.2s ease;
+        border-radius: 4px;
+    }
+    .account-stats .stat-row:hover {
+        background-color: rgba(255, 255, 255, 0.05);
     }
 
     /* Overlay for Mobile */
@@ -937,6 +1048,9 @@
       .wallet-info {
         grid-template-columns: 1fr;
       }
+      .account-grid {
+          grid-template-columns: 1fr; /* Stack account cards on smaller tablets */
+      }
     }
 
     @media (max-width: 480px) {
@@ -972,10 +1086,19 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
       .social-tab.active::after {
-        display: none;
+        display: none; /* No underline needed in vertical layout */
       }
       .account-grid {
         grid-template-columns: 1fr;
+      }
+      .post-header {
+          flex-wrap: wrap; /* Allow wrapping on small screens */
+      }
+      .post-actions {
+          margin-left: 0; /* Reset margin */
+          margin-top: 10px; /* Add space if wrapped */
+          width: 100%; /* Take full width if wrapped */
+          justify-content: flex-end; /* Align buttons right */
       }
     }
 
@@ -1047,6 +1170,7 @@
       transition: all 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 100;
+      margin-bottom: 5px; /* Add slight gap */
     }
     [data-tooltip]:hover::after {
       opacity: 1;
@@ -1056,7 +1180,6 @@
   </style>
 </head>
 <body>
-  <!-- Splash Screen -->
   <div id="splashScreen">
     <div class="splash-container">
       <h1 class="title">HodlVitality</h1>
@@ -1072,9 +1195,7 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <div id="mainContent">
-    <!-- Header Section -->
     <div class="header">
       <div class="logo">
         <img src="hodlvitality.jpeg" alt="HodlVitality Logo" class="logo-image">
@@ -1089,7 +1210,6 @@
       </div>
     </div>
 
-    <!-- Marquee Section -->
     <div class="marquee">
       <div class="marquee-inner">
         <span>🔥 Welcome to HodlVitality - Your State-of-the-Art Crypto App 🔥</span>
@@ -1098,7 +1218,6 @@
       </div>
     </div>
 
-    <!-- Sidebar Navigation -->
     <div class="sidebar">
       <button id="closeSidebar" class="close-btn">
         <i class="fa-solid fa-xmark"></i>
@@ -1117,12 +1236,9 @@
       </ul>
     </div>
 
-    <!-- Overlay for Mobile -->
     <div id="overlay"></div>
 
-    <!-- Main Content Area -->
     <div class="main-content">
-      <!-- Dashboard Tab -->
       <div id="dashboard" class="tab-content active">
         <h1>Dashboard</h1>
         <p class="mb-30">Welcome back! Here's your cryptocurrency overview.</p>
@@ -1186,7 +1302,6 @@
         </div>
       </div>
 
-      <!-- Wallet Tab -->
       <div id="wallet" class="tab-content">
         <h1><i class="fas fa-wallet" style="margin-right: 10px;"></i>Wallet Dashboard</h1>
         <p class="mb-30">Manage your cryptocurrency assets and transactions.</p>
@@ -1264,7 +1379,6 @@
         </div>
       </div>
 
-      <!-- Social Tab -->
       <div id="social" class="tab-content">
         <h1><i class="fas fa-users" style="margin-right: 10px;"></i>Social Feed</h1>
         <p class="mb-30">Connect with other crypto enthusiasts in the community.</p>
@@ -1291,10 +1405,12 @@
             </div>
             <div class="post-body">
               <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. #crypto #tradingbot</p>
-              <p class="text-secondary" style="font-size: 14px; margin-top: 15px;">
-                <i class="far fa-clock"></i> 2 hours ago • <i class="far fa-heart"></i> 42 • <i class="far fa-comment"></i> 8
-              </p>
-            </div>
+              <div class="post-meta">
+                <span class="post-meta-item"><i class="far fa-clock"></i> 2 hours ago</span>
+                <span class="post-meta-item"><i class="far fa-heart"></i> 42</span>
+                <span class="post-meta-item"><i class="far fa-comment"></i> 8</span>
+              </div>
+              </div>
           </div>
 
           <div class="glass-card post">
@@ -1312,10 +1428,12 @@
             </div>
             <div class="post-body">
               <p>Anyone else excited about the upcoming NFT drop? I've been using HodlVitality to track my portfolio and it's been a game changer! 🚀 #NFT #crypto</p>
-              <p class="text-secondary" style="font-size: 14px; margin-top: 15px;">
-                <i class="far fa-clock"></i> 5 hours ago • <i class="far fa-heart"></i> 78 • <i class="far fa-comment"></i> 15
-              </p>
-            </div>
+              <div class="post-meta">
+                 <span class="post-meta-item"><i class="far fa-clock"></i> 5 hours ago</span>
+                 <span class="post-meta-item"><i class="far fa-heart"></i> 78</span>
+                 <span class="post-meta-item"><i class="far fa-comment"></i> 15</span>
+               </div>
+               </div>
           </div>
 
           <div class="glass-card post">
@@ -1333,56 +1451,92 @@
             </div>
             <div class="post-body">
               <p>Just stacked another 0.01 BTC using HodlVitality's DCA feature. Set it and forget it! #StackingSats #Bitcoin</p>
-              <p class="text-secondary" style="font-size: 14px; margin-top: 15px;">
-                <i class="far fa-clock"></i> 1 day ago • <i class="far fa-heart"></i> 102 • <i class="far fa-comment"></i> 24
-              </p>
-            </div>
+              <div class="post-meta">
+                  <span class="post-meta-item"><i class="far fa-clock"></i> 1 day ago</span>
+                  <span class="post-meta-item"><i class="far fa-heart"></i> 102</span>
+                  <span class="post-meta-item"><i class="far fa-comment"></i> 24</span>
+              </div>
+              </div>
           </div>
         </div>
 
         <div class="social-feed" id="yourpage" style="display: none;">
-          <div class="glass-card post">
-            <div class="post-header">
-              <img src="https://i.pravatar.cc/150?img=1" alt="avatar" />
-              <span>YourUsername</span>
-              <div class="post-actions">
-                <button class="btn btn-sm follow-btn" data-tooltip="Edit your post">
-                  <i class="fas fa-edit"></i> Edit
-                </button>
+           <div class="glass-card mb-30"> <h2><i class="fas fa-pencil-alt" style="margin-right: 10px;"></i>Create Post</h2>
+                <textarea id="createPostTextarea" placeholder="What's on your mind? Share your crypto thoughts..."></textarea>
+                <button id="createPostButton" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Post</button>
+            </div>
+            <div class="glass-card post">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?img=1" alt="avatar" />
+                <span>YourUsername</span>
+                <div class="post-actions">
+                  <button class="btn btn-sm" data-tooltip="Edit your post">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                   <button class="btn btn-sm btn-danger" data-tooltip="Delete your post">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </div>
               </div>
+              <div class="post-body">
+                <p>This is an example of a post on your page. Use the area above to share your own updates!</p>
+                <div class="post-meta">
+                    <span class="post-meta-item"><i class="far fa-clock"></i> 1 hour ago</span>
+                    <span class="post-meta-item"><i class="far fa-heart"></i> 5</span>
+                    <span class="post-meta-item"><i class="far fa-comment"></i> 2</span>
+                </div>
+                </div>
             </div>
-            <div class="post-body">
-              <p>This is a post from your page. Share your latest thoughts or updates here with the community.</p>
-              <p class="text-secondary" style="font-size: 14px; margin-top: 15px;">
-                <i class="far fa-clock"></i> Just now • <i class="far fa-heart"></i> 0 • <i class="far fa-comment"></i> 0
-              </p>
             </div>
-          </div>
-        </div>
 
         <div class="social-feed" id="discover" style="display: none;">
           <div class="glass-card">
             <h2>Discover Communities</h2>
             <p>Find and join crypto communities that match your interests.</p>
-            <div class="wallet-actions">
-              <button class="btn btn-sm">
+            <div class="wallet-actions" style="gap: 10px;"> <button class="btn btn-sm community-tag">
                 <i class="fas fa-bitcoin"></i> Bitcoin
               </button>
-              <button class="btn btn-sm">
+              <button class="btn btn-sm community-tag">
                 <i class="fab fa-ethereum"></i> Ethereum
               </button>
-              <button class="btn btn-sm">
+              <button class="btn btn-sm community-tag">
                 <i class="fas fa-chart-line"></i> Trading
               </button>
-              <button class="btn btn-sm">
+              <button class="btn btn-sm community-tag">
                 <i class="fas fa-coins"></i> DeFi
               </button>
+              <button class="btn btn-sm community-tag">
+                <i class="fas fa-palette"></i> NFTs
+              </button>
+               <button class="btn btn-sm community-tag">
+                <i class="fas fa-layer-group"></i> Altcoins
+              </button>
+              </div>
+          </div>
+          <div class="glass-card post"> <div class="post-header">
+              <img src="https://i.pravatar.cc/150?img=15" alt="avatar" />
+              <span>DeFi Degen</span>
+               <div class="post-actions">
+                <button class="btn btn-sm follow-btn" data-tooltip="Follow this user">
+                  <i class="fas fa-user-plus"></i> Follow
+                </button>
+                <a class="btn btn-sm btn-success send-btn" href="bravewallet://pay?address=bc1qdefidegenaddress98765" data-tooltip="Send a tip">
+                  <i class="fas fa-bolt"></i> Tip
+                </a>
+              </div>
+            </div>
+             <div class="post-body">
+              <p>Exploring the latest yield farming opportunities on Polygon. Anyone finding good APYs?</p>
+              <div class="post-meta">
+                  <span class="post-meta-item"><i class="far fa-clock"></i> 8 hours ago</span>
+                  <span class="post-meta-item"><i class="far fa-heart"></i> 55</span>
+                  <span class="post-meta-item"><i class="far fa-comment"></i> 12</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Trading Bot Tab -->
       <div id="trading" class="tab-content">
         <h1><i class="fas fa-robot" style="margin-right: 10px;"></i>Trading Bot</h1>
         <p class="mb-30">Automate your trading strategies with our intelligent bot.</p>
@@ -1412,7 +1566,7 @@
 
         <div class="glass-card">
           <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>Recent Trades</h2>
-          <table class="trading-table">
+           <table class="trading-table">
             <thead>
               <tr>
                 <th>Time</th>
@@ -1451,12 +1605,18 @@
                 <td>0.010 BTC</td>
                 <td><span class="status-pending">Pending</span></td>
               </tr>
+               <tr>
+                <td>16:00</td>
+                <td><span class="text-error">Stop Loss</span></td>
+                <td>$41,800</td>
+                <td>0.007 BTC</td>
+                <td><span class="status-executed">Executed</span></td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- DCA Tab -->
       <div id="dca" class="tab-content">
         <h1><i class="fas fa-chart-line" style="margin-right: 10px;"></i>Dollar-Cost Averaging</h1>
         <p class="mb-30">Automatically invest at regular intervals, regardless of price.</p>
@@ -1539,12 +1699,18 @@
                 <td>$41,500</td>
                 <td>0.001205 BTC</td>
               </tr>
+               <tr>
+                <td>4 days ago</td>
+                <td>12:00</td>
+                <td>$50</td>
+                <td>$41,950</td>
+                <td>0.001192 BTC</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Exchanges Tab -->
       <div id="exchanges" class="tab-content">
         <h1><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>Exchange Integration</h1>
         <p class="mb-30">Connect your exchange accounts for seamless trading.</p>
@@ -1556,11 +1722,10 @@
             </div>
             <h2>Binance</h2>
             <p>World's leading cryptocurrency exchange</p>
-            <button class="btn btn-sm">
-              <i class="fas fa-link"></i> Connect
+            <button class="btn btn-sm btn-success" disabled> <i class="fas fa-check"></i> Connected
             </button>
             <div class="exchange-stats">
-              <div class="stat-row">
+               <div class="stat-row">
                 <span class="stat-label">Status:</span>
                 <span class="stat-value text-success">Connected</span>
               </div>
@@ -1585,9 +1750,17 @@
               <i class="fas fa-link"></i> Connect
             </button>
             <div class="exchange-stats">
-              <div class="stat-row">
+               <div class="stat-row">
                 <span class="stat-label">Status:</span>
                 <span class="stat-value">Not Connected</span>
+              </div>
+               <div class="stat-row">
+                <span class="stat-label">Balance:</span>
+                <span class="stat-value">-</span>
+              </div>
+               <div class="stat-row">
+                <span class="stat-label">API Status:</span>
+                <span class="stat-value">-</span>
               </div>
             </div>
           </div>
@@ -1602,32 +1775,42 @@
               <i class="fas fa-link"></i> Connect
             </button>
             <div class="exchange-stats">
-              <div class="stat-row">
+                <div class="stat-row">
                 <span class="stat-label">Status:</span>
                 <span class="stat-value">Not Connected</span>
+              </div>
+               <div class="stat-row">
+                <span class="stat-label">Balance:</span>
+                <span class="stat-value">-</span>
+              </div>
+               <div class="stat-row">
+                <span class="stat-label">API Status:</span>
+                <span class="stat-value">-</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- News Tab -->
       <div id="news" class="tab-content">
         <h1><i class="fas fa-newspaper" style="margin-right: 10px;"></i>Crypto News</h1>
         <p class="mb-30">Stay updated with the latest in cryptocurrency.</p>
 
-        <div class="glass-card post">
-          <div class="post-header">
+        <div class="glass-card post"> <div class="post-header">
             <img src="https://i.pravatar.cc/150?img=11" alt="avatar" />
             <span>CryptoNews</span>
-            <button class="btn btn-sm follow-btn">
-              <i class="fas fa-bell"></i> Follow
-            </button>
+             <div class="post-actions">
+                 <button class="btn btn-sm follow-btn">
+                    <i class="fas fa-bell"></i> Follow
+                 </button>
+             </div>
           </div>
           <div class="post-body">
             <h3>Bitcoin Surpasses $42,000 Amid Institutional Demand</h3>
             <p>Bitcoin has broken through the $42,000 resistance level as institutional investors continue to show strong interest in the cryptocurrency market. Analysts suggest this could be the beginning of a new bull run.</p>
-            <p class="text-secondary">Published 2 hours ago</p>
+             <div class="post-meta">
+                <span class="post-meta-item"><i class="far fa-clock"></i> Published 2 hours ago</span>
+             </div>
           </div>
         </div>
 
@@ -1635,14 +1818,18 @@
           <div class="post-header">
             <img src="https://i.pravatar.cc/150?img=12" alt="avatar" />
             <span>MarketWatch</span>
-            <button class="btn btn-sm follow-btn">
-              <i class="fas fa-bell"></i> Follow
-            </button>
+            <div class="post-actions">
+                <button class="btn btn-sm follow-btn">
+                    <i class="fas fa-bell"></i> Follow
+                </button>
+            </div>
           </div>
           <div class="post-body">
             <h3>Ethereum's London Upgrade Goes Live</h3>
             <p>The long-awaited London hard fork has been successfully implemented on the Ethereum network, introducing EIP-1559 which changes the fee structure and begins burning a portion of transaction fees.</p>
-            <p class="text-secondary">Published 5 hours ago</p>
+             <div class="post-meta">
+                <span class="post-meta-item"><i class="far fa-clock"></i> Published 5 hours ago</span>
+             </div>
           </div>
         </div>
 
@@ -1650,28 +1837,29 @@
           <div class="post-header">
             <img src="https://i.pravatar.cc/150?img=13" alt="avatar" />
             <span>BlockchainDaily</span>
-            <button class="btn btn-sm follow-btn">
-              <i class="fas fa-bell"></i> Follow
-            </button>
+             <div class="post-actions">
+                <button class="btn btn-sm follow-btn">
+                    <i class="fas fa-bell"></i> Follow
+                </button>
+            </div>
           </div>
           <div class="post-body">
             <h3>New Regulations Proposed for Stablecoins</h3>
             <p>Financial regulators are considering new rules for stablecoin issuers that would require them to maintain reserves equivalent to the value of tokens in circulation and submit to regular audits.</p>
-            <p class="text-secondary">Published yesterday</p>
+             <div class="post-meta">
+                <span class="post-meta-item"><i class="far fa-clock"></i> Published yesterday</span>
+             </div>
           </div>
         </div>
       </div>
 
-      <!-- Resources Tab -->
       <div id="resources" class="tab-content">
         <h1><i class="fas fa-hat-wizard" style="margin-right: 10px;"></i>Learning Resources</h1>
         <p class="mb-30">Expand your cryptocurrency knowledge with these resources.</p>
 
         <div class="glass-card">
           <h2><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>Beginner Guides</h2>
-          <div class="wallet-info">
-            <div class="wallet-info-item">
-              <h3>Bitcoin Whitepaper</h3>
+          <div class="wallet-info"> <div class="wallet-info-item"> <h3>Bitcoin Whitepaper</h3>
               <p>The original Bitcoin whitepaper by Satoshi Nakamoto</p>
               <button class="btn btn-sm mt-20">
                 <i class="fas fa-book"></i> Read
@@ -1682,6 +1870,13 @@
               <p>Learn how to keep your crypto safe</p>
               <button class="btn btn-sm mt-20">
                 <i class="fas fa-shield-alt"></i> Learn
+              </button>
+            </div>
+             <div class="wallet-info-item">
+              <h3>What is Blockchain?</h3>
+              <p>A simple explanation of the core technology</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-link"></i> Explain
               </button>
             </div>
           </div>
@@ -1704,6 +1899,13 @@
                 <i class="fas fa-chess"></i> Explore
               </button>
             </div>
+             <div class="wallet-info-item">
+              <h3>Fundamental Analysis</h3>
+              <p>Evaluating crypto projects beyond price</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-search-dollar"></i> Analyze
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1724,11 +1926,17 @@
                 <i class="fas fa-play"></i> Watch
               </button>
             </div>
+             <div class="wallet-info-item">
+              <h3>Using HodlVitality</h3>
+              <p>A quick tour of the app's features</p>
+              <button class="btn btn-sm mt-20">
+                <i class="fas fa-play"></i> Watch Tour
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Help Creator Tab -->
       <div id="helpcreator" class="tab-content">
         <h1><i class="fas fa-qrcode" style="margin-right: 10px;"></i>Support the Creator</h1>
         <div class="donate-text">
@@ -1766,7 +1974,6 @@
         </div>
       </div>
 
-      <!-- Account Tab -->
       <div id="account" class="tab-content">
         <h1><i class="fas fa-user" style="margin-right: 10px;"></i>Account Overview</h1>
 
@@ -1797,7 +2004,7 @@
               <canvas id="walletGainsChart"></canvas>
             </div>
             <div class="account-stats">
-              <div class="stat-row">
+               <div class="stat-row">
                 <span class="stat-label">All Time:</span>
                 <span class="stat-value text-success">+125%</span>
               </div>
@@ -1814,7 +2021,7 @@
               <canvas id="tradingBotGainsChart"></canvas>
             </div>
             <div class="account-stats">
-              <div class="stat-row">
+               <div class="stat-row">
                 <span class="stat-label">Win Rate:</span>
                 <span class="stat-value text-success">72%</span>
               </div>
@@ -1855,22 +2062,22 @@
             <ul style="list-style-type: none;">
               <li style="margin-bottom: 15px;">
                 <button class="btn btn-sm" style="width: 100%; text-align: left;">
-                  <i class="fas fa-user"></i> Profile Settings
+                  <i class="fas fa-user" style="width: 20px; text-align: center;"></i> Profile Settings
                 </button>
               </li>
               <li style="margin-bottom: 15px;">
                 <button class="btn btn-sm" style="width: 100%; text-align: left;">
-                  <i class="fas fa-bell"></i> Notification Preferences
+                  <i class="fas fa-bell" style="width: 20px; text-align: center;"></i> Notification Preferences
                 </button>
               </li>
               <li style="margin-bottom: 15px;">
                 <button class="btn btn-sm" style="width: 100%; text-align: left;">
-                  <i class="fas fa-lock"></i> Security Settings
+                  <i class="fas fa-lock" style="width: 20px; text-align: center;"></i> Security Settings
                 </button>
               </li>
               <li>
                 <button class="btn btn-sm" style="width: 100%; text-align: left;">
-                  <i class="fas fa-moon"></i> Dark Mode
+                  <i class="fas fa-moon" style="width: 20px; text-align: center;"></i> Dark Mode
                 </button>
               </li>
             </ul>
@@ -1879,20 +2086,19 @@
           <div class="glass-card account-section">
             <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>Connected Exchanges</h2>
             <ul style="list-style-type: none;">
-              <li style="margin-bottom: 15px; display: flex; align-items: center;">
-                <i class="fab fa-bitcoin" style="margin-right: 10px; color: var(--primary);"></i>
-                <span>Binance</span>
-                <span class="text-success" style="margin-left: auto;">Connected</span>
+               <li class="stat-row" style="border-bottom: 1px dashed rgba(255, 255, 255, 0.1);">
+                <i class="fab fa-bitcoin" style="margin-right: 10px; color: var(--primary); flex-shrink: 0;"></i>
+                <span style="flex-grow: 1;">Binance</span>
+                <span class="text-success" style="flex-shrink: 0;">Connected</span>
               </li>
-              <li style="margin-bottom: 15px; display: flex; align-items: center;">
-                <i class="fab fa-ethereum" style="margin-right: 10px; color: #627eea;"></i>
-                <span>Coinbase</span>
-                <span style="margin-left: auto;">Not Connected</span>
+              <li class="stat-row" style="border-bottom: 1px dashed rgba(255, 255, 255, 0.1);">
+                <i class="fab fa-ethereum" style="margin-right: 10px; color: #627eea; flex-shrink: 0;"></i>
+                <span style="flex-grow: 1;">Coinbase</span>
+                <span style="flex-shrink: 0;">Not Connected</span>
               </li>
-              <li style="display: flex; align-items: center;">
-                <i class="fas fa-anchor" style="margin-right: 10px; color: #5825fc;"></i>
-                <span>Kraken</span>
-                <span style="margin-left: auto;">Not Connected</span>
+              <li class="stat-row"> <i class="fas fa-anchor" style="margin-right: 10px; color: #5825fc; flex-shrink: 0;"></i>
+                <span style="flex-grow: 1;">Kraken</span>
+                <span style="flex-shrink: 0;">Not Connected</span>
               </li>
             </ul>
             <button class="btn btn-primary mt-20">
@@ -1904,7 +2110,6 @@
     </div>
   </div>
 
-  <!-- JavaScript Section -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Splash screen Login button event
@@ -1961,16 +2166,49 @@
       });
 
       /*** Daily Reward Button ***/
-      document.getElementById('dailyRewardButton').addEventListener('click', function () {
-        this.innerHTML = '<i class="fas fa-check"></i> Reward Claimed';
-        this.classList.remove('btn-primary');
-        this.classList.add('btn-success');
-        this.disabled = true;
-        this.classList.remove('pulse');
+      const dailyRewardButton = document.getElementById('dailyRewardButton');
+      if (dailyRewardButton) {
+          dailyRewardButton.addEventListener('click', function () {
+            this.innerHTML = '<i class="fas fa-check"></i> Reward Claimed';
+            this.classList.remove('btn-primary');
+            this.classList.add('btn-success');
+            this.disabled = true;
+            this.classList.remove('pulse');
 
-        // Show notification
-        showNotification('<i class="fas fa-gift"></i> Daily reward claimed! You received 10 tokens.', 'success');
-      });
+            // Show notification
+            showNotification('<i class="fas fa-gift"></i> Daily reward claimed! You received 10 tokens.', 'success');
+          });
+      }
+
+      // --- Function to show notifications (reusable) ---
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = type === 'error' ? 'rgba(255, 68, 68, 0.9)' :
+                                           type === 'success' ? 'rgba(0, 255, 170, 0.9)' :
+                                           type === 'warning' ? 'rgba(255, 204, 0, 0.9)' :
+                                           'rgba(0, 255, 255, 0.9)';
+        notification.style.color = type === 'warning' ? '#121212' : '#ffffff'; // Adjusted text color for warning
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '8px';
+        notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        notification.style.zIndex = '2000';
+        notification.style.animation = 'fadeIn 0.3s ease';
+        notification.innerHTML = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          // Smooth fade out
+          notification.style.transition = 'opacity 0.3s ease';
+          notification.style.opacity = '0';
+          setTimeout(() => {
+            notification.remove();
+          }, 300); // Wait for fade out transition
+        }, 3000);
+      }
+
 
       /*** Wallet Functions ***/
       function connectWallet() {
@@ -2038,6 +2276,7 @@
             window.webln.sendPayment(invoice)
               .then(result => {
                 showNotification("Payment sent successfully!", 'success');
+                 // TODO: Update balance and transaction list after payment
               })
               .catch(error => {
                 console.error("Send Payment Error:", error);
@@ -2052,10 +2291,10 @@
       function receivePayment() {
         if (window.webln && window.webln.makeInvoice) {
           const amount = prompt("Enter the amount in sats for the invoice:");
-          if (amount) {
+          if (amount && !isNaN(parseInt(amount, 10))) {
             window.webln.makeInvoice({ amount: parseInt(amount, 10) })
               .then(result => {
-                const invoice = result.invoice;
+                const invoice = result.paymentRequest; // Correct field name might be paymentRequest
                 const notification = document.createElement('div');
                 notification.style.position = 'fixed';
                 notification.style.top = '50%';
@@ -2098,145 +2337,172 @@
                 console.error("Invoice Creation Error:", error);
                 showNotification("Invoice creation failed: " + error.message, 'error');
               });
+          } else if (amount !== null) { // Only show error if prompt wasn't cancelled
+              showNotification("Please enter a valid number for the amount.", 'error');
           }
         } else {
           showNotification("makeInvoice is not supported by your wallet. Please check if your wallet is up-to-date.", 'warning');
         }
       }
 
-      function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.style.position = 'fixed';
-        notification.style.bottom = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = type === 'error' ? 'rgba(255, 68, 68, 0.9)' : 
-                                           type === 'success' ? 'rgba(0, 255, 170, 0.9)' : 
-                                           type === 'warning' ? 'rgba(255, 204, 0, 0.9)' : 
-                                           'rgba(0, 255, 255, 0.9)';
-        notification.style.color = type === 'warning' ? '#121212' : '#ffffff';
-        notification.style.padding = '15px 25px';
-        notification.style.borderRadius = '8px';
-        notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-        notification.style.zIndex = '2000';
-        notification.style.animation = 'fadeIn 0.3s ease';
-        notification.innerHTML = message;
-        document.body.appendChild(notification);
 
-        setTimeout(() => {
-          notification.style.animation = 'fadeIn 0.3s ease reverse';
-          setTimeout(() => {
-            notification.remove();
-          }, 300);
-        }, 3000);
-      }
 
       /*** Wallet Event Listeners ***/
-      document.getElementById('connectWalletHeader').addEventListener('click', connectWallet);
-      document.getElementById('connectWalletTab').addEventListener('click', connectWallet);
-      document.getElementById('sendPayment').addEventListener('click', sendPayment);
-      document.getElementById('receivePayment').addEventListener('click', receivePayment);
-      document.getElementById('copyAddress').addEventListener('click', () => {
-        const walletAddress = document.getElementById('walletAddress').innerText;
-        navigator.clipboard.writeText(walletAddress).then(() => {
-          showNotification('Wallet address copied to clipboard', 'success');
-        });
-      });
+       const connectWalletHeader = document.getElementById('connectWalletHeader');
+       const connectWalletTab = document.getElementById('connectWalletTab');
+       const sendPaymentButton = document.getElementById('sendPayment');
+       const receivePaymentButton = document.getElementById('receivePayment');
+       const copyAddressButton = document.getElementById('copyAddress');
 
-      /*** Trading Bot Chart ***/
-      const ctx = document.getElementById('bitcoinChart').getContext('2d');
-      const priceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350];
-      const bitcoinChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'BTC Price (USD)',
-            data: priceData,
-            backgroundColor: 'rgba(0, 255, 255, 0.1)',
-            borderColor: 'rgba(0, 255, 255, 1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: 'rgba(0, 255, 255, 1)',
-            pointRadius: 4,
-            pointHoverRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: { 
-              beginAtZero: false, 
-              ticks: { 
-                color: '#e0e0e0',
-                callback: function(value) {
-                  return '$' + value.toLocaleString();
+       if (connectWalletHeader) connectWalletHeader.addEventListener('click', connectWallet);
+       if (connectWalletTab) connectWalletTab.addEventListener('click', connectWallet);
+       if (sendPaymentButton) sendPaymentButton.addEventListener('click', sendPayment);
+       if (receivePaymentButton) receivePaymentButton.addEventListener('click', receivePayment);
+       if (copyAddressButton) {
+            copyAddressButton.addEventListener('click', () => {
+                const walletAddress = document.getElementById('walletAddress').innerText;
+                if (walletAddress && walletAddress !== 'N/A') {
+                    navigator.clipboard.writeText(walletAddress).then(() => {
+                        showNotification('Wallet address copied to clipboard', 'success');
+                    }).catch(err => {
+                         showNotification('Failed to copy address', 'error');
+                    });
                 }
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            },
-            x: { 
-              ticks: { 
-                color: '#e0e0e0' 
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            }
-          },
-          plugins: { 
-            legend: { 
-              labels: { 
-                color: '#e0e0e0',
-                font: {
-                  family: 'Inconsolata'
+            });
+       }
+
+       /*** Chart Common Options & Functions ***/
+       const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: false,
+                ticks: {
+                  color: '#e0e0e0',
+                  callback: function(value) {
+                    return '$' + value.toLocaleString();
+                  }
+                },
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
                 }
-              } 
+              },
+              x: {
+                ticks: {
+                  color: '#e0e0e0'
+                },
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
+                }
+              }
             },
-            tooltip: {
-              backgroundColor: 'rgba(30, 30, 30, 0.9)',
-              titleColor: '#00ffff',
-              bodyColor: '#e0e0e0',
-              borderColor: 'rgba(0, 255, 255, 0.3)',
-              borderWidth: 1,
-              padding: 12,
-              callbacks: {
-                label: function(context) {
-                  return 'Price: $' + context.parsed.y.toLocaleString();
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#e0e0e0',
+                  font: {
+                    family: 'Inconsolata'
+                  }
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 30, 30, 0.9)',
+                titleColor: '#00ffff',
+                bodyColor: '#e0e0e0',
+                borderColor: 'rgba(0, 255, 255, 0.3)',
+                borderWidth: 1,
+                padding: 12,
+                callbacks: {
+                  label: function(context) {
+                    let label = context.dataset.label || '';
+                    if (label) {
+                        label += ': ';
+                    }
+                    if (context.parsed.y !== null) {
+                         // Check if yAxis requires '%'
+                         if (context.chart.options.scales.y.ticks.callback && context.chart.options.scales.y.ticks.callback(1).includes('%')) {
+                            label += context.parsed.y + '%';
+                         } else {
+                             label += '$' + context.parsed.y.toLocaleString();
+                         }
+                    }
+                    return label;
+                  }
                 }
               }
             }
-          }
-        }
-      });
+        };
 
-      const buySuggestion = Math.min(...priceData);
-      const sellSuggestion = Math.max(...priceData);
-      document.getElementById('priceSuggestions').innerHTML =
-        `<div class="wallet-info" style="margin-top: 20px;">
-          <div class="wallet-info-item">
-            <strong>Buy Suggestion</strong>
-            <span>Consider buying if the price drops below $${buySuggestion.toLocaleString()}</span>
-          </div>
-          <div class="wallet-info-item">
-            <strong>Sell Suggestion</strong>
-            <span>Consider selling if the price rises above $${sellSuggestion.toLocaleString()}</span>
-          </div>
-        </div>`;
+       // Deep merge function for chart options
+       function mergeOptions(target, source) {
+            for (const key in source) {
+                if (source.hasOwnProperty(key)) {
+                    if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
+                        mergeOptions(target[key], source[key]);
+                    } else {
+                        target[key] = source[key];
+                    }
+                }
+            }
+            return target;
+        }
+
+
+      /*** Trading Bot Chart ***/
+      const bitcoinChartCtx = document.getElementById('bitcoinChart')?.getContext('2d');
+      if (bitcoinChartCtx) {
+          const priceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350];
+          const bitcoinChart = new Chart(bitcoinChartCtx, {
+            type: 'line',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [{
+                label: 'BTC Price (USD)',
+                data: priceData,
+                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                borderColor: 'rgba(0, 255, 255, 1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: 'rgba(0, 255, 255, 1)',
+                pointRadius: 4,
+                pointHoverRadius: 6
+              }]
+            },
+            options: commonChartOptions // Use common options
+          });
+
+          const buySuggestion = Math.min(...priceData);
+          const sellSuggestion = Math.max(...priceData);
+          const priceSuggestionsEl = document.getElementById('priceSuggestions');
+          if (priceSuggestionsEl) {
+            priceSuggestionsEl.innerHTML =
+            `<div class="wallet-info" style="margin-top: 20px; grid-template-columns: 1fr 1fr;"> <div class="wallet-info-item">
+                <strong><i class="fas fa-arrow-down text-success"></i> Buy Suggestion</strong>
+                <span>Consider buying below $${buySuggestion.toLocaleString()}</span>
+              </div>
+              <div class="wallet-info-item">
+                <strong><i class="fas fa-arrow-up text-error"></i> Sell Suggestion</strong>
+                <span>Consider selling above $${sellSuggestion.toLocaleString()}</span>
+              </div>
+            </div>`;
+          }
+      }
+
 
       /*** DCA Chart ***/
-      if (document.getElementById('dcaChart')) {
-        const ctxDCA = document.getElementById('dcaChart').getContext('2d');
+      const dcaChartCtx = document.getElementById('dcaChart')?.getContext('2d');
+      if (dcaChartCtx) {
         const marketPriceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350];
+        // Example DCA purchase points (match labels length if possible)
         const dcaPurchases = [
-          { x: 1, y: 42120 },
-          { x: 3, y: 42800 },
-          { x: 5, y: 42300 }
+            { x: 'Tue', y: 41800 },
+            { x: 'Thu', y: 42100 },
+            { x: 'Sat', y: 41500 },
+            { x: 'Sun', y: 41950 }
         ];
-        const dcaChart = new Chart(ctxDCA, {
+        const dcaChart = new Chart(dcaChartCtx, {
           type: 'line',
           data: {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -2264,209 +2530,77 @@
               }
             ]
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: { 
-                beginAtZero: false, 
-                ticks: { 
-                  color: '#e0e0e0',
-                  callback: function(value) {
-                  return '$' + value.toLocaleString();
-                }
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            },
-            x: { 
-              ticks: { 
-                color: '#e0e0e0' 
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            }
-          },
-          plugins: { 
-            legend: { 
-              labels: { 
-                color: '#e0e0e0',
-                font: {
-                  family: 'Inconsolata'
-                }
-              } 
-            },
-            tooltip: {
-              backgroundColor: 'rgba(30, 30, 30, 0.9)',
-              titleColor: '#00ffff',
-              bodyColor: '#e0e0e0',
-              borderColor: 'rgba(0, 255, 255, 0.3)',
-              borderWidth: 1,
-              padding: 12,
-              callbacks: {
-                label: function(context) {
-                  if (context.datasetIndex === 0) {
-                    return 'Market Price: $' + context.parsed.y.toLocaleString();
-                  } else {
-                    return 'DCA Purchase: $' + context.parsed.y.toLocaleString();
-                  }
-                }
-              }
-            }
-          }
-        }
-      });
+          options: commonChartOptions // Use common options
+        });
     }
+
+    // Function to create bar charts with common percentage options
+    function createPercentageBarChart(canvasId, data, label) {
+         const ctx = document.getElementById(canvasId)?.getContext('2d');
+         if (!ctx) return null;
+
+         const chartOptions = mergeOptions(JSON.parse(JSON.stringify(commonChartOptions)), { // Deep copy common options
+             scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) { return value + '%'; } // Override y-axis callback for percentage
+                    }
+                }
+             },
+             plugins: {
+                 legend: { display: false }, // Hide legend for simple bar charts
+                 tooltip: { // Override tooltip for percentage
+                      callbacks: {
+                          label: function(context) {
+                              let label = context.dataset.label || '';
+                              if (label) { label += ': '; }
+                              if (context.parsed.y !== null) {
+                                  label += context.parsed.y + '%';
+                              }
+                              return label;
+                          }
+                      }
+                  }
+             }
+         });
+
+
+         return new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'All Time'],
+              datasets: [{
+                label: label,
+                data: data,
+                 backgroundColor: [ // Example color scheme - adjust as needed
+                    'rgba(0, 255, 255, 0.7)', // Cyan for shorter terms
+                    'rgba(0, 255, 255, 0.7)',
+                    'rgba(0, 255, 255, 0.7)',
+                    'rgba(0, 255, 170, 0.7)', // Success green for longer terms
+                    'rgba(0, 255, 170, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(0, 255, 170, 1)',
+                    'rgba(0, 255, 170, 1)'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: chartOptions
+         });
+    }
+
 
     /*** Wallet Gains Chart ***/
-    if (document.getElementById('walletGainsChart')) {
-      const walletGainsCtx = document.getElementById('walletGainsChart').getContext('2d');
-      const walletGainsChart = new Chart(walletGainsCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'All Time'],
-          datasets: [{
-            label: 'Wallet Gains (%)',
-            data: [2, 5, 10, 45, 125],
-            backgroundColor: [
-              'rgba(0, 255, 255, 0.7)',
-              'rgba(0, 255, 255, 0.7)',
-              'rgba(0, 255, 255, 0.7)',
-              'rgba(0, 255, 170, 0.7)',
-              'rgba(0, 255, 170, 0.7)'
-            ],
-            borderColor: [
-              'rgba(0, 255, 255, 1)',
-              'rgba(0, 255, 255, 1)',
-              'rgba(0, 255, 255, 1)',
-              'rgba(0, 255, 170, 1)',
-              'rgba(0, 255, 170, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: { 
-              beginAtZero: true, 
-              ticks: { 
-                color: '#e0e0e0',
-                callback: function(value) {
-                  return value + '%';
-                }
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            },
-            x: { 
-              ticks: { 
-                color: '#e0e0e0' 
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            }
-          },
-          plugins: { 
-            legend: { 
-              display: false 
-            },
-            tooltip: {
-              backgroundColor: 'rgba(30, 30, 30, 0.9)',
-              titleColor: '#00ffff',
-              bodyColor: '#e0e0e0',
-              borderColor: 'rgba(0, 255, 255, 0.3)',
-              borderWidth: 1,
-              padding: 12,
-              callbacks: {
-                label: function(context) {
-                  return 'Gain: ' + context.parsed.y + '%';
-                }
-              }
-            }
-          }
-        }
-      });
-    }
+    createPercentageBarChart('walletGainsChart', [2, 5, 10, 45, 125], 'Wallet Gains (%)');
 
     /*** Trading Bot Gains Chart ***/
-    if (document.getElementById('tradingBotGainsChart')) {
-      const tradingBotGainsCtx = document.getElementById('tradingBotGainsChart').getContext('2d');
-      const tradingBotGainsChart = new Chart(tradingBotGainsCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Daily', 'Weekly', 'Monthly', 'Yearly', 'All Time'],
-          datasets: [{
-            label: 'Trading Bot Gains (%)',
-            data: [1, 3, 8, 40, 90],
-            backgroundColor: [
-              'rgba(0, 255, 255, 0.7)',
-              'rgba(0, 255, 255, 0.7)',
-              'rgba(0, 255, 255, 0.7)',
-              'rgba(0, 255, 170, 0.7)',
-              'rgba(0, 255, 170, 0.7)'
-            ],
-            borderColor: [
-              'rgba(0, 255, 255, 1)',
-              'rgba(0, 255, 255, 1)',
-              'rgba(0, 255, 255, 1)',
-              'rgba(0, 255, 170, 1)',
-              'rgba(0, 255, 170, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: { 
-              beginAtZero: true, 
-              ticks: { 
-                color: '#e0e0e0',
-                callback: function(value) {
-                  return value + '%';
-                }
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            },
-            x: { 
-              ticks: { 
-                color: '#e0e0e0' 
-              }, 
-              grid: { 
-                color: 'rgba(255, 255, 255, 0.1)' 
-              } 
-            }
-          },
-          plugins: { 
-            legend: { 
-              display: false 
-            },
-            tooltip: {
-              backgroundColor: 'rgba(30, 30, 30, 0.9)',
-              titleColor: '#00ffff',
-              bodyColor: '#e0e0e0',
-              borderColor: 'rgba(0, 255, 255, 0.3)',
-              borderWidth: 1,
-              padding: 12,
-              callbacks: {
-                label: function(context) {
-                  return 'Gain: ' + context.parsed.y + '%';
-                }
-              }
-            }
-          }
-        }
-      });
-    }
+    createPercentageBarChart('tradingBotGainsChart', [1, 3, 8, 40, 90], 'Trading Bot Gains (%)');
+
 
     /*** Social Tabs Toggle ***/
     const socialTabs = document.querySelectorAll('.social-tab');
@@ -2476,19 +2610,98 @@
         this.classList.add('active');
         document.querySelectorAll('.social-feed').forEach(feed => feed.style.display = 'none');
         const selectedTab = this.getAttribute('data-tab');
-        document.getElementById(selectedTab).style.display = 'block';
+        const activeFeed = document.getElementById(selectedTab);
+        if (activeFeed) {
+            activeFeed.style.display = 'block';
+        }
       });
     });
 
     /*** QR Code Generation ***/
-    new QRCode(document.getElementById("helpCreatorQR"), {
-      text: "bitcoin:bc1qsimulateddonationaddress1234567890?amount=0.0001&label=HodlVitality%20Donation",
-      width: 250,
-      height: 250,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
+    const qrElement = document.getElementById("helpCreatorQR");
+    if (qrElement) {
+        try {
+            new QRCode(qrElement, {
+                text: "bitcoin:bc1qsimulateddonationaddress1234567890?amount=0.0001&label=HodlVitality%20Donation",
+                width: 220, // Slightly smaller to fit padding well
+                height: 220,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        } catch (e) {
+            console.error("Failed to generate QR Code:", e);
+            qrElement.innerHTML = "QR Code generation failed.";
+        }
+    }
+
+    // --- NEW: Create Post Functionality ---
+    const createPostTextarea = document.getElementById('createPostTextarea');
+    const createPostButton = document.getElementById('createPostButton');
+    const forYouFeed = document.getElementById('following');
+    const yourPageFeed = document.getElementById('yourpage');
+    // Find the "Create Post" card to insert new posts after it on "Your Page"
+    const createPostCard = document.querySelector('#yourpage .glass-card:has(#createPostTextarea)');
+
+
+    if (createPostButton && createPostTextarea && forYouFeed && yourPageFeed && createPostCard) {
+        createPostButton.addEventListener('click', () => {
+            const postText = createPostTextarea.value.trim();
+
+            if (postText) {
+                // Create the HTML for the new post
+                // Use the same avatar/username as the default "Your Page" post
+                // Escape HTML in postText to prevent XSS (basic example)
+                const escapedText = postText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+                const newPostHTML = `
+                <div class="glass-card post">
+                  <div class="post-header">
+                    <img src="https://i.pravatar.cc/150?img=1" alt="avatar" />
+                    <span>YourUsername</span>
+                    <div class="post-actions">
+                      <button class="btn btn-sm" data-tooltip="Edit your post">
+                        <i class="fas fa-edit"></i> Edit
+                      </button>
+                      <button class="btn btn-sm btn-danger" data-tooltip="Delete your post">
+                          <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </div>
+                  </div>
+                  <div class="post-body">
+                    <p>${escapedText}</p>
+                    <div class="post-meta">
+                      <span class="post-meta-item"><i class="far fa-clock"></i> Just now</span>
+                      <span class="post-meta-item"><i class="far fa-heart"></i> 0</span>
+                      <span class="post-meta-item"><i class="far fa-comment"></i> 0</span>
+                    </div>
+                  </div>
+                </div>
+                `;
+
+                // Add the new post to the top of the "For You" feed
+                forYouFeed.insertAdjacentHTML('afterbegin', newPostHTML);
+
+                // Add the new post *after* the Create Post card on "Your Page"
+                createPostCard.insertAdjacentHTML('afterend', newPostHTML);
+
+                // Clear the textarea
+                createPostTextarea.value = '';
+
+                // Optional: Show success notification
+                showNotification('Post created successfully!', 'success');
+
+            } else {
+                // Optional: Show error if post is empty
+                showNotification('Cannot create an empty post.', 'warning');
+            }
+        });
+    } else {
+        console.error("Could not find all necessary elements for post creation.");
+    }
+    // --- END: Create Post Functionality ---
+
+
   });
   </script>
 </body>
