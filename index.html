@@ -34,7 +34,7 @@
       color: #00ffff;
       margin-bottom: 30px;
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-      letter-spacing: 2px;
+      letter-spacing: 5px;
       animation: glow 4s infinite alternate, float 8s ease-in-out infinite;
       background: linear-gradient(90deg, #00ffff, #00c8c8, #00ffff);
       background-size: 200% auto;
@@ -757,6 +757,10 @@
 
 
     /* Trading Bot */
+    .table-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch; /* for smooth scrolling on iOS */
+    }
     .trading-table {
       width: 100%;
       border-collapse: collapse;
@@ -1567,6 +1571,7 @@
 
         <div class="glass-card">
           <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>Recent Trades</h2>
+          <div class="table-container">
            <table class="trading-table">
             <thead>
               <tr>
@@ -1615,6 +1620,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -1661,6 +1667,7 @@
 
         <div class="glass-card">
           <h2><i class="fas fa-history" style="margin-right: 10px;"></i>Purchase History</h2>
+          <div class="table-container"> 
           <table class="trading-table">
             <thead>
               <tr>
@@ -1709,6 +1716,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
