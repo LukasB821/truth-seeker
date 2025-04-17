@@ -35,7 +35,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: 
+      background:
         linear-gradient(rgba(18, 16, 16, 0.1) 50%, rgba(0, 0, 0, 0.25) 50%),
         linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
       background-size: 100% 4px, 4px 100%;
@@ -115,7 +115,7 @@
       border-radius: 3px;
     }
 
-    h3 { 
+    h3 {
       font-size: 1.75rem;
       color: var(--neon-green);
     }
@@ -124,6 +124,34 @@
       margin-bottom: 1rem;
       color: var(--text-secondary);
       font-size: 16px;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 20px;
+    }
+
+    ul li {
+        margin-bottom: 0.8rem;
+        position: relative;
+        padding-left: 25px;
+        color: var(--text-secondary);
+    }
+
+    ul li::before {
+        content: "\f101"; /* FontAwesome right arrow */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        color: var(--neon-blue);
+        position: absolute;
+        left: 0;
+        top: 2px;
+        transition: transform 0.3s ease;
+    }
+
+    ul li:hover::before {
+        transform: translateX(5px);
+        color: var(--neon-green);
     }
 
     /* Splash Screen */
@@ -177,7 +205,7 @@
 
     .splash-container .title {
       font-family: 'Press Start 2P', cursive;
-      font-size: 72px;
+      font-size: clamp(32px, 10vw, 72px); /* Responsive font size */
       color: var(--neon-blue);
       margin-bottom: 30px;
       text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
@@ -191,7 +219,7 @@
     }
 
     .splash-container p {
-      font-size: 18px;
+      font-size: clamp(14px, 4vw, 18px); /* Responsive font size */
       margin-bottom: 40px;
       color: var(--text-secondary);
     }
@@ -301,6 +329,7 @@
       display: inline-block;
       white-space: nowrap;
       animation: marquee 20s linear infinite;
+      padding-left: 100%; /* Start off screen */
     }
 
     .marquee-inner span {
@@ -312,7 +341,7 @@
 
     @keyframes marquee {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      100% { transform: translateX(-100%); } /* Move fully across */
     }
 
     /* Sidebar */
@@ -352,17 +381,12 @@
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
+      color: var(--text-primary); /* Ensure default color is set */
+      padding-left: 25px; /* Reset padding */
     }
 
-    .sidebar li::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 217, 232, 0.2), transparent);
-      transition: all 0.6s ease;
+    .sidebar li::before { /* Remove the ::before styling from global ul */
+        content: none;
     }
 
     .sidebar li i {
@@ -374,13 +398,24 @@
       text-align: center;
     }
 
+     .sidebar li::after { /* Add the hover effect */
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 217, 232, 0.2), transparent);
+      transition: all 0.6s ease;
+    }
+
     .sidebar li:hover {
       background: rgba(0, 217, 232, 0.1);
       color: var(--neon-green);
       box-shadow: inset 0 0 10px rgba(0, 217, 232, 0.3);
     }
 
-    .sidebar li:hover::before {
+    .sidebar li:hover::after { /* Corrected hover effect */
       left: 100%;
     }
 
@@ -394,6 +429,7 @@
       border-left: 4px solid var(--neon-blue);
       color: var(--neon-blue);
       box-shadow: inset 0 0 15px rgba(0, 217, 232, 0.3);
+      padding-left: 21px; /* Adjust padding for border */
     }
 
     .sidebar li.active i {
@@ -586,49 +622,49 @@
       border-color: var(--neon-green);
     }
 
-    .btn-success { 
-      border-color: var(--neon-green); 
+    .btn-success {
+      border-color: var(--neon-green);
       color: var(--neon-green);
       text-shadow: 0 0 5px var(--neon-green);
       box-shadow: 0 0 10px var(--neon-green);
     }
-    .btn-success:hover { 
-      background: var(--neon-green); 
+    .btn-success:hover {
+      background: var(--neon-green);
       color: var(--dark-bg);
       box-shadow: 0 0 20px var(--neon-green);
     }
-    .btn-success:active { 
-      background: #00cc88; 
+    .btn-success:active {
+      background: #00cc88;
     }
 
-    .btn-warning { 
-      border-color: var(--neon-yellow); 
+    .btn-warning {
+      border-color: var(--neon-yellow);
       color: var(--neon-yellow);
       text-shadow: 0 0 5px var(--neon-yellow);
       box-shadow: 0 0 10px var(--neon-yellow);
     }
-    .btn-warning:hover { 
-      background: var(--neon-yellow); 
+    .btn-warning:hover {
+      background: var(--neon-yellow);
       color: var(--dark-bg);
       box-shadow: 0 0 20px var(--neon-yellow);
     }
-    .btn-warning:active { 
-      background: #e6b800; 
+    .btn-warning:active {
+      background: #e6b800;
     }
 
-    .btn-danger { 
-      border-color: var(--neon-pink); 
+    .btn-danger {
+      border-color: var(--neon-pink);
       color: var(--neon-pink);
       text-shadow: 0 0 5px var(--neon-pink);
       box-shadow: 0 0 10px var(--neon-pink);
     }
-    .btn-danger:hover { 
-      background: var(--neon-pink); 
+    .btn-danger:hover {
+      background: var(--neon-pink);
       color: var(--dark-bg);
       box-shadow: 0 0 20px var(--neon-pink);
     }
-    .btn-danger:active { 
-      background: #cc3737; 
+    .btn-danger:active {
+      background: #cc3737;
     }
 
     /* Dashboard */
@@ -1270,6 +1306,46 @@
       animation: glitch 650ms infinite;
     }
 
+    /* White Paper Specific Styles */
+    #whitepaper ul {
+      list-style: none; /* Reset list style for whitepaper */
+      padding-left: 20px;
+      margin-top: 15px;
+    }
+
+    #whitepaper li {
+        margin-bottom: 0.8rem;
+        position: relative;
+        padding-left: 25px;
+        color: var(--text-secondary);
+    }
+
+    #whitepaper li::before {
+        content: "\f101"; /* FontAwesome right arrow */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        color: var(--neon-blue);
+        position: absolute;
+        left: 0;
+        top: 2px;
+        transition: transform 0.3s ease;
+    }
+
+    #whitepaper li:hover::before {
+        transform: translateX(5px);
+        color: var(--neon-green);
+    }
+
+    #whitepaper .disclaimer {
+        font-size: 14px;
+        color: var(--neon-yellow);
+        border-left: 3px solid var(--neon-yellow);
+        padding: 10px 15px;
+        background: rgba(247, 247, 0, 0.1);
+        margin-top: 25px;
+        font-style: italic;
+    }
+
     /* Responsive Design */
     @media (max-width: 1024px) {
       .main-content {
@@ -1374,7 +1450,7 @@
       <h1 class="title glitch">Hodl Vitality</h1>
       <p>CYBERPUNK CRYPTO TERMINAL v3.1.4</p>
       <div class="button-container">
-        <button class="btn btn-primary create-account pulse">
+        <button class="btn btn-primary create-account pulse" onclick="accessTerminal()">
           <i class="fas fa-user-plus"></i> ACCESS TERMINAL
         </button>
         <a href="#" id="loginButton" class="btn login">
@@ -1387,7 +1463,7 @@
   <div id="mainContent">
     <div class="header">
       <div class="logo">
-        <img src="hodl.jpeg" alt="HodlVitality Logo" class="logo-image">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDVkOWU4IiBkPSJNNTAsMEMyMi40LDAsMCwyMi40LDAsNTBzMjIuNCw1MCw1MCw1MHM1MC0yMi40LDUwLTUwUzc3LjYsMCw1MCwwWk03MC40LDY0LjdsLTYuNCwzLjJDNTkuMSw3MCw1Myw3Miw0Ny4zLDcyYy05LjMsMC0xNC45LTUuNS0xNC45LTEzLjVjMC04LjYsNS44LTEzLjgsMTUtMTMuOGMyLjksMCw1LjYsMC42LDcuOCwxLjdsNi41LTMuNmMtMy42LTIuNS04LjItMy45LTEzLjMtMy45Yy0xMy42LDAtMjIuOCw5LjUtMjIuOCwyMS43YzAsMTIuNyw5LjIsMjEuNCwyMy4xLDIxLjRjNS43LDAsMTEtMS42LDE1LjEtNC41bDYuMywzLjZMNzAuNCw2NC43WiIvPjwvc3ZnPg==" alt="HodlVitality Logo" class="logo-image">
       </div>
       <button id="hamburgerMenu" class="hamburger">
         <i class="fa-solid fa-bars"></i>
@@ -1402,11 +1478,11 @@
     <div class="marquee">
       <div class="marquee-inner">
          <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
-         <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | SOL: $95 (+3.2%) 📊</span>
-         <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE 🔌</span>
+         <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
+         <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
          <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
-         <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | SOL: $95 (+3.2%) 📊</span>
-         <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE 🔌</span>
+         <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
+         <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
       </div>
     </div>
 
@@ -1421,7 +1497,7 @@
         <li data-target="trading"><i class="fa-solid fa-robot"></i> TRADING BOT</li>
         <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA</li>
         <li data-target="exchanges"><i class="fa-solid fa-exchange-alt"></i> EXCHANGES</li>
-        <li data-target="news"><i class="fa-solid fa-newspaper"></i> NEWS</li>
+        <li data-target="whitepaper"><i class="fa-solid fa-file-alt"></i> WHITE PAPER</li> <li data-target="news"><i class="fa-solid fa-newspaper"></i> NEWS</li>
         <li data-target="resources"><i class="fa-solid fa-hat-wizard"></i> RESOURCES</li>
         <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> HELP CREATOR</li>
         <li data-target="account"><i class="fa-solid fa-user"></i> ACCOUNT</li>
@@ -1433,11 +1509,12 @@
     <div class="main-content">
       <div id="dashboard" class="tab-content active">
         <h1>DASHBOARD</h1>
-        <p class="mb-30">SYSTEM STATUS: ONLINE | LAST SYNC: TODAY 14:30 UTC</p>
+        <p class="mb-30">SYSTEM STATUS: ONLINE | LAST SYNC: <span id="syncTime"></span> | HODLVITALITY PRICE: $0.051</p>
 
         <div class="cyber-panel">
-          <h2><i class="fas fa-gift" style="margin-right: 10px;"></i>DAILY REWARD</h2>
-          <p>Claim your daily crypto reward allocation.</p>
+          <h2><i class="fas fa-gift" style="margin-right: 10px;"></i>DAILY HODLVITALITY REWARD</h2>
+          <p>Claim your daily HodlVitality (HVITAL) reward for engaging with the terminal.</p>
+          <p>Estimated Reward: <span id="dailyRewardAmount">10 HVITAL</span></p>
           <button id="dailyRewardButton" class="btn btn-primary mt-20 pulse">
             <i class="fas fa-gift"></i> CLAIM REWARD
           </button>
@@ -1449,12 +1526,12 @@
             <div class="stat-value text-primary">$12,450</div>
           </div>
           <div class="stat-card">
-            <h3>24H CHANGE</h3>
-            <div class="stat-value text-success">+2.5%</div>
+            <h3>HVITAL BALANCE</h3>
+            <div class="stat-value text-primary">1,250 HVITAL</div>
           </div>
           <div class="stat-card">
-            <h3>TOTAL GAINS</h3>
-            <div class="stat-value text-primary">+15.8%</div>
+            <h3>24H CHANGE</h3>
+            <div class="stat-value text-success">+2.5%</div>
           </div>
           <div class="stat-card">
             <h3>NEXT DCA</h3>
@@ -1463,30 +1540,30 @@
         </div>
 
         <div class="cyber-panel">
-          <h2><i class="fas fa-chart-bar" style="margin-right: 10px;"></i>MONTHLY TOKEN EARNINGS</h2>
+          <h2><i class="fas fa-chart-bar" style="margin-right: 10px;"></i>MONTHLY HVITAL EARNINGS</h2>
           <div class="bars">
-            <div class="bar-container" data-tooltip="JAN: 10 TOKENS">
-              <span class="value">10</span>
+            <div class="bar-container" data-tooltip="JAN: 100 HVITAL">
+              <span class="value">100</span>
               <div class="bar" style="height: 50px;"></div>
               <span class="label">JAN</span>
             </div>
-            <div class="bar-container" data-tooltip="FEB: 20 TOKENS">
-              <span class="value">20</span>
+            <div class="bar-container" data-tooltip="FEB: 200 HVITAL">
+              <span class="value">200</span>
               <div class="bar" style="height: 100px;"></div>
               <span class="label">FEB</span>
             </div>
-            <div class="bar-container" data-tooltip="MAR: 15 TOKENS">
-              <span class="value">15</span>
+            <div class="bar-container" data-tooltip="MAR: 150 HVITAL">
+              <span class="value">150</span>
               <div class="bar" style="height: 75px;"></div>
               <span class="label">MAR</span>
             </div>
-            <div class="bar-container" data-tooltip="APR: 25 TOKENS">
-              <span class="value">25</span>
+            <div class="bar-container" data-tooltip="APR: 250 HVITAL">
+              <span class="value">250</span>
               <div class="bar" style="height: 125px;"></div>
               <span class="label">APR</span>
             </div>
-            <div class="bar-container" data-tooltip="MAY: 30 TOKENS">
-              <span class="value">30</span>
+            <div class="bar-container" data-tooltip="MAY: 300 HVITAL">
+              <span class="value">300</span>
               <div class="bar" style="height: 150px;"></div>
               <span class="label">MAY</span>
             </div>
@@ -1519,12 +1596,16 @@
               <span id="walletAddress">N/A</span>
             </div>
             <div class="wallet-info-item">
-              <strong>BALANCE</strong>
+              <strong>LN BALANCE</strong>
               <span id="walletBalance">0 sats</span>
+            </div>
+             <div class="wallet-info-item">
+              <strong>HVITAL BALANCE</strong>
+              <span id="hvitalBalanceWallet">1,250 HVITAL</span>
             </div>
             <div class="wallet-info-item">
               <strong>NETWORK</strong>
-              <span>BITCOIN MAINNET</span>
+              <span>BITCOIN MAINNET / LIGHTNING</span>
             </div>
           </div>
         </div>
@@ -1533,9 +1614,24 @@
           <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRANSACTIONS</h2>
           <ul id="transactionsList">
              <li class="transaction-item">
-              <div>
-                <span>NO RECENT TRANSACTIONS</span>
-              </div>
+               <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">10 HVITAL</span> </div>
+               <div> <span>DAILY REWARD</span> </div>
+               <div> <span>JUST NOW</span> </div>
+            </li>
+             <li class="transaction-item">
+              <div> <span class="transaction-type transaction-in">IN</span> <span>1,000 sats</span> </div>
+               <div> <span>DEPOSIT</span> </div>
+              <div> <span>2 HOURS AGO</span> </div>
+            </li>
+            <li class="transaction-item">
+               <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">5 HVITAL</span> </div>
+               <div> <span>TIP @CRYPTOGURU</span> </div>
+               <div> <span>18 HOURS AGO</span> </div>
+            </li>
+            <li class="transaction-item">
+              <div> <span class="transaction-type transaction-out">OUT</span> <span>500 sats</span> </div>
+              <div> <span>PAYMENT</span> </div>
+              <div> <span>1 DAY AGO</span> </div>
             </li>
           </ul>
         </div>
@@ -1544,10 +1640,13 @@
           <h2><i class="fas fa-bolt" style="margin-right: 10px;"></i>QUICK ACTIONS</h2>
           <div class="wallet-actions">
             <button id="sendPayment" class="btn btn-warning">
-              <i class="fas fa-paper-plane"></i> SEND PAYMENT
+              <i class="fas fa-paper-plane"></i> SEND PAYMENT (LN)
             </button>
             <button id="receivePayment" class="btn btn-success">
-              <i class="fas fa-qrcode"></i> RECEIVE PAYMENT
+              <i class="fas fa-qrcode"></i> RECEIVE PAYMENT (LN)
+            </button>
+             <button id="sendHvital" class="btn btn-primary" data-tooltip="Send HodlVitality Tokens">
+              <i class="fas fa-paper-plane"></i> SEND HVITAL
             </button>
           </div>
         </div>
@@ -1555,7 +1654,7 @@
 
       <div id="social" class="tab-content">
         <h1><i class="fas fa-users" style="margin-right: 10px;"></i>SOCIAL FEED</h1>
-        <p class="mb-30">CRYPTO COMMUNITY NETWORK INTERFACE</p>
+        <p class="mb-30">CRYPTO COMMUNITY NETWORK INTERFACE | TIP USERS WITH HVITAL!</p>
 
         <div class="social-tabs">
           <div class="social-tab active" data-tab="following">FOR YOU</div>
@@ -1572,17 +1671,18 @@
                 <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTOGURU">
                   <i class="fas fa-user-plus"></i> FOLLOW
                 </button>
-                <a class="btn btn-sm btn-success send-btn" href="bravewallet://pay?address=bc1qcryptoguruaddress12345" data-tooltip="SEND A TIP TO CRYPTOGURU">
-                  <i class="fas fa-bolt"></i> TIP
-                </a>
+                <button class="btn btn-sm btn-success send-hvital-tip-btn" data-tooltip="TIP 5 HVITAL TO CRYPTOGURU" data-recipient="CRYPTOGURU">
+                  <i class="fas fa-coins"></i> TIP HVITAL
+                </button>
               </div>
             </div>
             <div class="post-body">
-              <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. #crypto #tradingbot</p>
+              <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. Thanks for the daily $HVITAL drops! #crypto #tradingbot #hodlvitality</p>
               <div class="post-meta">
                 <span class="post-meta-item" data-tooltip="POSTED 2 HOURS AGO"><i class="far fa-clock"></i> 2H AGO</span>
                 <span class="post-meta-item" data-tooltip="42 LIKES"><i class="far fa-heart"></i> 42</span>
                 <span class="post-meta-item" data-tooltip="8 COMMENTS"><i class="far fa-comment"></i> 8</span>
+                <span class="post-meta-item" data-tooltip="RECEIVED 15 HVITAL TIPS"><i class="fas fa-coins text-primary"></i> 15 HVITAL</span>
               </div>
             </div>
           </div>
@@ -1608,11 +1708,12 @@
                 </div>
               </div>
               <div class="post-body">
-                <p>THIS IS AN EXAMPLE OF A POST ON YOUR PAGE. USE THE AREA ABOVE TO SHARE YOUR OWN UPDATES!</p>
+                <p>Excited about the potential of $HVITAL! Claiming my daily rewards and learning more about crypto. #hodlvitality</p>
                 <div class="post-meta">
                     <span class="post-meta-item" data-tooltip="POSTED 1 HOUR AGO"><i class="far fa-clock"></i> 1H AGO</span>
                     <span class="post-meta-item" data-tooltip="5 LIKES"><i class="far fa-heart"></i> 5</span>
                     <span class="post-meta-item" data-tooltip="2 COMMENTS"><i class="far fa-comment"></i> 2</span>
+                     <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
                 </div>
               </div>
             </div>
@@ -1623,12 +1724,12 @@
             <h2>DISCOVER COMMUNITIES</h2>
             <p>FIND AND JOIN CRYPTO COMMUNITIES THAT MATCH YOUR INTERESTS.</p>
             <div class="wallet-actions" style="gap: 10px;">
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN BITCOIN COMMUNITY"> <i class="fas fa-bitcoin"></i> BITCOIN </button>
+               <button class="btn btn-sm community-tag" data-tooltip="JOIN BITCOIN COMMUNITY"> <i class="fab fa-bitcoin"></i> BITCOIN </button>
                <button class="btn btn-sm community-tag" data-tooltip="JOIN ETHEREUM COMMUNITY"> <i class="fab fa-ethereum"></i> ETHEREUM </button>
+               <button class="btn btn-sm community-tag" data-tooltip="JOIN HODLVITALITY COMMUNITY"> <i class="fas fa-coins"></i> HODLVITALITY </button>
                <button class="btn btn-sm community-tag" data-tooltip="JOIN TRADING COMMUNITY"> <i class="fas fa-chart-line"></i> TRADING </button>
                <button class="btn btn-sm community-tag" data-tooltip="JOIN DEFI COMMUNITY"> <i class="fas fa-coins"></i> DEFI </button>
                <button class="btn btn-sm community-tag" data-tooltip="JOIN NFTS COMMUNITY"> <i class="fas fa-palette"></i> NFTS </button>
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN ALTCOINS COMMUNITY"> <i class="fas fa-layer-group"></i> ALTCOINS </button>
             </div>
           </div>
         </div>
@@ -1659,24 +1760,27 @@
            <table class="trading-table">
             <thead>
               <tr>
-                <th>TIME</th> <th>SIGNAL</th> <th>PRICE</th> <th>AMOUNT</th> <th>STATUS</th>
+                <th>TIME</th> <th>SIGNAL</th> <th>PAIR</th> <th>PRICE</th> <th>AMOUNT</th> <th>STATUS</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>09:00</td> <td><span class="text-success">BUY</span></td> <td>$42,120</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                <td>09:00</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,120</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
               </tr>
               <tr>
-                <td>10:30</td> <td><span class="text-error">SELL</span></td> <td>$42,800</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                <td>10:30</td> <td><span class="text-error">SELL</span></td> <td>BTC/USD</td> <td>$42,800</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
               </tr>
               <tr>
-                <td>12:15</td> <td><span class="text-success">BUY</span></td> <td>$42,350</td> <td>0.007 BTC</td> <td><span class="status-active">ACTIVE</span></td>
-              </tr>
-              <tr>
-                <td>14:45</td> <td><span class="text-success">BUY</span></td> <td>$42,000</td> <td>0.010 BTC</td> <td><span class="status-pending">PENDING</span></td>
+                <td>12:15</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,350</td> <td>0.007 BTC</td> <td><span class="status-active">ACTIVE</span></td>
               </tr>
                <tr>
-                <td>16:00</td> <td><span class="text-error">STOP LOSS</span></td> <td>$41,800</td> <td>0.007 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                <td>13:30</td> <td><span class="text-success">BUY</span></td> <td>HVITAL/USD</td> <td>$0.050</td> <td>100 HVITAL</td> <td><span class="status-pending">PENDING</span></td>
+              </tr>
+              <tr>
+                <td>14:45</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,000</td> <td>0.010 BTC</td> <td><span class="status-pending">PENDING</span></td>
+              </tr>
+               <tr>
+                <td>16:00</td> <td><span class="text-error">STOP LOSS</span></td> <td>BTC/USD</td> <td>$41,800</td> <td>0.007 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
               </tr>
             </tbody>
           </table>
@@ -1741,6 +1845,7 @@
             <div class="exchange-stats">
                <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value text-success">CONNECTED</span> </div>
                <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">0.5 BTC</span> </div>
+               <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">5,000 HVITAL</span> </div>
                <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value text-success">ACTIVE</span> </div>
             </div>
           </div>
@@ -1753,6 +1858,7 @@
             <div class="exchange-stats">
                <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
                <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
+               <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
                <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
             </div>
           </div>
@@ -1765,12 +1871,81 @@
             <div class="exchange-stats">
                 <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
                 <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
                 <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
             </div>
           </div>
         </div>
       </div>
 
+      <div id="whitepaper" class="tab-content">
+        <h1><i class="fas fa-file-alt" style="margin-right: 10px;"></i>HODLVITALITY (HVITAL) WHITE PAPER</h1>
+        <p class="mb-30">VERSION 1.0 | PROTOCOL SPECIFICATION & VISION</p>
+
+        <div class="cyber-panel">
+          <h2><i class="fas fa-terminal" style="margin-right: 10px;"></i>ABSTRACT</h2>
+          <p>HodlVitality (HVITAL) is a utility token designed to reward user engagement within the HodlVitality Cyberpunk Crypto Terminal ecosystem. It operates on a simple, fair, and transparent protocol, distributing rewards daily to active users. The core philosophy emphasizes consistent user interaction and provides a foundational token for future platform features, while allocating a fixed percentage to the founding creator for ongoing development and maintenance.</p>
+        </div>
+
+        <div class="cyber-panel">
+          <h2><i class="fas fa-cogs" style="margin-right: 10px;"></i>CORE CONCEPT: DAILY VITALITY REWARDS</h2>
+          <p>The primary distribution mechanism for HVITAL is the Daily Vitality Reward. This system is designed to be straightforward and incentivize regular platform usage.</p>
+          <ul>
+            <li><strong class="text-primary">Eligibility:</strong> Any registered user who logs into the HodlVitality Terminal is eligible for the daily reward.</li>
+            <li><strong class="text-primary">Claiming Mechanism:</strong> Users must actively claim their reward once per 24-hour cycle via the designated "Claim Reward" button on the Dashboard.</li>
+            <li><strong class="text-primary">Reward Amount:</strong> The base daily reward amount is fixed (e.g., 10 HVITAL) but may be subject to future adjustments based on protocol governance or promotional events.</li>
+            <li><strong class="text-primary">Fairness:</strong> The protocol ensures that each eligible user can claim the reward only once per cycle, preventing abuse and ensuring equitable distribution among active participants.</li>
+          </ul>
+        </div>
+
+        <div class="cyber-panel">
+          <h2><i class="fas fa-coins" style="margin-right: 10px;"></i>TOKENOMICS (HVITAL)</h2>
+          <p>The HVITAL tokenomics are designed for simplicity and sustainability within the HodlVitality ecosystem.</p>
+          <ul>
+            <li><strong class="text-primary">Token Ticker:</strong> HVITAL</li>
+            <li><strong class="text-primary">Total Supply:</strong> 1,000,000,000 HVITAL (One Billion) - Fixed Supply. No further minting beyond the initial structure.</li>
+            <li><strong class="text-primary">Distribution Pool:</strong> A significant portion of the total supply (e.g., 70% = 700,000,000 HVITAL) is allocated to the Daily Vitality Rewards pool, distributed over time.</li>
+            <li><strong class="text-primary">Creator Allocation:</strong> 10% of the total supply (100,000,000 HVITAL) is allocated to the original creator. This allocation vests linearly over a period of 48 months from the protocol launch date to ensure long-term commitment.</li>
+             <li><strong class="text-primary">Ecosystem Growth:</strong> 15% of the total supply (150,000,000 HVITAL) is reserved for future ecosystem development, partnerships, marketing, and community initiatives.</li>
+             <li><strong class="text-primary">Liquidity & Exchange:</strong> 5% of the total supply (50,000,000 HVITAL) is allocated for providing initial liquidity on potential future exchange listings.</li>
+            <li><strong class="text-primary">Utility (Initial):</strong>
+                <ul>
+                    <li>Tipping other users within the Social Feed.</li>
+                    <li>Potential future access to premium features or data within the terminal.</li>
+                    <li>Participation in future governance votes regarding protocol parameters.</li>
+                </ul>
+            </li>
+          </ul>
+        </div>
+
+         <div class="cyber-panel">
+          <h2><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>PROTOCOL & FAIRNESS</h2>
+          <p>The HodlVitality protocol prioritizes fairness, transparency, and simplicity.</p>
+          <ul>
+            <li><strong class="text-primary">Transparency:</strong> All reward distributions and allocations (including creator vesting) will be verifiable (details TBD - potentially on a public ledger or via transparent database logs accessible to users).</li>
+            <li><strong class="text-primary">Simplicity:</strong> The core reward mechanism is intentionally simple to understand and participate in.</li>
+            <li><strong class="text-primary">Fair Distribution:</strong> The daily claim limit ensures rewards are spread across the active user base rather than concentrated.</li>
+            <li><strong class="text-primary">Technology Stack:</strong> While initially managed via a centralized ledger within the HodlVitality application for simplicity and speed, future iterations may explore migration to a decentralized blockchain solution if deemed beneficial for the ecosystem.</li>
+          </ul>
+        </div>
+
+        <div class="cyber-panel">
+            <h2><i class="fas fa-road" style="margin-right: 10px;"></i>ROADMAP SNIPPETS</h2>
+            <p>Future development may include:</p>
+             <ul>
+                <li>Enhanced utility for HVITAL (e.g., feature unlocks, cosmetic upgrades).</li>
+                <li>Integration with additional crypto services.</li>
+                <li>Exploration of decentralized identity solutions.</li>
+                <li>Community governance mechanisms via HVITAL staking.</li>
+                <li>Potential listing on select decentralized or centralized exchanges (subject to feasibility and regulations).</li>
+             </ul>
+        </div>
+
+        <div class="cyber-panel">
+          <h2><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>DISCLAIMER</h2>
+          <p class="disclaimer">HodlVitality (HVITAL) is a utility token designed for use within the HodlVitality platform. It is not intended as an investment vehicle or security. The value of HVITAL can fluctuate and may be subject to market risks. Users should conduct their own research and understand the risks involved before acquiring or using HVITAL. The creators make no guarantees regarding the future value or utility of the token. This white paper is for informational purposes only and does not constitute financial advice.</p>
+        </div>
+      </div>
       <div id="news" class="tab-content">
         <h1><i class="fas fa-newspaper" style="margin-right: 10px;"></i>CRYPTO NEWS</h1>
         <p class="mb-30">LATEST CRYPTOCURRENCY MARKET UPDATES</p>
@@ -1786,6 +1961,17 @@
             <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 2 HOURS AGO</span> </div>
           </div>
         </div>
+         <div class="cyber-panel post">
+          <div class="post-header">
+            <img src="https://i.pravatar.cc/150?img=12" alt="avatar" /> <span>ALTCOIN WATCH</span>
+            <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW ALTCOIN WATCH"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
+          </div>
+          <div class="post-body">
+            <h3>HODLVITALITY (HVITAL) SEES INCREASED ACTIVITY AFTER PROTOCOL LAUNCH</h3>
+            <p>The newly launched HodlVitality token ($HVITAL) integrated into the Cyberpunk Terminal is seeing growing daily claims and social tipping activity...</p>
+            <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 45 MINUTES AGO</span> </div>
+          </div>
+        </div>
       </div>
 
       <div id="resources" class="tab-content">
@@ -1795,7 +1981,8 @@
         <div class="cyber-panel">
           <h2><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>BEGINNER GUIDES</h2>
           <div class="wallet-info">
-             <div class="wallet-info-item"> <h3>BITCOIN WHITEPAPER</h3> <p>THE ORIGINAL PAPER BY SATOSHI NAKAMOTO</p> <button class="btn btn-sm mt-20" data-tooltip="READ WHITEPAPER"> <i class="fas fa-book"></i> READ </button> </div>
+             <div class="wallet-info-item"> <h3>HODLVITALITY FAQ</h3> <p>FREQUENTLY ASKED QUESTIONS ABOUT HVITAL</p> <button class="btn btn-sm mt-20" data-tooltip="READ HVITAL FAQ" onclick="navigateToTab('whitepaper')"> <i class="fas fa-question-circle"></i> READ FAQ </button> </div>
+             <div class="wallet-info-item"> <h3>BITCOIN WHITEPAPER</h3> <p>THE ORIGINAL PAPER BY SATOSHI NAKAMOTO</p> <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" class="btn btn-sm mt-20" data-tooltip="READ WHITEPAPER"> <i class="fas fa-book"></i> READ </a> </div>
              <div class="wallet-info-item"> <h3>CRYPTO SECURITY 101</h3> <p>LEARN HOW TO KEEP YOUR CRYPTO SAFE</p> <button class="btn btn-sm mt-20" data-tooltip="LEARN SECURITY BASICS"> <i class="fas fa-shield-alt"></i> LEARN </button> </div>
              <div class="wallet-info-item"> <h3>WHAT IS BLOCKCHAIN?</h3> <p>A SIMPLE EXPLANATION</p> <button class="btn btn-sm mt-20" data-tooltip="EXPLAIN BLOCKCHAIN"> <i class="fas fa-link"></i> EXPLAIN </button> </div>
           </div>
@@ -1805,7 +1992,7 @@
       <div id="helpcreator" class="tab-content">
         <h1><i class="fas fa-qrcode" style="margin-right: 10px;"></i>SUPPORT THE CREATOR</h1>
         <div class="donate-text">
-          <p>IF YOU FIND HODLVITALITY VALUABLE, CONSIDER SUPPORTING ITS DEVELOPMENT WITH A DONATION. YOUR SUPPORT HELPS FUND IMPROVEMENTS AND NEW FEATURES.</p>
+          <p>IF YOU FIND HODLVITALITY VALUABLE, CONSIDER SUPPORTING ITS DEVELOPMENT WITH A DONATION VIA LIGHTNING OR BITCOIN. YOUR SUPPORT HELPS FUND IMPROVEMENTS AND NEW FEATURES.</p>
         </div>
 
         <div class="qr-container">
@@ -1814,7 +2001,7 @@
           <div class="donate-address">
             bc1qsimulateddonationaddress1234567890
           </div>
-          <button class="btn btn-primary" onclick="navigator.clipboard.writeText('bc1qsimulateddonationaddress1234567890')" data-tooltip="COPY BTC ADDRESS">
+          <button class="btn btn-primary" onclick="copyToClipboard('bc1qsimulateddonationaddress1234567890', 'BTC Address Copied!')" data-tooltip="COPY BTC ADDRESS">
             <i class="fas fa-copy"></i> COPY ADDRESS
           </button>
         </div>
@@ -1822,9 +2009,11 @@
         <div class="cyber-panel mt-30">
           <h2><i class="fas fa-road" style="margin-right: 10px;"></i>DEVELOPMENT ROADMAP</h2>
           <ul style="list-style-type: none;">
-             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> WALLET INTEGRATION (CURRENT)</h3> <p>CONNECT EXISTING WALLETS.</p> </li>
-             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> ADVANCED TRADING FEATURES (NEXT)</h3> <p>MORE INDICATORS, BACKTESTING.</p> </li>
-             <li> <h3><span class="text-secondary">○</span> MOBILE APP (FUTURE)</h3> <p>FULL-FEATURED MOBILE EXPERIENCE.</p> </li>
+             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> CORE PROTOCOL V1 & DAILY REWARDS (LIVE)</h3> <p>HVITAL distribution via daily claims.</p> </li>
+             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> HVITAL SOCIAL TIPPING (LIVE)</h3> <p>Tip users with HVITAL tokens.</p> </li>
+             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> ADVANCED TRADING FEATURES (NEXT)</h3> <p>More indicators, backtesting, potential HVITAL pairs.</p> </li>
+              <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> GOVERNANCE FRAMEWORK (PLANNED)</h3> <p>Implement voting mechanism using HVITAL.</p> </li>
+             <li> <h3><span class="text-secondary">○</span> MOBILE APP (FUTURE)</h3> <p>Full-featured mobile experience.</p> </li>
           </ul>
         </div>
       </div>
@@ -1841,6 +2030,7 @@
               <div class="stat-row"> <span class="stat-label">FOLLOWERS:</span> <span class="stat-value">128</span> </div>
               <div class="stat-row"> <span class="stat-label">FOLLOWING:</span> <span class="stat-value">42</span> </div>
               <div class="stat-row"> <span class="stat-label">POSTS:</span> <span class="stat-value">18</span> </div>
+               <div class="stat-row"> <span class="stat-label">HVITAL EARNED:</span> <span class="stat-value">1,250 HVITAL</span> </div>
             </div>
           </div>
 
@@ -1898,15 +2088,87 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Splash screen Login button event
-      document.getElementById('loginButton').addEventListener('click', function(e) {
-        e.preventDefault();
+    // Function to access terminal (replaces create-account click)
+    function accessTerminal() {
         document.getElementById('splashScreen').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
         setTimeout(() => {
           document.getElementById('mainContent').classList.add('active');
+          // Set initial sync time
+          updateSyncTime();
+          // Start timer to update sync time periodically
+          setInterval(updateSyncTime, 60000); // Update every minute
         }, 10);
+    }
+
+    // Update Sync Time Function
+    function updateSyncTime() {
+        const syncTimeEl = document.getElementById('syncTime');
+        if (syncTimeEl) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            syncTimeEl.textContent = `TODAY ${timeString} UTC`; // Assuming UTC for consistency
+        }
+    }
+
+     // Global Notification function
+    function showNotification(message, type = 'info', duration = 3000) {
+        const notification = document.createElement('div');
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        let bgColor = 'var(--neon-blue)';
+        let textColor = 'var(--dark-bg)';
+        if (type === 'error') { bgColor = 'var(--neon-pink)'; textColor = 'white'; }
+        else if (type === 'success') { bgColor = 'var(--neon-green)'; textColor = 'var(--dark-bg)'; }
+        else if (type === 'warning') { bgColor = 'var(--neon-yellow)'; textColor = 'var(--dark-bg)'; }
+
+        notification.style.backgroundColor = bgColor;
+        notification.style.color = textColor;
+        notification.style.padding = '15px 25px';
+        notification.style.borderRadius = '0';
+        notification.style.boxShadow = `0 0 20px ${bgColor}`;
+        notification.style.zIndex = '2000';
+        notification.style.animation = 'fadeIn 0.3s ease-out';
+        notification.style.fontFamily = "'Share Tech Mono', monospace";
+        notification.style.fontSize = '15px';
+        notification.style.border = `2px solid ${bgColor}`;
+        notification.innerHTML = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(20px)';
+            setTimeout(() => {
+            notification.remove();
+            }, 300);
+        }, duration);
+    }
+
+    // Clipboard copy function
+    function copyToClipboard(text, successMessage) {
+        navigator.clipboard.writeText(text).then(() => {
+            showNotification(successMessage, 'success');
+        }).catch(err => {
+             showNotification('FAILED TO COPY', 'error');
+             console.error('Clipboard Error:', err);
+        });
+    }
+
+    // Function to navigate to a specific tab programmatically
+    function navigateToTab(targetId) {
+        const targetTab = document.querySelector(`.sidebar li[data-target="${targetId}"]`);
+        if (targetTab) {
+            targetTab.click(); // Simulate click on the tab
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Splash screen Login button event
+      document.getElementById('loginButton').addEventListener('click', function(e) {
+        e.preventDefault();
+        accessTerminal(); // Use the access function
       });
 
       /*** Tab Navigation ***/
@@ -1937,14 +2199,17 @@
           }
 
           // Scroll to top of content area
-          mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+          // Use documentElement for broader compatibility
+          document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+          document.body.scrollTo({ top: 0, behavior: 'smooth' }); // Fallback for older browsers
+
 
            // Re-initialize charts if they are in the newly activated tab
-           if (targetId === 'trading' && bitcoinChart) bitcoinChart.update();
-           if (targetId === 'dca' && dcaChart) dcaChart.update();
+           if (targetId === 'trading' && bitcoinChartInstance) bitcoinChartInstance.update();
+           if (targetId === 'dca' && dcaChartInstance) dcaChartInstance.update();
            if (targetId === 'account') {
-               if(walletGainsChart) walletGainsChart.update();
-               if(tradingBotGainsChart) tradingBotGainsChart.update();
+               if(walletGainsChartInstance) walletGainsChartInstance.update();
+               if(tradingBotGainsChartInstance) tradingBotGainsChartInstance.update();
            }
         });
       });
@@ -1963,567 +2228,709 @@
         sidebar.classList.remove('open');
         overlay.classList.remove('active');
         document.body.classList.remove('no-scroll');
-              };
+      };
 
-              closeSidebar.addEventListener('click', closeSidebarAction);
-              overlay.addEventListener('click', closeSidebarAction);
+      closeSidebar.addEventListener('click', closeSidebarAction);
+      overlay.addEventListener('click', closeSidebarAction);
 
-              /*** Daily Reward Button ***/
-              const dailyRewardButton = document.getElementById('dailyRewardButton');
-              if (dailyRewardButton) {
-                  dailyRewardButton.addEventListener('click', function () {
-                    this.innerHTML = '<i class="fas fa-check"></i> REWARD CLAIMED';
-                    this.classList.remove('btn-primary', 'pulse');
-                    this.classList.add('btn-success');
-                    this.disabled = true;
-                    showNotification('<i class="fas fa-gift"></i> DAILY REWARD CLAIMED! +10 TOKENS', 'success');
-                  });
-              }
+      /*** Daily Reward Button ***/
+      let dailyRewardClaimed = false; // State variable
+      const dailyRewardButton = document.getElementById('dailyRewardButton');
+      const dailyRewardAmountSpan = document.getElementById('dailyRewardAmount');
+      const dailyRewardAmount = 10; // Example amount
 
-              // Notification function
-              function showNotification(message, type = 'info', duration = 3000) {
-                const notification = document.createElement('div');
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.right = '20px';
-                let bgColor = 'var(--neon-blue)';
-                let textColor = 'var(--dark-bg)';
-                if (type === 'error') { bgColor = 'var(--neon-pink)'; textColor = 'white'; }
-                else if (type === 'success') { bgColor = 'var(--neon-green)'; textColor = 'var(--dark-bg)'; }
-                else if (type === 'warning') { bgColor = 'var(--neon-yellow)'; textColor = 'var(--dark-bg)'; }
+      if (dailyRewardButton) {
+          dailyRewardButton.addEventListener('click', function () {
+            if (!dailyRewardClaimed) {
+                this.innerHTML = '<i class="fas fa-check"></i> REWARD CLAIMED';
+                this.classList.remove('btn-primary', 'pulse');
+                this.classList.add('btn-success');
+                this.disabled = true;
+                dailyRewardClaimed = true; // Set state
 
-                notification.style.backgroundColor = bgColor;
-                notification.style.color = textColor;
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '0';
-                notification.style.boxShadow = `0 0 20px ${bgColor}`;
-                notification.style.zIndex = '2000';
-                notification.style.animation = 'fadeIn 0.3s ease-out';
-                notification.style.fontFamily = "'Share Tech Mono', monospace";
-                notification.style.fontSize = '15px';
-                notification.style.border = `2px solid ${bgColor}`;
-                notification.innerHTML = message;
-                document.body.appendChild(notification);
-
-                setTimeout(() => {
-                  notification.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                  notification.style.opacity = '0';
-                  notification.style.transform = 'translateX(20px)';
-                  setTimeout(() => {
-                    notification.remove();
-                  }, 300);
-                }, duration);
-              }
-
-              /*** Wallet Functions ***/
-              let isWalletConnected = false;
-
-              function updateWalletUI(connected, pubkey = 'N/A', balance = '0 sats') {
-                 const statusEl = document.getElementById('walletStatus');
-                 const addressEl = document.getElementById('walletAddress');
-                 const balanceEl = document.getElementById('walletBalance');
-                 const connectHeaderBtn = document.getElementById('connectWalletHeader');
-                 const connectTabBtn = document.getElementById('connectWalletTab');
-                 const copyBtn = document.getElementById('copyAddress');
-                 const transactionList = document.getElementById('transactionsList');
-
-                 if (connected) {
-                      statusEl.innerHTML = `<i class="fas fa-check-circle text-success"></i> CONNECTED: LIGHTNING WALLET`;
-                      addressEl.innerText = pubkey;
-                      balanceEl.innerText = balance;
-                      connectHeaderBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONNECTED';
-                      connectTabBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONNECTED';
-                      connectHeaderBtn.disabled = true;
-                      connectTabBtn.disabled = true;
-                      connectHeaderBtn.classList.add('btn-success');
-                      connectTabBtn.classList.add('btn-success');
-                      copyBtn.style.display = 'inline-block';
-                      isWalletConnected = true;
-
-                      transactionList.innerHTML = `
-                         <li class="transaction-item"> 
-                           <div> <span class="transaction-type transaction-in">IN</span> <span>1,000 sats</span> </div> 
-                           <div> <span>2 HOURS AGO</span> </div> 
-                         </li>
-                         <li class="transaction-item"> 
-                           <div> <span class="transaction-type transaction-out">OUT</span> <span>500 sats</span> </div> 
-                           <div> <span>1 DAY AGO</span> </div> 
-                         </li>
-                         <li class="transaction-item"> 
-                           <div> <span class="transaction-type transaction-in">IN</span> <span>2,000 sats</span> </div> 
-                           <div> <span>3 DAYS AGO</span> </div> 
-                         </li>`;
-                 } else {
-                      statusEl.innerText = 'WALLET NOT CONNECTED';
-                      addressEl.innerText = 'N/A';
-                      balanceEl.innerText = '0 sats';
-                      connectHeaderBtn.innerHTML = '<i class="fas fa-wallet"></i> CONNECT WALLET';
-                      connectTabBtn.innerHTML = '<i class="fas fa-plug"></i> CONNECT WALLET';
-                      connectHeaderBtn.disabled = false;
-                      connectTabBtn.disabled = false;
-                      connectHeaderBtn.classList.remove('btn-success');
-                      connectTabBtn.classList.remove('btn-success');
-                      copyBtn.style.display = 'none';
-                      transactionList.innerHTML = `<li class="transaction-item"><div><span>NO RECENT TRANSACTIONS</span></div></li>`;
-                      isWalletConnected = false;
-                 }
-              }
-
-              async function connectWallet() {
-                if (window.webln) {
-                  try {
-                    showNotification('ATTEMPTING TO CONNECT WALLET...');
-                    await window.webln.enable();
-                    const info = await window.webln.getInfo();
-                    const balanceInfo = await window.webln.getBalance();
-                    const pubkey = info?.node?.pubkey ?? 'UNAVAILABLE';
-                    const balance = balanceInfo?.balance ? `${balanceInfo.balance.toLocaleString()} sats` : 'UNAVAILABLE';
-
-                    updateWalletUI(true, pubkey, balance);
-                    showNotification('WALLET CONNECTED SUCCESSFULLY!', 'success');
-
-                  } catch (error) {
-                    console.error("WEBLN ERROR:", error);
-                    showNotification(`ERROR CONNECTING WALLET: ${error.message}`, 'error');
-                    updateWalletUI(false);
-                  }
-                } else {
-                  showNotification("WEBLN PROVIDER NOT FOUND. INSTALL ALBY OR BRAVE WALLET.", 'warning', 5000);
-                  updateWalletUI(false);
+                // Simulate updating HVITAL balance (add this logic if needed)
+                const hvitalBalanceEl = document.getElementById('hvitalBalanceWallet');
+                if (hvitalBalanceEl) {
+                    let currentBalance = parseInt(hvitalBalanceEl.innerText.replace(' HVITAL', ''), 10);
+                    hvitalBalanceEl.innerText = `${currentBalance + dailyRewardAmount} HVITAL`;
                 }
-              }
+                // Update dashboard balance too if separate element exists
 
-             async function sendPayment() {
-                 if (!isWalletConnected) {
-                     showNotification("PLEASE CONNECT YOUR WALLET FIRST.", 'warning');
-                     return;
-                 }
-                 if (window.webln && window.webln.sendPayment) {
-                     const invoice = prompt("ENTER LIGHTNING INVOICE (BOLT11):");
-                     if (invoice && invoice.startsWith('ln')) {
-                         try {
-                             showNotification('SENDING PAYMENT...');
-                             const result = await window.webln.sendPayment(invoice);
-                             console.log("PAYMENT RESULT:", result);
-                             showNotification(`PAYMENT SENT! PREIMAGE: ${result?.preimage?.substring(0,10)}...`, 'success', 5000);
-                         } catch (error) {
-                             console.error("SEND PAYMENT ERROR:", error);
-                             showNotification(`PAYMENT FAILED: ${error.message}`, 'error', 5000);
-                         }
-                     } else if (invoice) {
-                         showNotification("INVALID LIGHTNING INVOICE FORMAT.", 'error');
-                     }
-                 } else {
-                     showNotification("SENDPAYMENT NOT AVAILABLE. CHECK YOUR WEBLN PROVIDER.", 'warning');
-                 }
-             }
+                showNotification(`<i class="fas fa-gift"></i> DAILY REWARD CLAIMED! +${dailyRewardAmount} HVITAL`, 'success');
 
-             async function receivePayment() {
-                 if (!isWalletConnected) {
-                     showNotification("PLEASE CONNECT YOUR WALLET FIRST.", 'warning');
-                     return;
-                 }
-                 if (window.webln && window.webln.makeInvoice) {
-                     const amount = prompt("ENTER AMOUNT IN SATS (E.G., 1000):");
-                     if (amount && !isNaN(parseInt(amount, 10)) && parseInt(amount, 10) > 0) {
-                         try {
-                              showNotification('CREATING INVOICE...');
-                              const result = await window.webln.makeInvoice({ amount: parseInt(amount, 10) });
-                              const invoice = result.paymentRequest;
-
-                              const modalOverlay = document.createElement('div');
-                              modalOverlay.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 2500; backdrop-filter: blur(5px); padding: 15px;`;
-                              modalOverlay.onclick = (e) => { if(e.target === modalOverlay) modalOverlay.remove(); };
-
-                              const modalContent = document.createElement('div');
-                              modalContent.style.cssText = `background: var(--panel-bg); color: var(--text-primary); padding: 30px; border-radius: 0; box-shadow: 0 0 30px var(--neon-blue); max-width: 500px; width: 100%; border: 2px solid var(--neon-blue); text-align: center;`;
-
-                              modalContent.innerHTML = `
-                                 <h3 style="color: var(--neon-blue); margin-bottom: 15px; font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">RECEIVE PAYMENT</h3>
-                                 <p style="color: var(--text-secondary); margin-bottom: 20px;">SCAN QR CODE OR COPY INVOICE:</p>
-                                 <div id="receiveQR" style="background: white; padding: 10px; border-radius: 0; margin: 0 auto 20px; display: inline-block;"></div>
-                                 <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 0; font-family: monospace; word-break: break-all; margin-bottom: 25px; font-size: 12px; text-align: left; border: 1px solid var(--neon-blue);">${invoice}</div>
-                                 <div style="display: flex; gap: 15px;">
-                                     <button id="copyInvoiceBtnModal" class="btn btn-sm btn-primary" style="flex: 1;"> <i class="fas fa-copy"></i> COPY INVOICE </button>
-                                     <button id="closeInvoiceBtnModal" class="btn btn-sm" style="flex: 1;"> <i class="fas fa-times"></i> CLOSE </button>
-                                 </div>
-                              `;
-
-                              modalOverlay.appendChild(modalContent);
-                              document.body.appendChild(modalOverlay);
-
-                              new QRCode(modalContent.querySelector("#receiveQR"), {
-                                  text: `lightning:${invoice}`,
-                                  width: 180,
-                                  height: 180,
-                                  colorDark: "#000000",
-                                  colorLight: "#ffffff",
-                                  correctLevel: QRCode.CorrectLevel.M
-                              });
-
-                              modalContent.querySelector('#copyInvoiceBtnModal').onclick = () => {
-                                  navigator.clipboard.writeText(invoice).then(() => {
-                                      showNotification('INVOICE COPIED!', 'success');
-                                  });
-                              };
-                              modalContent.querySelector('#closeInvoiceBtnModal').onclick = () => {
-                                  modalOverlay.remove();
-                              };
-
-                         } catch (error) {
-                             console.error("INVOICE CREATION ERROR:", error);
-                             showNotification(`INVOICE CREATION FAILED: ${error.message}`, 'error', 5000);
-                         }
-                     } else if (amount) {
-                         showNotification("PLEASE ENTER A VALID POSITIVE NUMBER FOR SATS.", 'error');
-                     }
-                 } else {
-                     showNotification("MAKEINVOICE NOT AVAILABLE. CHECK YOUR WEBLN PROVIDER.", 'warning');
-                 }
-             }
-
-              /*** Wallet Event Listeners ***/
-               const connectWalletHeader = document.getElementById('connectWalletHeader');
-               const connectWalletTab = document.getElementById('connectWalletTab');
-               const sendPaymentButton = document.getElementById('sendPayment');
-               const receivePaymentButton = document.getElementById('receivePayment');
-               const copyAddressButton = document.getElementById('copyAddress');
-
-               if (connectWalletHeader) connectWalletHeader.addEventListener('click', connectWallet);
-               if (connectWalletTab) connectWalletTab.addEventListener('click', connectWallet);
-               if (sendPaymentButton) sendPaymentButton.addEventListener('click', sendPayment);
-               if (receivePaymentButton) receivePaymentButton.addEventListener('click', receivePayment);
-               if (copyAddressButton) {
-                    copyAddressButton.addEventListener('click', () => {
-                        const walletAddress = document.getElementById('walletAddress').innerText;
-                        if (walletAddress && walletAddress !== 'N/A') {
-                            navigator.clipboard.writeText(walletAddress).then(() => {
-                                showNotification('WALLET ADDRESS COPIED!', 'success');
-                            }).catch(err => {
-                                 showNotification('FAILED TO COPY ADDRESS', 'error');
-                            });
-                        }
-                    });
-               }
-
-               /*** Chart Variables ***/
-               let bitcoinChart = null;
-               let dcaChart = null;
-               let walletGainsChart = null;
-               let tradingBotGainsChart = null;
-
-               /*** Chart Common Options & Functions ***/
-                const commonChartOptions = {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                      y: {
-                        beginAtZero: false,
-                        ticks: { color: '#b0b0b0', font: { family: 'Share Tech Mono' } },
-                        grid: { color: 'rgba(0, 217, 232, 0.2)', borderDash: [3, 3] }
-                      },
-                      x: {
-                        ticks: { color: '#b0b0b0', font: { family: 'Share Tech Mono' } },
-                        grid: { display: false }
-                      }
-                    },
-                    plugins: {
-                      legend: { labels: { color: 'var(--text-primary)', font: { family: 'Share Tech Mono' } } },
-                      tooltip: {
-                        enabled: true,
-                        backgroundColor: 'var(--panel-bg)',
-                        titleColor: 'var(--neon-blue)',
-                        bodyColor: 'var(--text-primary)',
-                        borderColor: 'var(--neon-blue)',
-                        borderWidth: 1,
-                        padding: 12,
-                        titleFont: { family: 'Orbitron', weight: 'normal', size: 16 },
-                        bodyFont: { family: 'Share Tech Mono' },
-                        boxPadding: 5,
-                        callbacks: {
-                          label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) label += ': ';
-                            if (context.parsed.y !== null) {
-                                 const scale = context.chart.options.scales.y;
-                                 if (scale?.ticks?.callback && scale.ticks.callback(1).includes('%')) {
-                                    label += context.parsed.y.toFixed(1) + '%';
-                                 } else {
-                                    label += '$' + context.parsed.y.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                                 }
-                            }
-                            return label;
-                          }
-                        }
-                      }
-                    },
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    hover: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                };
-
-               // Deep merge function for chart options
-               function mergeOptions(target, ...sources) {
-                    sources.forEach(source => {
-                        Object.keys(source).forEach(key => {
-                            const targetValue = target[key];
-                            const sourceValue = source[key];
-                            if (sourceValue instanceof Object && !(sourceValue instanceof Array) && targetValue instanceof Object) {
-                                Object.assign(sourceValue, mergeOptions(targetValue, sourceValue));
-                            }
-                        });
-                    });
-                    return Object.assign(target || {}, ...sources);
-               }
-
-              /*** Trading Bot Chart ***/
-              const bitcoinChartCtx = document.getElementById('bitcoinChart')?.getContext('2d');
-              if (bitcoinChartCtx) {
-                  const priceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350, 42400, 42650, 42550, 42700, 42900];
-                  const labels = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'MON+1', 'TUE+1', 'WED+1', 'THU+1', 'FRI+1'];
-
-                  bitcoinChart = new Chart(bitcoinChartCtx, {
-                    type: 'line',
-                    data: {
-                      labels: labels,
-                      datasets: [{
-                        label: 'BTC PRICE (USD)',
-                        data: priceData,
-                        borderColor: 'rgba(5, 217, 232, 1)',
-                        borderWidth: 2.5,
-                        fill: true,
-                        backgroundColor: 'rgba(0, 217, 232, 0.1)',
-                        tension: 0.4,
-                        pointBackgroundColor: 'rgba(5, 217, 232, 1)',
-                        pointBorderColor: 'rgba(13, 2, 33, 1)',
-                        pointBorderWidth: 1.5,
-                        pointRadius: 4,
-                        pointHoverRadius: 7,
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(5, 217, 232, 1)'
-                      }]
-                    },
-                    options: mergeOptions({}, commonChartOptions, {
-                        plugins: { tooltip: { callbacks: { label: (ctx) => `BTC: $${ctx.parsed.y.toLocaleString()}` } } }
-                    })
-                  });
-
-                  const buySuggestion = Math.min(...priceData) * 0.995;
-                  const sellSuggestion = Math.max(...priceData) * 1.005;
-                  const priceSuggestionsEl = document.getElementById('priceSuggestions');
-                  if (priceSuggestionsEl) {
-                    priceSuggestionsEl.innerHTML = `
-                    <div class="wallet-info" style="grid-template-columns: 1fr 1fr; gap: 15px;">
-                      <div class="wallet-info-item" style="border-left-color: var(--neon-green);">
-                        <strong><i class="fas fa-arrow-down text-success"></i> POTENTIAL BUY ZONE</strong>
-                        <span style="font-size: 1.1em; color: var(--text-primary);">$${buySuggestion.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
-                      </div>
-                      <div class="wallet-info-item" style="border-left-color: var(--neon-pink);">
-                        <strong><i class="fas fa-arrow-up text-error"></i> POTENTIAL SELL ZONE</strong>
-                        <span style="font-size: 1.1em; color: var(--text-primary);">$${sellSuggestion.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
-                      </div>
-                    </div>`;
-                  }
-              }
-
-              /*** DCA Chart ***/
-               const dcaChartCtx = document.getElementById('dcaChart')?.getContext('2d');
-               if (dcaChartCtx) {
-                    const marketPriceData = [42000, 41800, 42100, 41500, 41950, 42350, 42100, 42500, 42200, 42600];
-                    const labels = marketPriceData.map((_, i) => `DAY ${i + 1}`);
-                    let totalInvested = 0;
-                    let totalBtc = 0;
-                    const avgCostData = marketPriceData.map(price => {
-                        const investment = 50;
-                        totalInvested += investment;
-                        totalBtc += investment / price;
-                        return totalBtc > 0 ? totalInvested / totalBtc : price;
-                    });
-
-                    dcaChart = new Chart(dcaChartCtx, {
-                      type: 'line',
-                      data: {
-                        labels: labels,
-                        datasets: [
-                          {
-                            label: 'MARKET PRICE',
-                            data: marketPriceData,
-                            borderColor: 'rgba(0, 255, 159, 1)',
-                            borderWidth: 2,
-                            fill: false,
-                            tension: 0.1,
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                          },
-                          {
-                            label: 'AVERAGE COST BASIS',
-                            data: avgCostData,
-                            borderColor: 'rgba(247, 247, 0, 1)',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            fill: false,
-                            tension: 0.1,
-                            pointRadius: 0
-                          }
-                        ]
-                      },
-                      options: mergeOptions({}, commonChartOptions, {
-                          plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}` } } }
-                      })
-                    });
-                }
-
-            // Function to create bar charts with common percentage options
-            function createPercentageBarChart(canvasId, data, label) {
-                 const ctx = document.getElementById(canvasId)?.getContext('2d');
-                 if (!ctx) return null;
-
-                 const chartOptions = mergeOptions({}, commonChartOptions, {
-                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { callback: function(value) { return value + '%'; } }
-                        }
-                     },
-                     plugins: {
-                         legend: { display: false },
-                         tooltip: {
-                              callbacks: { label: (ctx) => `${label}: ${ctx.parsed.y}%` }
-                         }
-                     }
-                 });
-
-                 return new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                      labels: ['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY', 'ALL TIME'],
-                      datasets: [{
-                        label: label,
-                        data: data,
-                        backgroundColor: [
-                            'rgba(0, 217, 232, 0.6)', 'rgba(0, 217, 232, 0.7)', 'rgba(0, 217, 232, 0.8)',
-                            'rgba(0, 255, 170, 0.7)', 'rgba(0, 255, 170, 0.8)'
-                        ],
-                        borderColor: [
-                            'var(--neon-blue)', 'var(--neon-blue)', 'var(--neon-blue)',
-                            'var(--neon-green)', 'var(--neon-green)'
-                        ],
-                        borderWidth: 1.5,
-                        borderRadius: 0,
-                        barThickness: 'flex',
-                        maxBarThickness: 30
-                      }]
-                    },
-                    options: chartOptions
-                 });
-            }
-
-            /*** Account Tab Charts ***/
-            walletGainsChart = createPercentageBarChart('walletGainsChart', [0.5, 2.1, 6.5, 45, 125], 'WALLET GAINS');
-            tradingBotGainsChart = createPercentageBarChart('tradingBotGainsChart', [0.2, 1.5, 5.0, 40, 90], 'BOT GAINS');
-
-            /*** Social Tabs Toggle ***/
-            const socialTabs = document.querySelectorAll('.social-tab');
-            socialTabs.forEach(tab => {
-              tab.addEventListener('click', function () {
-                socialTabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.social-feed').forEach(feed => feed.style.display = 'none');
-                const selectedTabId = this.getAttribute('data-tab');
-                const activeFeed = document.getElementById(selectedTabId);
-                if (activeFeed) {
-                    activeFeed.style.display = 'block';
-                    activeFeed.style.animation = 'none';
-                    setTimeout(() => { activeFeed.style.animation = ''; }, 10);
-                }
-              });
-            });
-
-            /*** QR Code Generation ***/
-            const qrElement = document.getElementById("helpCreatorQR");
-            if (qrElement && typeof QRCode !== 'undefined') {
-                try {
-                    new QRCode(qrElement, {
-                        text: "lightning:bc1qsimulateddonationaddress1234567890",
-                        width: 220,
-                        height: 220,
-                        colorDark: "#121212",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
-                } catch (e) {
-                    console.error("QR GENERATION ERROR:", e);
-                    qrElement.innerHTML = "<p style='color:var(--neon-pink);'>QR ERROR</p>";
-                }
-            } else if (qrElement) {
-                qrElement.innerHTML = "<p style='color:var(--neon-yellow);'>QR LIBRARY MISSING</p>";
-            }
-
-            // Create Post Functionality
-            const createPostTextarea = document.getElementById('createPostTextarea');
-            const createPostButton = document.getElementById('createPostButton');
-            const forYouFeed = document.getElementById('following');
-            const yourPageFeed = document.getElementById('yourpage');
-            const createPostCard = yourPageFeed?.querySelector('.cyber-panel:has(#createPostTextarea)');
-
-            if (createPostButton && createPostTextarea && forYouFeed && yourPageFeed && createPostCard) {
-                createPostButton.addEventListener('click', () => {
-                    const postText = createPostTextarea.value.trim();
-
-                    if (postText) {
-                        const escapedText = postText.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
-
-                        const newPostHTML = `
-                        <div class="cyber-panel post" style="animation: fadeIn 0.5s ease;">
-                          <div class="post-header">
-                            <img src="https://i.pravatar.cc/150?img=1" alt="avatar" data-tooltip="YOUR PROFILE"/>
-                            <span data-tooltip="YOUR PROFILE">YOURUSERNAME</span>
-                            <div class="post-actions">
-                              <button class="btn btn-sm" data-tooltip="EDIT YOUR POST"> <i class="fas fa-edit"></i> EDIT </button>
-                              <button class="btn btn-sm btn-danger" data-tooltip="DELETE YOUR POST"> <i class="fas fa-trash"></i> DELETE </button>
-                            </div>
-                          </div>
-                          <div class="post-body">
-                            <p>${escapedText}</p>
-                            <div class="post-meta">
-                              <span class="post-meta-item" data-tooltip="POSTED JUST NOW"><i class="far fa-clock"></i> JUST NOW</span>
-                              <span class="post-meta-item" data-tooltip="0 LIKES"><i class="far fa-heart"></i> 0</span>
-                              <span class="post-meta-item" data-tooltip="0 COMMENTS"><i class="far fa-comment"></i> 0</span>
-                            </div>
-                          </div>
-                        </div>`;
-
-                        createPostCard.insertAdjacentHTML('afterend', newPostHTML);
-                        createPostTextarea.value = '';
-                        showNotification('POST CREATED SUCCESSFULLY!', 'success');
-
-                        const newPostElement = createPostCard.nextElementSibling;
-                        if (newPostElement) {
-                            const deleteBtn = newPostElement.querySelector('.btn-danger');
-                            if(deleteBtn) {
-                                deleteBtn.addEventListener('click', () => {
-                                    if(confirm('DELETE THIS POST?')) {
-                                        newPostElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                                        newPostElement.style.opacity = '0';
-                                        newPostElement.style.transform = 'scale(0.95)';
-                                        setTimeout(() => newPostElement.remove(), 300);
-                                        showNotification('POST DELETED.', 'info');
-                                    }
-                                });
-                            }
-                        }
+                // Add transaction to history
+                const transactionList = document.getElementById('transactionsList');
+                if (transactionList) {
+                     const newTx = document.createElement('li');
+                     newTx.className = 'transaction-item';
+                     newTx.innerHTML = `
+                        <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">${dailyRewardAmount} HVITAL</span> </div>
+                        <div> <span>DAILY REWARD</span> </div>
+                        <div> <span>JUST NOW</span> </div>
+                     `;
+                     // Insert at the top if list isn't empty, otherwise replace placeholder
+                    const firstItem = transactionList.querySelector('.transaction-item span:contains("NO RECENT")');
+                    if(firstItem) {
+                        transactionList.innerHTML = ''; // Clear placeholder
+                        transactionList.appendChild(newTx);
                     } else {
-                        showNotification('CANNOT CREATE EMPTY POST.', 'warning');
+                         transactionList.insertBefore(newTx, transactionList.firstChild);
+                    }
+                }
+
+                // Optional: Set a timer to re-enable the button after 24 hours
+                setTimeout(() => {
+                     this.innerHTML = '<i class="fas fa-gift"></i> CLAIM REWARD';
+                     this.classList.remove('btn-success');
+                     this.classList.add('btn-primary', 'pulse');
+                     this.disabled = false;
+                     dailyRewardClaimed = false; // Reset state
+                     showNotification('DAILY HVITAL REWARD AVAILABLE AGAIN!', 'info');
+                 }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+
+            } else {
+                showNotification('DAILY REWARD ALREADY CLAIMED. PLEASE WAIT.', 'warning');
+            }
+          });
+      }
+
+
+      /*** Wallet Functions ***/
+      let isWalletConnected = false;
+
+      function updateWalletUI(connected, pubkey = 'N/A', balance = '0 sats') {
+         const statusEl = document.getElementById('walletStatus');
+         const addressEl = document.getElementById('walletAddress');
+         const balanceEl = document.getElementById('walletBalance');
+         const connectHeaderBtn = document.getElementById('connectWalletHeader');
+         const connectTabBtn = document.getElementById('connectWalletTab');
+         const copyBtn = document.getElementById('copyAddress');
+         const transactionList = document.getElementById('transactionsList'); // Keep existing logic for LN tx
+
+         if (connected) {
+              statusEl.innerHTML = `<i class="fas fa-check-circle text-success"></i> CONNECTED: LIGHTNING WALLET`;
+              addressEl.innerText = pubkey;
+              balanceEl.innerText = balance;
+              connectHeaderBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONNECTED';
+              connectTabBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONNECTED';
+              connectHeaderBtn.disabled = true;
+              connectTabBtn.disabled = true;
+              connectHeaderBtn.classList.add('btn-success');
+              connectTabBtn.classList.add('btn-success');
+              copyBtn.style.display = 'inline-block';
+              isWalletConnected = true;
+
+              // Simulate adding some LN transactions if needed
+              // transactionList.innerHTML = `...`; // Keep previous LN tx logic
+         } else {
+              statusEl.innerText = 'WALLET NOT CONNECTED';
+              addressEl.innerText = 'N/A';
+              balanceEl.innerText = '0 sats';
+              connectHeaderBtn.innerHTML = '<i class="fas fa-wallet"></i> CONNECT WALLET';
+              connectTabBtn.innerHTML = '<i class="fas fa-plug"></i> CONNECT WALLET';
+              connectHeaderBtn.disabled = false;
+              connectTabBtn.disabled = false;
+              connectHeaderBtn.classList.remove('btn-success');
+              connectTabBtn.classList.remove('btn-success');
+              copyBtn.style.display = 'none';
+              // Don't clear HVITAL transactions here
+              // transactionList.innerHTML = `<li class="transaction-item"><div><span>NO RECENT LN TRANSACTIONS</span></div></li>`;
+              isWalletConnected = false;
+         }
+      }
+
+      async function connectWallet() {
+        if (window.webln) {
+          try {
+            showNotification('ATTEMPTING TO CONNECT WALLET...');
+            await window.webln.enable();
+            const info = await window.webln.getInfo();
+            const balanceInfo = await window.webln.getBalance();
+            const pubkey = info?.node?.pubkey ?? 'UNAVAILABLE';
+            const balance = balanceInfo?.balance ? `${balanceInfo.balance.toLocaleString()} sats` : 'UNAVAILABLE';
+
+            updateWalletUI(true, pubkey, balance);
+            showNotification('WALLET CONNECTED SUCCESSFULLY!', 'success');
+
+          } catch (error) {
+            console.error("WEBLN ERROR:", error);
+            showNotification(`ERROR CONNECTING WALLET: ${error.message}`, 'error');
+            updateWalletUI(false);
+          }
+        } else {
+          showNotification("WEBLN PROVIDER NOT FOUND. INSTALL ALBY OR BRAVE WALLET.", 'warning', 5000);
+          updateWalletUI(false);
+        }
+      }
+
+     async function sendPayment() {
+         if (!isWalletConnected) {
+             showNotification("PLEASE CONNECT YOUR LIGHTNING WALLET FIRST.", 'warning');
+             return;
+         }
+         if (window.webln && window.webln.sendPayment) {
+             const invoice = prompt("ENTER LIGHTNING INVOICE (BOLT11):");
+             if (invoice && invoice.startsWith('ln')) {
+                 try {
+                     showNotification('SENDING PAYMENT...');
+                     const result = await window.webln.sendPayment(invoice);
+                     console.log("PAYMENT RESULT:", result);
+                     showNotification(`PAYMENT SENT! PREIMAGE: ${result?.preimage?.substring(0,10)}...`, 'success', 5000);
+                     // TODO: Update LN balance and transaction history
+                 } catch (error) {
+                     console.error("SEND PAYMENT ERROR:", error);
+                     showNotification(`PAYMENT FAILED: ${error.message}`, 'error', 5000);
+                 }
+             } else if (invoice) {
+                 showNotification("INVALID LIGHTNING INVOICE FORMAT.", 'error');
+             }
+         } else {
+             showNotification("SENDPAYMENT NOT AVAILABLE. CHECK YOUR WEBLN PROVIDER.", 'warning');
+         }
+     }
+
+     async function receivePayment() {
+         if (!isWalletConnected) {
+             showNotification("PLEASE CONNECT YOUR LIGHTNING WALLET FIRST.", 'warning');
+             return;
+         }
+         if (window.webln && window.webln.makeInvoice) {
+             const amount = prompt("ENTER AMOUNT IN SATS (E.G., 1000):");
+             if (amount && !isNaN(parseInt(amount, 10)) && parseInt(amount, 10) > 0) {
+                 try {
+                      showNotification('CREATING INVOICE...');
+                      const result = await window.webln.makeInvoice({ amount: parseInt(amount, 10) });
+                      const invoice = result.paymentRequest;
+
+                      const modalOverlay = document.createElement('div');
+                      modalOverlay.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 2500; backdrop-filter: blur(5px); padding: 15px;`;
+                      modalOverlay.onclick = (e) => { if(e.target === modalOverlay) modalOverlay.remove(); };
+
+                      const modalContent = document.createElement('div');
+                      modalContent.style.cssText = `background: var(--panel-bg); color: var(--text-primary); padding: 30px; border-radius: 0; box-shadow: 0 0 30px var(--neon-blue); max-width: 500px; width: 100%; border: 2px solid var(--neon-blue); text-align: center;`;
+
+                      modalContent.innerHTML = `
+                         <h3 style="color: var(--neon-blue); margin-bottom: 15px; font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">RECEIVE LN PAYMENT</h3>
+                         <p style="color: var(--text-secondary); margin-bottom: 20px;">SCAN QR CODE OR COPY INVOICE:</p>
+                         <div id="receiveQR" style="background: white; padding: 10px; border-radius: 0; margin: 0 auto 20px; display: inline-block;"></div>
+                         <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 0; font-family: monospace; word-break: break-all; margin-bottom: 25px; font-size: 12px; text-align: left; border: 1px solid var(--neon-blue);">${invoice}</div>
+                         <div style="display: flex; gap: 15px;">
+                             <button id="copyInvoiceBtnModal" class="btn btn-sm btn-primary" style="flex: 1;"> <i class="fas fa-copy"></i> COPY INVOICE </button>
+                             <button id="closeInvoiceBtnModal" class="btn btn-sm" style="flex: 1;"> <i class="fas fa-times"></i> CLOSE </button>
+                         </div>
+                      `;
+
+                      modalOverlay.appendChild(modalContent);
+                      document.body.appendChild(modalOverlay);
+
+                      new QRCode(modalContent.querySelector("#receiveQR"), {
+                          text: `lightning:${invoice}`,
+                          width: 180,
+                          height: 180,
+                          colorDark: "#000000",
+                          colorLight: "#ffffff",
+                          correctLevel: QRCode.CorrectLevel.M
+                      });
+
+                      modalContent.querySelector('#copyInvoiceBtnModal').onclick = () => {
+                          copyToClipboard(invoice, 'LN Invoice Copied!');
+                      };
+                      modalContent.querySelector('#closeInvoiceBtnModal').onclick = () => {
+                          modalOverlay.remove();
+                      };
+
+                 } catch (error) {
+                     console.error("INVOICE CREATION ERROR:", error);
+                     showNotification(`INVOICE CREATION FAILED: ${error.message}`, 'error', 5000);
+                 }
+             } else if (amount) {
+                 showNotification("PLEASE ENTER A VALID POSITIVE NUMBER FOR SATS.", 'error');
+             }
+         } else {
+             showNotification("MAKEINVOICE NOT AVAILABLE. CHECK YOUR WEBLN PROVIDER.", 'warning');
+         }
+     }
+
+     // --- HVITAL Specific Wallet Functions ---
+     function sendHvital() {
+          const recipient = prompt("Enter recipient username:");
+          if (!recipient) return;
+
+          const amountStr = prompt(`Enter HVITAL amount to send to ${recipient}:`);
+          const amount = parseInt(amountStr, 10);
+
+          if (isNaN(amount) || amount <= 0) {
+               showNotification("Invalid HVITAL amount.", 'error');
+               return;
+          }
+
+          // Simulate checking balance
+          const hvitalBalanceEl = document.getElementById('hvitalBalanceWallet');
+          let currentBalance = 0;
+          if (hvitalBalanceEl) {
+            currentBalance = parseInt(hvitalBalanceEl.innerText.replace(' HVITAL', ''), 10);
+          }
+
+          if (amount > currentBalance) {
+            showNotification("Insufficient HVITAL balance.", 'error');
+            return;
+          }
+
+          // Simulate successful send
+          showNotification(`Sending ${amount} HVITAL to ${recipient}...`, 'info');
+          setTimeout(() => {
+              // Update balance
+              if (hvitalBalanceEl) {
+                  hvitalBalanceEl.innerText = `${currentBalance - amount} HVITAL`;
+              }
+               // Update dashboard balance too if separate element exists
+
+              // Add transaction to history
+              const transactionList = document.getElementById('transactionsList');
+              if (transactionList) {
+                   const newTx = document.createElement('li');
+                   newTx.className = 'transaction-item';
+                   newTx.innerHTML = `
+                       <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">${amount} HVITAL</span> </div>
+                       <div> <span>SEND TO @${recipient.toUpperCase()}</span> </div>
+                       <div> <span>JUST NOW</span> </div>
+                   `;
+                   transactionList.insertBefore(newTx, transactionList.firstChild);
+              }
+              showNotification(`Successfully sent ${amount} HVITAL to ${recipient}!`, 'success');
+          }, 1500); // Simulate network delay
+     }
+
+      /*** Wallet Event Listeners ***/
+       const connectWalletHeader = document.getElementById('connectWalletHeader');
+       const connectWalletTab = document.getElementById('connectWalletTab');
+       const sendPaymentButton = document.getElementById('sendPayment');
+       const receivePaymentButton = document.getElementById('receivePayment');
+       const copyAddressButton = document.getElementById('copyAddress');
+       const sendHvitalButton = document.getElementById('sendHvital'); // Added HVITAL send button
+
+       if (connectWalletHeader) connectWalletHeader.addEventListener('click', connectWallet);
+       if (connectWalletTab) connectWalletTab.addEventListener('click', connectWallet);
+       if (sendPaymentButton) sendPaymentButton.addEventListener('click', sendPayment);
+       if (receivePaymentButton) receivePaymentButton.addEventListener('click', receivePayment);
+       if (sendHvitalButton) sendHvitalButton.addEventListener('click', sendHvital); // Added listener
+       if (copyAddressButton) {
+            copyAddressButton.addEventListener('click', () => {
+                const walletAddress = document.getElementById('walletAddress').innerText;
+                if (walletAddress && walletAddress !== 'N/A') {
+                    copyToClipboard(walletAddress, 'Wallet Address Copied!');
+                }
+            });
+       }
+
+        // --- HVITAL Social Tipping ---
+        function handleHvitalTip(event) {
+            const button = event.target.closest('.send-hvital-tip-btn');
+            if (!button) return;
+
+            const recipient = button.dataset.recipient;
+            const amount = 5; // Fixed tip amount for simplicity
+
+            // Simulate checking balance
+            const hvitalBalanceEl = document.getElementById('hvitalBalanceWallet');
+            let currentBalance = 0;
+            if (hvitalBalanceEl) {
+                currentBalance = parseInt(hvitalBalanceEl.innerText.replace(' HVITAL', ''), 10);
+            }
+
+            if (amount > currentBalance) {
+                showNotification("Insufficient HVITAL balance to tip.", 'error');
+                return;
+            }
+
+            showNotification(`Sending ${amount} HVITAL tip to ${recipient}...`, 'info');
+            setTimeout(() => {
+                 // Update balance
+                if (hvitalBalanceEl) {
+                    hvitalBalanceEl.innerText = `${currentBalance - amount} HVITAL`;
+                }
+                 // Update dashboard balance too if separate element exists
+
+                 // Add transaction to history
+                const transactionList = document.getElementById('transactionsList');
+                if (transactionList) {
+                    const newTx = document.createElement('li');
+                    newTx.className = 'transaction-item';
+                    newTx.innerHTML = `
+                        <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">${amount} HVITAL</span> </div>
+                        <div> <span>TIP @${recipient.toUpperCase()}</span> </div>
+                        <div> <span>JUST NOW</span> </div>
+                    `;
+                    transactionList.insertBefore(newTx, transactionList.firstChild);
+                }
+
+                 // Update the post's tip counter (optional visual feedback)
+                 const postMeta = button.closest('.post').querySelector('.post-meta');
+                 const tipCounter = postMeta.querySelector('.fa-coins')?.parentElement;
+                 if (tipCounter) {
+                     let currentTips = parseInt(tipCounter.textContent.match(/(\d+)/)?.[0] || '0', 10);
+                     tipCounter.innerHTML = `<i class="fas fa-coins text-primary"></i> ${currentTips + amount} HVITAL`;
+                     tipCounter.dataset.tooltip = `RECEIVED ${currentTips + amount} HVITAL TIPS`;
+                 }
+
+                showNotification(`Successfully tipped ${amount} HVITAL to ${recipient}!`, 'success');
+            }, 1500); // Simulate network delay
+        }
+
+        // Add event listener to the social feed container(s) for delegation
+        const socialFeedFollowing = document.getElementById('following');
+        if (socialFeedFollowing) {
+            socialFeedFollowing.addEventListener('click', handleHvitalTip);
+        }
+         // Add listeners to other feeds if they also have tipping buttons
+
+
+       /*** Chart Variables ***/
+       let bitcoinChartInstance = null;
+       let dcaChartInstance = null;
+       let walletGainsChartInstance = null;
+       let tradingBotGainsChartInstance = null;
+
+       /*** Chart Common Options & Functions ***/
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: false,
+                ticks: { color: '#b0b0b0', font: { family: 'Share Tech Mono' } },
+                grid: { color: 'rgba(0, 217, 232, 0.2)', borderDash: [3, 3] }
+              },
+              x: {
+                ticks: { color: '#b0b0b0', font: { family: 'Share Tech Mono' } },
+                grid: { display: false }
+              }
+            },
+            plugins: {
+              legend: { labels: { color: 'var(--text-primary)', font: { family: 'Share Tech Mono' } } },
+              tooltip: {
+                enabled: true,
+                backgroundColor: 'var(--panel-bg)',
+                titleColor: 'var(--neon-blue)',
+                bodyColor: 'var(--text-primary)',
+                borderColor: 'var(--neon-blue)',
+                borderWidth: 1,
+                padding: 12,
+                titleFont: { family: 'Orbitron', weight: 'normal', size: 16 },
+                bodyFont: { family: 'Share Tech Mono' },
+                boxPadding: 5,
+                callbacks: {
+                  label: function(context) {
+                    let label = context.dataset.label || '';
+                    if (label) label += ': ';
+                    if (context.parsed.y !== null) {
+                         const scale = context.chart.options.scales.y;
+                         // Check if the scale callback includes '%' to determine format
+                         if (scale?.ticks?.callback && typeof scale.ticks.callback === 'function' && scale.ticks.callback(1).includes('%')) {
+                            label += context.parsed.y.toFixed(1) + '%';
+                         } else {
+                            // Default to currency format
+                            label += '$' + context.parsed.y.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                         }
+                    }
+                    return label;
+                  }
+                }
+              }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest', // Changed for better line chart interaction
+                intersect: false,
+                axis: 'x'
+            },
+        };
+
+       // Deep merge function for chart options
+       function mergeOptions(target, ...sources) {
+            sources.forEach(source => {
+                Object.keys(source).forEach(key => {
+                    const targetValue = target[key];
+                    const sourceValue = source[key];
+                    if (sourceValue !== null && typeof sourceValue === 'object' && !Array.isArray(sourceValue) && targetValue !== null && typeof targetValue === 'object') {
+                         // Recursively merge objects
+                         target[key] = mergeOptions({}, targetValue, sourceValue); // Create new object for merge result
+                    } else if (sourceValue !== undefined) {
+                        // Assign primitive values or replace arrays/non-objects
+                         target[key] = sourceValue;
                     }
                 });
-            }
+            });
+            return target;
+       }
 
-            }); // End DOMContentLoaded
-          </script>
-        </body>
-        </html>
+
+      /*** Trading Bot Chart ***/
+      const bitcoinChartCtx = document.getElementById('bitcoinChart')?.getContext('2d');
+      if (bitcoinChartCtx) {
+          const priceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350, 42400, 42650, 42550, 42700, 42900];
+          const labels = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'MON+1', 'TUE+1', 'WED+1', 'THU+1', 'FRI+1'];
+
+          bitcoinChartInstance = new Chart(bitcoinChartCtx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'BTC PRICE (USD)',
+                data: priceData,
+                borderColor: 'rgba(5, 217, 232, 1)',
+                borderWidth: 2.5,
+                fill: true,
+                backgroundColor: 'rgba(0, 217, 232, 0.1)',
+                tension: 0.4,
+                pointBackgroundColor: 'rgba(5, 217, 232, 1)',
+                pointBorderColor: 'rgba(13, 2, 33, 1)',
+                pointBorderWidth: 1.5,
+                pointRadius: 4,
+                pointHoverRadius: 7,
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(5, 217, 232, 1)'
+              }]
+            },
+            options: mergeOptions({}, commonChartOptions, {
+                plugins: { tooltip: { callbacks: { label: (ctx) => `BTC: $${ctx.parsed.y.toLocaleString()}` } } }
+            })
+          });
+
+          const buySuggestion = Math.min(...priceData) * 0.995;
+          const sellSuggestion = Math.max(...priceData) * 1.005;
+          const priceSuggestionsEl = document.getElementById('priceSuggestions');
+          if (priceSuggestionsEl) {
+            priceSuggestionsEl.innerHTML = `
+            <div class="wallet-info" style="grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div class="wallet-info-item" style="border-left-color: var(--neon-green);">
+                <strong><i class="fas fa-arrow-down text-success"></i> POTENTIAL BUY ZONE</strong>
+                <span style="font-size: 1.1em; color: var(--text-primary);">$${buySuggestion.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+              </div>
+              <div class="wallet-info-item" style="border-left-color: var(--neon-pink);">
+                <strong><i class="fas fa-arrow-up text-error"></i> POTENTIAL SELL ZONE</strong>
+                <span style="font-size: 1.1em; color: var(--text-primary);">$${sellSuggestion.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+              </div>
+            </div>`;
+          }
+      }
+
+      /*** DCA Chart ***/
+       const dcaChartCtx = document.getElementById('dcaChart')?.getContext('2d');
+       if (dcaChartCtx) {
+            const marketPriceData = [42000, 41800, 42100, 41500, 41950, 42350, 42100, 42500, 42200, 42600];
+            const labels = marketPriceData.map((_, i) => `DAY ${i + 1}`);
+            let totalInvested = 0;
+            let totalBtc = 0;
+            const avgCostData = marketPriceData.map(price => {
+                const investment = 50;
+                totalInvested += investment;
+                totalBtc += investment / price;
+                return totalBtc > 0 ? totalInvested / totalBtc : price;
+            });
+
+            dcaChartInstance = new Chart(dcaChartCtx, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [
+                  {
+                    label: 'MARKET PRICE',
+                    data: marketPriceData,
+                    borderColor: 'rgba(0, 255, 159, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
+                  },
+                  {
+                    label: 'AVERAGE COST BASIS',
+                    data: avgCostData,
+                    borderColor: 'rgba(247, 247, 0, 1)',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 0, // Hide points for average cost
+                     pointHoverRadius: 0
+                  }
+                ]
+              },
+              options: mergeOptions({}, commonChartOptions, {
+                  plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 0})}` } } }
+              })
+            });
+        }
+
+    // Function to create bar charts with common percentage options
+    function createPercentageBarChart(canvasId, data, label) {
+         const ctx = document.getElementById(canvasId)?.getContext('2d');
+         if (!ctx) return null;
+
+         // Define custom options for percentage scale and tooltip
+         const customOptions = {
+             scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: function(value) { return value + '%'; } } // Add % to y-axis ticks
+                }
+             },
+             plugins: {
+                 legend: { display: false },
+                 tooltip: {
+                      callbacks: { label: (ctx) => `${label}: ${ctx.parsed.y.toFixed(1)}%` } // Format tooltip label as percentage
+                 }
+             }
+         };
+
+         // Merge common options with custom options
+         const chartOptions = mergeOptions({}, commonChartOptions, customOptions);
+
+
+         return new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY', 'ALL TIME'],
+              datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: [
+                    'rgba(0, 217, 232, 0.6)', 'rgba(0, 217, 232, 0.7)', 'rgba(0, 217, 232, 0.8)',
+                    'rgba(0, 255, 170, 0.7)', 'rgba(0, 255, 170, 0.8)'
+                ],
+                borderColor: [
+                    'var(--neon-blue)', 'var(--neon-blue)', 'var(--neon-blue)',
+                    'var(--neon-green)', 'var(--neon-green)'
+                ],
+                borderWidth: 1.5,
+                borderRadius: 0,
+                barThickness: 'flex',
+                maxBarThickness: 30
+              }]
+            },
+            options: chartOptions // Use the merged options
+         });
+    }
+
+    /*** Account Tab Charts ***/
+    walletGainsChartInstance = createPercentageBarChart('walletGainsChart', [0.5, 2.1, 6.5, 45, 125], 'WALLET GAINS');
+    tradingBotGainsChartInstance = createPercentageBarChart('tradingBotGainsChart', [0.2, 1.5, 5.0, 40, 90], 'BOT GAINS');
+
+    /*** Social Tabs Toggle ***/
+    const socialTabs = document.querySelectorAll('.social-tab');
+    socialTabs.forEach(tab => {
+      tab.addEventListener('click', function () {
+        socialTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.social-feed').forEach(feed => feed.style.display = 'none');
+        const selectedTabId = this.getAttribute('data-tab');
+        const activeFeed = document.getElementById(selectedTabId);
+        if (activeFeed) {
+            activeFeed.style.display = 'block';
+            // Force reflow/repaint to restart animation
+            activeFeed.style.animation = 'none';
+             // Reading offsetHeight forces reflow
+            void activeFeed.offsetHeight;
+            activeFeed.style.animation = '';
+        }
+      });
+    });
+
+    /*** QR Code Generation ***/
+    const qrElement = document.getElementById("helpCreatorQR");
+    if (qrElement && typeof QRCode !== 'undefined') {
+        try {
+            // Using a placeholder LN invoice - replace with actual if available
+            const lnInvoicePlaceholder = "lnbc1..."; // Replace
+            new QRCode(qrElement, {
+                text: `lightning:${lnInvoicePlaceholder}`, // Use actual LN invoice if generated
+                width: 220,
+                height: 220,
+                colorDark: "#121212",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        } catch (e) {
+            console.error("QR GENERATION ERROR:", e);
+            qrElement.innerHTML = "<p style='color:var(--neon-pink);'>QR ERROR</p>";
+        }
+    } else if (qrElement) {
+        qrElement.innerHTML = "<p style='color:var(--neon-yellow);'>QR LIBRARY MISSING</p>";
+    }
+
+    // Create Post Functionality
+    const createPostTextarea = document.getElementById('createPostTextarea');
+    const createPostButton = document.getElementById('createPostButton');
+    const yourPageFeed = document.getElementById('yourpage');
+    const createPostCard = yourPageFeed?.querySelector('.cyber-panel:has(#createPostTextarea)');
+
+    if (createPostButton && createPostTextarea && yourPageFeed && createPostCard) {
+        createPostButton.addEventListener('click', () => {
+            const postText = createPostTextarea.value.trim();
+
+            if (postText) {
+                const escapedText = postText.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+
+                const newPostHTML = `
+                <div class="cyber-panel post" style="animation: fadeIn 0.5s ease;">
+                  <div class="post-header">
+                    <img src="https://i.pravatar.cc/150?img=1" alt="avatar" data-tooltip="YOUR PROFILE"/>
+                    <span data-tooltip="YOUR PROFILE">YOURUSERNAME</span>
+                    <div class="post-actions">
+                      <button class="btn btn-sm edit-post-btn" data-tooltip="EDIT YOUR POST"> <i class="fas fa-edit"></i> EDIT </button>
+                      <button class="btn btn-sm btn-danger delete-post-btn" data-tooltip="DELETE YOUR POST"> <i class="fas fa-trash"></i> DELETE </button>
+                    </div>
+                  </div>
+                  <div class="post-body">
+                    <p>${escapedText}</p>
+                    <div class="post-meta">
+                      <span class="post-meta-item" data-tooltip="POSTED JUST NOW"><i class="far fa-clock"></i> JUST NOW</span>
+                      <span class="post-meta-item" data-tooltip="0 LIKES"><i class="far fa-heart"></i> 0</span>
+                      <span class="post-meta-item" data-tooltip="0 COMMENTS"><i class="far fa-comment"></i> 0</span>
+                       <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
+                    </div>
+                  </div>
+                </div>`;
+
+                createPostCard.insertAdjacentHTML('afterend', newPostHTML);
+                createPostTextarea.value = '';
+                showNotification('POST CREATED SUCCESSFULLY!', 'success');
+
+            } else {
+                showNotification('CANNOT CREATE EMPTY POST.', 'warning');
+            }
+        });
+
+        // Add event listener for delete/edit buttons (using event delegation on the feed)
+        yourPageFeed.addEventListener('click', (event) => {
+            const deleteBtn = event.target.closest('.delete-post-btn');
+            const editBtn = event.target.closest('.edit-post-btn'); // Placeholder for edit
+
+            if (deleteBtn) {
+                const postElement = deleteBtn.closest('.post');
+                if(confirm('DELETE THIS POST?')) {
+                    postElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    postElement.style.opacity = '0';
+                    postElement.style.transform = 'scale(0.95)';
+                    setTimeout(() => postElement.remove(), 300);
+                    showNotification('POST DELETED.', 'info');
+                }
+            } else if (editBtn) {
+                // Add edit functionality here later
+                 showNotification('EDIT FUNCTIONALITY NOT IMPLEMENTED YET.', 'warning');
+            }
+        });
+
+    } else {
+        console.warn("Create post elements not found.");
+    }
+
+
+    }); // End DOMContentLoaded
+  </script>
+</body>
+</html>
