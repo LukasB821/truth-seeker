@@ -323,7 +323,7 @@
       color: var(--text-primary);
       font-family: 'Orbitron', sans-serif;
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 1000;
       letter-spacing: 1px;
       position: fixed;
       top: 0;
@@ -2294,18 +2294,18 @@
                       datasets: [{
                         label: 'BTC PRICE (USD)',
                         data: priceData,
-                        borderColor: 'var(--neon-blue)',
+                        borderColor: 'rgba(5, 217, 232, 1)',
                         borderWidth: 2.5,
                         fill: true,
                         backgroundColor: 'rgba(0, 217, 232, 0.1)',
                         tension: 0.4,
-                        pointBackgroundColor: 'var(--neon-blue)',
-                        pointBorderColor: 'var(--dark-bg)',
+                        pointBackgroundColor: 'rgba(5, 217, 232, 1)',
+                        pointBorderColor: 'rgba(13, 2, 33, 1)',
                         pointBorderWidth: 1.5,
                         pointRadius: 4,
                         pointHoverRadius: 7,
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'var(--neon-blue)'
+                        pointHoverBorderColor: 'rgba(5, 217, 232, 1)'
                       }]
                     },
                     options: mergeOptions({}, commonChartOptions, {
@@ -2353,7 +2353,7 @@
                           {
                             label: 'MARKET PRICE',
                             data: marketPriceData,
-                            borderColor: 'var(--neon-green)',
+                            borderColor: 'rgba(0, 255, 159, 1)',
                             borderWidth: 2,
                             fill: false,
                             tension: 0.1,
@@ -2363,7 +2363,7 @@
                           {
                             label: 'AVERAGE COST BASIS',
                             data: avgCostData,
-                            borderColor: 'var(--neon-yellow)',
+                            borderColor: 'rgba(247, 247, 0, 1)',
                             borderWidth: 2,
                             borderDash: [5, 5],
                             fill: false,
