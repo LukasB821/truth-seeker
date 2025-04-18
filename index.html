@@ -6,2931 +6,652 @@
   <title>HodlVitality - Cyberpunk Crypto Terminal</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" /> 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <style>
-    /* Cyberpunk Color Palette */
-    :root {
-      --neon-pink: #ff2a6d;
-      --neon-blue: #05d9e8;
-      --neon-purple: #d300c5;
-      --neon-green: #00ff9f;
-      --neon-yellow: #f7f700;
-      --dark-bg: #0d0221;
-      --darker-bg: #02010a;
-      --panel-bg: rgba(5, 5, 30, 0.8);
-      --panel-border: rgba(0, 217, 232, 0.3);
-      --text-primary: #d1f7ff;
-      --text-secondary: #7df9ff;
-      --sidebar-width: 280px;
-      --header-height: 70px;
-      --marquee-height: 40px;
-    }
-
-    /* CRT Screen Effect */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        linear-gradient(rgba(18, 16, 16, 0.1) 50%, rgba(0, 0, 0, 0.25) 50%),
-        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-      background-size: 100% 4px, 4px 100%;
-      z-index: 9999;
-      pointer-events: none;
-      animation: scanlines 0.5s linear infinite;
-    }
-
-    @keyframes scanlines {
-      0% { background-position: 0 0; }
-      100% { background-position: 0 8px; }
-    }
-
-    /* Global Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Share Tech Mono', monospace;
-      background: var(--dark-bg);
-      color: var(--text-primary);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      line-height: 1.6;
-      text-shadow: 0 0 5px rgba(0, 217, 232, 0.3);
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at center, transparent 0%, var(--dark-bg) 100%);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 2px;
-      margin-bottom: 1rem;
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 10px rgba(5, 217, 232, 0.5);
-    }
-
-    h2 {
-      font-size: 2rem;
-      position: relative;
-      padding-bottom: 10px;
-      color: var(--neon-blue);
-    }
-
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 50px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--neon-blue), transparent);
-      border-radius: 3px;
-    }
-
-    h3 {
-      font-size: 1.75rem;
-      color: var(--neon-green);
-    }
-
-    p {
-      margin-bottom: 1rem;
-      color: var(--text-secondary);
-      font-size: 16px;
-    }
-
-    ul {
-        list-style: none;
-        padding-left: 20px;
-    }
-
-    ul li {
-        margin-bottom: 0.8rem;
-        position: relative;
-        padding-left: 25px;
-        color: var(--text-secondary);
-    }
-
-    ul li::before {
-        content: "\f101"; /* FontAwesome right arrow */
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        color: var(--neon-blue);
-        position: absolute;
-        left: 0;
-        top: 2px;
-        transition: transform 0.3s ease;
-    }
-
-    ul li:hover::before {
-        transform: translateX(5px);
-        color: var(--neon-green);
-    }
-
-    /* Splash Screen */
-    #splashScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--darker-bg), #0d0221);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .splash-container {
-      text-align: center;
-      padding: 20px;
-      max-width: 90%;
-      border: 2px solid var(--neon-blue);
-      box-shadow: 0 0 20px var(--neon-blue), inset 0 0 20px var(--neon-blue);
-      background: rgba(13, 2, 33, 0.7);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .splash-container::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        to bottom right,
-        transparent 45%,
-        var(--neon-blue) 50%,
-        transparent 55%
-      );
-      transform: rotate(30deg);
-      opacity: 0.1;
-      animation: shine 5s linear infinite;
-    }
-
-    @keyframes shine {
-      0% { transform: translateX(-100%) rotate(30deg); }
-      100% { transform: translateX(100%) rotate(30deg); }
-    }
-
-    .splash-container .title {
-      font-family: 'Press Start 2P', cursive;
-      font-size: clamp(32px, 10vw, 72px); /* Responsive font size */
-      color: var(--neon-blue);
-      margin-bottom: 30px;
-      text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
-      letter-spacing: 5px;
-      animation: glow 2s ease-in-out infinite alternate;
-      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green), var(--neon-blue));
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .splash-container p {
-      font-size: clamp(14px, 4vw, 18px); /* Responsive font size */
-      margin-bottom: 40px;
-      color: var(--text-secondary);
-    }
-
-    .button-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    @keyframes glow {
-      0% { text-shadow: 0 0 5px var(--neon-blue); }
-      100% { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-green); }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Main Content Transition */
-    #mainContent {
-      display: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    #mainContent.active {
-      opacity: 1;
-    }
-
-    /* Header */
-    .header {
-      background: rgba(13, 2, 33, 0.9);
-      color: var(--text-primary);
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--header-height);
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-      border-bottom: 1px solid var(--neon-blue);
-      box-shadow: 0 0 15px var(--neon-blue);
-    }
-
-    .header .logo img {
-      height: 40px;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 0 5px var(--neon-blue));
-    }
-
-    .header .logo:hover img {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 10px var(--neon-blue));
-    }
-
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--neon-blue);
-      font-size: 24px;
-      cursor: pointer;
-      margin-right: 10px;
-      transition: all 0.3s ease;
-      text-shadow: 0 0 5px var(--neon-blue);
-    }
-
-    .hamburger:hover {
-      color: var(--neon-green);
-      transform: scale(1.1);
-      text-shadow: 0 0 10px var(--neon-green);
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    /* Marquee */
-    .marquee {
-      width: 100%;
-      overflow: hidden;
-      background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
-      color: var(--dark-bg);
-      padding: 12px 0;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 700;
-      position: fixed;
-      top: var(--header-height);
-      left: 0;
-      height: var(--marquee-height);
-      z-index: 900;
-      box-shadow: 0 2px 10px var(--neon-blue);
-      font-family: 'Share Tech Mono', monospace;
-    }
-
-    .marquee-inner {
-      display: inline-block;
-      white-space: nowrap;
-      animation: marquee 20s linear infinite;
-      padding-left: 100%; /* Start off screen */
-    }
-
-    .marquee-inner span {
-      margin-right: 60px;
-      display: inline-block;
-      padding: 0 10px;
-      text-shadow: none;
-    }
-
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); } /* Move fully across */
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: rgba(5, 5, 30, 0.9);
-      backdrop-filter: blur(5px);
-      color: var(--text-primary);
-      font-family: 'Orbitron', sans-serif;
-      font-size: 18px;
-      font-weight: 1000;
-      letter-spacing: 1px;
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      overflow-y: auto;
-      padding-top: calc(var(--header-height) + 20px);
-      transition: all 0.3s ease-in-out;
-      z-index: 1100;
-      border-right: 1px solid var(--neon-blue);
-      box-shadow: 0 0 20px var(--neon-blue);
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar li {
-      padding: 18px 25px;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(0, 217, 232, 0.1);
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      color: var(--text-primary); /* Ensure default color is set */
-      padding-left: 25px; /* Reset padding */
-    }
-
-    .sidebar li::before { /* Remove the ::before styling from global ul */
-        content: none;
-    }
-
-    .sidebar li i {
-      margin-right: 15px;
-      font-size: 18px;
-      color: var(--neon-blue);
-      transition: all 0.3s ease;
-      width: 25px;
-      text-align: center;
-    }
-
-     .sidebar li::after { /* Add the hover effect */
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 217, 232, 0.2), transparent);
-      transition: all 0.6s ease;
-    }
-
-    .sidebar li:hover {
-      background: rgba(0, 217, 232, 0.1);
-      color: var(--neon-green);
-      box-shadow: inset 0 0 10px rgba(0, 217, 232, 0.3);
-    }
-
-    .sidebar li:hover::after { /* Corrected hover effect */
-      left: 100%;
-    }
-
-    .sidebar li:hover i {
-      color: var(--neon-green);
-      transform: scale(1.2);
-    }
-
-    .sidebar li.active {
-      background: rgba(0, 217, 232, 0.2);
-      border-left: 4px solid var(--neon-blue);
-      color: var(--neon-blue);
-      box-shadow: inset 0 0 15px rgba(0, 217, 232, 0.3);
-      padding-left: 21px; /* Adjust padding for border */
-    }
-
-    .sidebar li.active i {
-      color: var(--neon-blue);
-    }
-
-    .close-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--neon-blue);
-      font-size: 24px;
-      cursor: pointer;
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      transition: all 0.3s ease;
-    }
-
-    .close-btn:hover {
-      color: var(--neon-pink);
-      transform: rotate(90deg);
-    }
-
-    /* Main Content Area */
-    .main-content {
-      margin-left: var(--sidebar-width);
-      padding: calc(var(--header-height) + var(--marquee-height) + 30px) 40px 40px;
-      transition: margin-left 0.3s ease-in-out;
-      min-height: 100vh;
-    }
-
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Cyber Panel Style */
-    .cyber-panel {
-      background: var(--panel-bg);
-      backdrop-filter: blur(8px);
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid var(--panel-border);
-      box-shadow: 0 0 20px rgba(0, 217, 232, 0.2);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .cyber-panel::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        135deg,
-        transparent 0%,
-        rgba(5, 217, 232, 0.1) 50%,
-        transparent 100%
-      );
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    .cyber-panel:hover {
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 30px rgba(0, 217, 232, 0.4);
-      transform: translateY(-5px);
-    }
-
-    .cyber-panel:hover::before {
-      opacity: 0.5;
-    }
-
-    .cyber-panel h2 {
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-    }
-
-    /* Button Styles */
-    .btn {
-      background: transparent;
-      border: 2px solid var(--neon-blue);
-      color: var(--neon-blue);
-      padding: 12px 24px;
-      border-radius: 0;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-width: 120px;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-      font-family: 'Share Tech Mono', monospace;
-      text-shadow: 0 0 5px var(--neon-blue);
-      box-shadow: 0 0 10px var(--neon-blue);
-      transition: all 0.3s ease;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(5, 217, 232, 0.3), transparent);
-      transition: all 0.6s ease;
-      z-index: -1;
-    }
-
-    .btn i {
-      font-size: 14px;
-      transition: transform 0.3s ease;
-    }
-
-    .btn:hover {
-      background: var(--neon-blue);
-      color: var(--dark-bg);
-      text-shadow: none;
-      box-shadow: 0 0 20px var(--neon-blue);
-      transform: translateY(-3px);
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn:hover i {
-      transform: translateX(3px);
-    }
-
-    .btn:active {
-      transform: translateY(1px);
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-      background: var(--neon-green);
-      border-color: var(--neon-green);
-    }
-
-    .btn:disabled {
-      border-color: #555;
-      color: #555;
-      cursor: not-allowed;
-      background: transparent;
-      box-shadow: none;
-      text-shadow: none;
-      transform: none;
-    }
-
-    .btn-sm {
-      padding: 8px 16px;
-      font-size: 14px;
-      min-width: auto;
-    }
-
-    .btn-primary {
-      background: var(--neon-blue);
-      color: var(--dark-bg);
-      border-color: var(--neon-blue);
-      text-shadow: none;
-    }
-
-    .btn-primary:hover {
-      background: var(--neon-green);
-      border-color: var(--neon-green);
-      box-shadow: 0 0 20px var(--neon-green);
-    }
-
-    .btn-primary:active {
-      background: var(--neon-green);
-      border-color: var(--neon-green);
-    }
-
-    .btn-success {
-      border-color: var(--neon-green);
-      color: var(--neon-green);
-      text-shadow: 0 0 5px var(--neon-green);
-      box-shadow: 0 0 10px var(--neon-green);
-    }
-    .btn-success:hover {
-      background: var(--neon-green);
-      color: var(--dark-bg);
-      box-shadow: 0 0 20px var(--neon-green);
-    }
-    .btn-success:active {
-      background: #00cc88;
-    }
-
-    .btn-warning {
-      border-color: var(--neon-yellow);
-      color: var(--neon-yellow);
-      text-shadow: 0 0 5px var(--neon-yellow);
-      box-shadow: 0 0 10px var(--neon-yellow);
-    }
-    .btn-warning:hover {
-      background: var(--neon-yellow);
-      color: var(--dark-bg);
-      box-shadow: 0 0 20px var(--neon-yellow);
-    }
-    .btn-warning:active {
-      background: #e6b800;
-    }
-
-    .btn-danger {
-      border-color: var(--neon-pink);
-      color: var(--neon-pink);
-      text-shadow: 0 0 5px var(--neon-pink);
-      box-shadow: 0 0 10px var(--neon-pink);
-    }
-    .btn-danger:hover {
-      background: var(--neon-pink);
-      color: var(--dark-bg);
-      box-shadow: 0 0 20px var(--neon-pink);
-    }
-    .btn-danger:active {
-      background: #cc3737;
-    }
-
-    /* Dashboard */
-    .bars {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
-      height: 220px;
-      margin-top: 30px;
-    }
-
-    .bar-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-
-    .bar-container:hover {
-      transform: translateY(-5px);
-    }
-
-    .bar {
-      width: 40px;
-      background: linear-gradient(to top, var(--neon-blue), var(--neon-green));
-      border-radius: 4px 4px 0 0;
-      transition: height 0.5s ease;
-      box-shadow: 0 0 10px var(--neon-blue);
-    }
-
-    .bar-container:hover .bar {
-      box-shadow: 0 0 15px var(--neon-blue), 0 0 20px var(--neon-green);
-    }
-
-    .value {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--neon-blue);
-      margin-bottom: 5px;
-    }
-
-    .label {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      margin: 30px 0;
-    }
-
-    .stat-card {
-      background: var(--panel-bg);
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      border: 1px solid var(--panel-border);
-      transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(0, 217, 232, 0.1);
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(0, 217, 232, 0.3);
-      border-color: var(--neon-blue);
-    }
-
-    .stat-card h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: var(--text-secondary);
-    }
-
-    .stat-card .stat-value {
-      font-size: 28px;
-      font-weight: bold;
-      color: var(--neon-blue);
-    }
-
-    /* Wallet */
-    .wallet-section {
-      margin-bottom: 30px;
-    }
-
-    .wallet-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      margin: 20px 0;
-    }
-
-    .wallet-info-item {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 3px solid var(--neon-blue);
-      transition: all 0.3s ease;
-      box-shadow: 0 0 10px rgba(0, 217, 232, 0.1);
-    }
-
-    .wallet-info-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(0, 217, 232, 0.3);
-      border-color: var(--neon-green);
-    }
-
-    .wallet-info-item strong {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
-
-    #walletAddress {
-      word-break: break-all;
-      font-family: monospace;
-      color: var(--neon-blue);
-      font-size: 14px;
-    }
-
-    .wallet-actions {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-top: 25px;
-    }
-
-    .transaction-item {
-      padding: 15px;
-      border-bottom: 1px solid rgba(0, 217, 232, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background-color 0.3s ease;
-    }
-
-    .transaction-item:hover {
-      background-color: rgba(0, 217, 232, 0.1);
-    }
-
-    .transaction-item:last-child {
-      border-bottom: none;
-    }
-
-    .transaction-type {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .transaction-in {
-      background: rgba(0, 255, 170, 0.2);
-      color: var(--neon-green);
-    }
-
-    .transaction-out {
-      background: rgba(255, 42, 109, 0.2);
-      color: var(--neon-pink);
-    }
-
-    /* Social */
-    .post {
-      margin-bottom: 25px;
-    }
-
-    .post-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .post-header img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      margin-right: 15px;
-      object-fit: cover;
-      border: 2px solid var(--neon-blue);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .post-header img:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px var(--neon-blue);
-    }
-
-    .post-header span {
-      font-weight: bold;
-      font-size: 16px;
-      transition: color 0.3s ease;
-      cursor: pointer;
-    }
-
-    .post-header span:hover {
-      color: var(--neon-blue);
-    }
-
-    .post-actions {
-      margin-left: auto;
-      display: flex;
-      gap: 10px;
-    }
-
-    .post-body {
-      padding: 0 10px;
-    }
-
-    .post-body p {
-      font-size: 15px;
-      line-height: 1.6;
-      margin-bottom: 15px;
-      color: var(--text-primary);
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-
-    .post-meta {
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-top: 15px;
-    }
-
-    .post-meta-item {
-      margin-left: 15px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: color 0.3s ease;
-    }
-
-    .post-meta-item:first-child {
-      margin-left: 0;
-    }
-
-    .post-meta-item i {
-      font-size: 12px;
-    }
-
-    .post-meta-item:hover {
-      color: var(--text-primary);
-    }
-
-    .social-tabs {
-      display: flex;
-      border-bottom: 2px solid rgba(0, 217, 232, 0.3);
-      margin-bottom: 25px;
-      position: relative;
-    }
-
-    .social-tab {
-      flex: 1;
-      text-align: center;
-      padding: 15px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.3s ease;
-      font-weight: bold;
-      font-family: 'Orbitron', sans-serif;
-      letter-spacing: 1px;
-    }
-
-    .social-tab:hover {
-      color: var(--neon-blue);
-    }
-
-    .social-tab.active {
-      color: var(--neon-blue);
-    }
-
-    .social-tab.active::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--neon-blue);
-      animation: tabUnderline 0.3s ease;
-      box-shadow: 0 0 8px var(--neon-blue);
-    }
-
-    @keyframes tabUnderline {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-
-    .social-feed {
-      animation: fadeIn 0.5s ease;
-    }
-
-    .community-tag {
-      border-radius: 0;
-      background: transparent;
-      border-color: var(--neon-blue);
-      color: var(--text-secondary);
-      font-weight: normal;
-    }
-
-    .community-tag i {
-      margin-right: 8px;
-    }
-
-    .community-tag:hover {
-      background: var(--neon-blue);
-      color: var(--dark-bg);
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 15px var(--neon-blue);
-      transform: translateY(-3px);
-    }
-
-    /* Create Post Area */
-    #createPostTextarea {
-      width: 100%;
-      height: 100px;
-      padding: 15px;
-      border-radius: 0;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--panel-border);
-      color: var(--text-primary);
-      margin-bottom: 15px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 16px;
-      resize: vertical;
-      transition: border-color 0.3s ease;
-    }
-
-    #createPostTextarea:focus {
-      outline: none;
-      border-color: var(--neon-blue);
-      box-shadow: 0 0 10px var(--neon-blue);
-    }
-
-    /* Trading Bot */
-    .table-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .trading-table {
-      width: 100%;
-      border-collapse: separate;
-      margin: 20px 0;
-      background: var(--panel-bg);
-      border-radius: 8px;
-      overflow: hidden;
-      border-spacing: 0;
-    }
-
-    .trading-table th, .trading-table td {
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(0, 217, 232, 0.1);
-      text-align: left;
-      transition: background-color 0.3s ease;
-    }
-
-    .trading-table th {
-      background: rgba(0, 217, 232, 0.2);
-      color: var(--neon-blue);
-      font-weight: normal;
-      text-transform: uppercase;
-      font-size: 14px;
-      letter-spacing: 1px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .trading-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .trading-table tbody tr:nth-child(even) td {
-      background-color: rgba(0, 217, 232, 0.05);
-    }
-
-    .trading-table tbody tr {
-      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-    }
-
-    .trading-table tbody tr:hover {
-      transform: scale(1.01);
-      box-shadow: 0 0 20px rgba(0, 217, 232, 0.2);
-      z-index: 2;
-      background-color: rgba(40, 40, 40, 0.9);
-    }
-
-    .trading-table tbody tr:hover td {
-      background-color: rgba(40, 40, 40, 0.9);
-      border-color: rgba(60, 60, 60, 0.5);
-    }
-
-    .status-active { color: var(--neon-green); font-weight: bold; }
-    .status-pending { color: var(--neon-yellow); font-weight: bold; }
-    .status-executed { color: var(--neon-blue); font-weight: bold; }
-
-    .chart-container {
-      position: relative;
-      height: 350px;
-      margin-bottom: 30px;
-      background: var(--panel-bg);
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-
-    #bitcoinChart, #dcaChart, #walletGainsChart, #tradingBotGainsChart {
-      width: 100%;
-      height: 100%;
-    }
-
-    .trading-controls {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-
-    /* Exchanges */
-    .exchanges-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 25px;
-      margin-top: 25px;
-    }
-
-    .exchange-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 25px;
-      border-radius: 8px;
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      transition: all 0.3s ease;
-    }
-
-    .exchange-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 0 30px rgba(0, 217, 232, 0.4);
-      border-color: var(--neon-blue);
-    }
-
-    .exchange-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 15px;
-      background: rgba(0, 217, 232, 0.1);
-      border: 2px solid var(--neon-blue);
-      transition: all 0.3s ease;
-    }
-
-    .exchange-card:hover .exchange-icon {
-      transform: rotate(10deg) scale(1.1);
-      box-shadow: 0 0 20px var(--neon-blue);
-    }
-
-    .exchange-icon i {
-      font-size: 36px;
-      color: var(--neon-blue);
-      transition: all 0.3s ease;
-    }
-
-    .exchange-card:hover .exchange-icon i {
-      transform: scale(1.1);
-    }
-
-    .exchange-card h2 {
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .exchange-card p {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .exchange-stats {
-      width: 100%;
-      margin-top: 15px;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 14px;
-      padding: 10px 5px;
-      border-bottom: 1px dashed rgba(0, 217, 232, 0.2);
-      transition: background-color 0.2s ease;
-      border-radius: 4px;
-    }
-
-    .stat-row:last-child {
-      border-bottom: none;
-    }
-
-    .stat-row:hover {
-      background-color: rgba(0, 217, 232, 0.1);
-    }
-
-    .stat-label { color: var(--text-secondary); }
-    .stat-value { color: var(--text-primary); font-weight: bold; }
-
-    /* Help Creator */
-    .qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 30px 0;
-    }
-
-    #helpCreatorQR {
-      width: 250px;
-      height: 250px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px var(--neon-blue);
-      transition: all 0.3s ease;
-    }
-
-    #helpCreatorQR:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px var(--neon-blue);
-    }
-
-    .donate-text {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 30px;
-      line-height: 1.7;
-    }
-
-    .donate-address {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 12px;
-      border-radius: 8px;
-      font-family: monospace;
-      word-break: break-all;
-      margin: 15px 0;
-      text-align: center;
-      border-left: 3px solid var(--neon-blue);
-      transition: all 0.3s ease;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .donate-address:hover {
-      background: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 0 15px var(--neon-blue), inset 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Account */
-    .account-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 25px;
-    }
-
-    .account-section {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .account-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin: 0 auto 20px;
-      border: 3px solid var(--neon-blue);
-      object-fit: cover;
-      transition: all 0.3s ease;
-    }
-
-    .account-section:hover .account-avatar {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px var(--neon-blue);
-    }
-
-    .account-stats {
-      margin-top: auto;
-    }
-
-    .account-stats .stat-row {
-      padding: 10px 5px;
-      transition: background-color 0.2s ease;
-      border-radius: 4px;
-    }
-
-    .account-stats .stat-row:hover {
-      background-color: rgba(0, 217, 232, 0.1);
-    }
-
-    /* Overlay for Mobile */
-    #overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1050;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      backdrop-filter: blur(5px);
-    }
-
-    #overlay.active {
-      display: block;
-      opacity: 1;
-    }
-
-    /* Terminal Glitch Effect */
-    @keyframes glitch {
-      0% { text-shadow: 0.05em 0 0 var(--neon-pink), -0.05em -0.025em 0 var(--neon-blue); }
-      14% { text-shadow: 0.05em 0 0 var(--neon-pink), -0.05em -0.025em 0 var(--neon-blue); }
-      15% { text-shadow: -0.05em -0.025em 0 var(--neon-pink), 0.025em 0.025em 0 var(--neon-blue); }
-      49% { text-shadow: -0.05em -0.025em 0 var(--neon-pink), 0.025em 0.025em 0 var(--neon-blue); }
-      50% { text-shadow: 0.025em 0.05em 0 var(--neon-pink), 0.05em 0 0 var(--neon-blue); }
-      99% { text-shadow: 0.025em 0.05em 0 var(--neon-pink), 0.05em 0 0 var(--neon-blue); }
-      100% { text-shadow: -0.025em 0 0 var(--neon-pink), -0.025em -0.025em 0 var(--neon-blue); }
-    }
-
-    .glitch {
-      animation: glitch 650ms infinite;
-    }
-
-    /* White Paper Specific Styles */
-    #whitepaper ul {
-      list-style: none; /* Reset list style for whitepaper */
-      padding-left: 20px;
-      margin-top: 15px;
-    }
-
-    #whitepaper li {
-        margin-bottom: 0.8rem;
-        position: relative;
-        padding-left: 25px;
-        color: var(--text-secondary);
-    }
-
-    #whitepaper li::before {
-        content: "\f101"; /* FontAwesome right arrow */
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        color: var(--neon-blue);
-        position: absolute;
-        left: 0;
-        top: 2px;
-        transition: transform 0.3s ease;
-    }
-
-    #whitepaper li:hover::before {
-        transform: translateX(5px);
-        color: var(--neon-green);
-    }
-
-    #whitepaper .disclaimer {
-        font-size: 14px;
-        color: var(--neon-yellow);
-        border-left: 3px solid var(--neon-yellow);
-        padding: 10px 15px;
-        background: rgba(247, 247, 0, 0.1);
-        margin-top: 25px;
-        font-style: italic;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-      .main-content {
-        padding: calc(var(--header-height) + var(--marquee-height) + 20px) 30px 30px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        left: calc(-1 * var(--sidebar-width));
-      }
-      .sidebar.open {
-        left: 0;
-        box-shadow: 0 0 30px var(--neon-blue);
-      }
-      .main-content {
-        margin-left: 0;
-        padding: calc(var(--header-height) + var(--marquee-height) + 20px) 20px 20px;
-      }
-      .hamburger { display: block; }
-      .close-btn { display: block; }
-      .marquee { padding: 10px 0; }
-      .marquee-inner span { margin-right: 30px; }
-      .cyber-panel { padding: 20px; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .exchanges-grid { grid-template-columns: 1fr; }
-      .wallet-info { grid-template-columns: 1fr; }
-      .account-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 480px) {
-      body::before { animation: none; } /* Disable scanlines on small screens */
-      .splash-container .title { font-size: 28px; }
-      .btn { padding: 10px 20px; font-size: 15px; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .wallet-actions { flex-direction: column; }
-      .wallet-actions .btn { width: 100%; }
-      .trading-controls { flex-direction: column; }
-      .trading-controls .btn { width: 100%; }
-      .social-tabs { flex-direction: column; border-bottom: none; }
-      .social-tab { padding: 15px; text-align: left; border-bottom: 1px solid rgba(0, 217, 232, 0.3); }
-      .social-tab.active::after { display: none; }
-      .account-grid { grid-template-columns: 1fr; }
-      .post-header { flex-wrap: wrap; }
-      .post-actions { margin-left: 0; margin-top: 10px; width: 100%; justify-content: flex-end; }
-    }
-
-    /* Utility Classes */
-    .text-primary { color: var(--neon-blue); }
-    .text-success { color: var(--neon-green); }
-    .text-warning { color: var(--neon-yellow); }
-    .text-error { color: var(--neon-pink); }
-    .text-center { text-align: center; }
-    .mb-0 { margin-bottom: 0; }
-    .mt-20 { margin-top: 20px; }
-    .mt-30 { margin-top: 30px; }
-    .mb-20 { margin-bottom: 20px; }
-    .mb-30 { margin-bottom: 30px; }
-
-    /* Prevent Scrolling on Body When Sidebar is Open */
-    .no-scroll { overflow: hidden; }
-
-    /* Animations */
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    .pulse { animation: pulse 2s infinite; }
-
-    /* Tooltip */
-    [data-tooltip] { position: relative; }
-    [data-tooltip]::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-5px);
-      background: var(--panel-bg);
-      color: var(--text-primary);
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-size: 13px;
-      white-space: nowrap;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      border: 1px solid var(--neon-blue);
-      z-index: 100;
-      box-shadow: 0 0 10px var(--neon-blue);
-    }
-    [data-tooltip]:hover::after {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(-10px);
-    }
-  </style>
-</head>
-<body>
-  <div id="splashScreen">
-    <div class="splash-container">
-      <h1 class="title glitch">Hodl Vitality</h1>
-      <p>CYBERPUNK CRYPTO TERMINAL v3.1.4</p>
-      <div class="button-container">
-        <button class="btn btn-primary create-account pulse" onclick="accessTerminal()">
-          <i class="fas fa-user-plus"></i> ACCESS TERMINAL
+  <script src="script.js"></script>
+  </head>
+  <body>
+    <div id="splashScreen">
+      <div class="splash-container">
+        <h1 class="title glitch">Hodl Vitality</h1>
+        <p>CYBERPUNK CRYPTO TERMINAL v3.1.4</p>
+        <div class="button-container">
+          <button class="btn btn-primary create-account pulse" onclick="accessTerminal()">
+            <i class="fas fa-user-plus"></i> ACCESS TERMINAL
+          </button>
+          <a href="#" id="loginButton" class="btn login">
+            <i class="fas fa-sign-in-alt"></i> LOGIN
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="mainContent">
+      <div class="header">
+        <div class="logo">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDVkOWU4IiBkPSJNNTAsMEMyMi40LDAsMCwyMi40LDAsNTBzMjIuNCw1MCw1MCw1MHM1MC0yMi40LDUwLTUwUzc3LjYsMCw1MCwwWk03MC40LDY0LjdsLTYuNCwzLjJDNTkuMSw3MCw1Myw3Miw0Ny4zLDcyYy05LjMsMC0xNC45LTUuNS0xNC45LTEzLjVjMC04LjYsNS44LTEzLjgsMTUtMTMuOGMyLjksMCw1LjYsMC42LDcuOCwxLjdsNi41LTMuNmMtMy42LTIuNS04LjItMy45LTEzLjMtMy45Yy0xMy42LDAtMjIuOCw5LjUtMjIuOCwyMS43YzAsMTIuNyw5LjIsMjEuNCwyMy4xLDIxLjRjNS43LDAsMTEtMS42LDE1LjEtNC41bDYuMywzLjZMNzAuNCw2NC43WiIvPjwvc3ZnPg==" alt="HodlVitality Logo" class="logo-image">
+        </div>
+        <button id="hamburgerMenu" class="hamburger">
+          <i class="fa-solid fa-bars"></i>
         </button>
-        <a href="#" id="loginButton" class="btn login">
-          <i class="fas fa-sign-in-alt"></i> LOGIN
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div id="mainContent">
-    <div class="header">
-      <div class="logo">
-        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDVkOWU4IiBkPSJNNTAsMEMyMi40LDAsMCwyMi40LDAsNTBzMjIuNCw1MCw1MCw1MHM1MC0yMi40LDUwLTUwUzc3LjYsMCw1MCwwWk03MC40LDY0LjdsLTYuNCwzLjJDNTkuMSw3MCw1Myw3Miw0Ny4zLDcyYy05LjMsMC0xNC45LTUuNS0xNC45LTEzLjVjMC04LjYsNS44LTEzLjgsMTUtMTMuOGMyLjksMCw1LjYsMC42LDcuOCwxLjdsNi41LTMuNmMtMy42LTIuNS04LjItMy45LTEzLjMtMy45Yy0xMy42LDAtMjIuOCw5LjUtMjIuOCwyMS43YzAsMTIuNyw5LjIsMjEuNCwyMy4xLDIxLjRjNS43LDAsMTEtMS42LDE1LjEtNC41bDYuMywzLjZMNzAuNCw2NC43WiIvPjwvc3ZnPg==" alt="HodlVitality Logo" class="logo-image">
-      </div>
-      <button id="hamburgerMenu" class="hamburger">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-      <div class="header-right">
-        <button id="connectWalletHeader" class="btn btn-sm">
-          <i class="fas fa-wallet"></i> CONNECT WALLET
-        </button>
-      </div>
-    </div>
-
-    <div class="marquee">
-      <div class="marquee-inner">
-         <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
-         <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
-         <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
-         <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
-         <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
-         <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
-      </div>
-    </div>
-
-    <div class="sidebar">
-      <button id="closeSidebar" class="close-btn">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-      <ul>
-        <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge-high"></i> DASHBOARD</li>
-        <li data-target="wallet"><i class="fa-solid fa-wallet"></i> WALLET</li>
-        <li data-target="social"><i class="fa-solid fa-users"></i> SOCIAL</li>
-        <li data-target="trading"><i class="fa-solid fa-robot"></i> TRADING BOT</li>
-        <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA</li>
-        <li data-target="exchanges"><i class="fa-solid fa-exchange-alt"></i> EXCHANGES</li>
-        <li data-target="whitepaper"><i class="fa-solid fa-file-alt"></i> WHITE PAPER</li> <li data-target="news"><i class="fa-solid fa-newspaper"></i> NEWS</li>
-        <li data-target="resources"><i class="fa-solid fa-hat-wizard"></i> RESOURCES</li>
-        <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> HELP CREATOR</li>
-        <li data-target="account"><i class="fa-solid fa-user"></i> ACCOUNT</li>
-      </ul>
-    </div>
-
-    <div id="overlay"></div>
-
-    <div class="main-content">
-      <div id="dashboard" class="tab-content active">
-        <h1>DASHBOARD</h1>
-        <p class="mb-30">SYSTEM STATUS: ONLINE | LAST SYNC: <span id="syncTime"></span> | HODLVITALITY PRICE: $0.051</p>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-gift" style="margin-right: 10px;"></i>DAILY HODLVITALITY REWARD</h2>
-          <p>Claim your daily HodlVitality (HVITAL) reward for engaging with the terminal.</p>
-          <p>Estimated Reward: <span id="dailyRewardAmount">10 HVITAL</span></p>
-          <button id="dailyRewardButton" class="btn btn-primary mt-20 pulse">
-            <i class="fas fa-gift"></i> CLAIM REWARD
+        <div class="header-right">
+          <button id="connectWalletHeader" class="btn btn-sm">
+            <i class="fas fa-wallet"></i> CONNECT WALLET
           </button>
         </div>
+      </div>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h3>PORTFOLIO VALUE</h3>
-            <div class="stat-value text-primary">$12,450</div>
-          </div>
-          <div class="stat-card">
-            <h3>HVITAL BALANCE</h3>
-            <div class="stat-value text-primary">1,250 HVITAL</div>
-          </div>
-          <div class="stat-card">
-            <h3>24H CHANGE</h3>
-            <div class="stat-value text-success">+2.5%</div>
-          </div>
-          <div class="stat-card">
-            <h3>NEXT DCA</h3>
-            <div class="stat-value">12:00 PM</div>
-          </div>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-chart-bar" style="margin-right: 10px;"></i>MONTHLY HVITAL EARNINGS</h2>
-          <div class="bars">
-            <div class="bar-container" data-tooltip="JAN: 100 HVITAL">
-              <span class="value">100</span>
-              <div class="bar" style="height: 50px;"></div>
-              <span class="label">JAN</span>
-            </div>
-            <div class="bar-container" data-tooltip="FEB: 200 HVITAL">
-              <span class="value">200</span>
-              <div class="bar" style="height: 100px;"></div>
-              <span class="label">FEB</span>
-            </div>
-            <div class="bar-container" data-tooltip="MAR: 150 HVITAL">
-              <span class="value">150</span>
-              <div class="bar" style="height: 75px;"></div>
-              <span class="label">MAR</span>
-            </div>
-            <div class="bar-container" data-tooltip="APR: 250 HVITAL">
-              <span class="value">250</span>
-              <div class="bar" style="height: 125px;"></div>
-              <span class="label">APR</span>
-            </div>
-            <div class="bar-container" data-tooltip="MAY: 300 HVITAL">
-              <span class="value">300</span>
-              <div class="bar" style="height: 150px;"></div>
-              <span class="label">MAY</span>
-            </div>
-          </div>
+      <div class="marquee">
+        <div class="marquee-inner">
+           <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
+           <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
+           <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
+           <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
+           <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
+           <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
         </div>
       </div>
 
-      <div id="wallet" class="tab-content">
-        <h1><i class="fas fa-wallet" style="margin-right: 10px;"></i>WALLET DASHBOARD</h1>
-        <p class="mb-30">CRYPTO WALLET MANAGEMENT INTERFACE</p>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-plug" style="margin-right: 10px;"></i>WALLET CONNECTION</h2>
-          <p id="walletStatus">WALLET STATUS: DISCONNECTED</p>
-          <div class="wallet-actions">
-            <button id="connectWalletTab" class="btn">
-              <i class="fas fa-plug"></i> CONNECT WALLET
-            </button>
-            <button id="copyAddress" class="btn" style="display: none;" data-tooltip="COPY WALLET ADDRESS">
-              <i class="fas fa-copy"></i> COPY ADDRESS
-            </button>
-          </div>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-info-circle" style="margin-right: 10px;"></i>WALLET DETAILS</h2>
-          <div class="wallet-info">
-            <div class="wallet-info-item">
-              <strong>WALLET ADDRESS</strong>
-              <span id="walletAddress">N/A</span>
-            </div>
-            <div class="wallet-info-item">
-              <strong>LN BALANCE</strong>
-              <span id="walletBalance">0 sats</span>
-            </div>
-             <div class="wallet-info-item">
-              <strong>HVITAL BALANCE</strong>
-              <span id="hvitalBalanceWallet">1,250 HVITAL</span>
-            </div>
-            <div class="wallet-info-item">
-              <strong>NETWORK</strong>
-              <span>BITCOIN MAINNET / LIGHTNING</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRANSACTIONS</h2>
-          <ul id="transactionsList">
-             <li class="transaction-item">
-               <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">10 HVITAL</span> </div>
-               <div> <span>DAILY REWARD</span> </div>
-               <div> <span>JUST NOW</span> </div>
-            </li>
-             <li class="transaction-item">
-              <div> <span class="transaction-type transaction-in">IN</span> <span>1,000 sats</span> </div>
-               <div> <span>DEPOSIT</span> </div>
-              <div> <span>2 HOURS AGO</span> </div>
-            </li>
-            <li class="transaction-item">
-               <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">5 HVITAL</span> </div>
-               <div> <span>TIP @CRYPTOGURU</span> </div>
-               <div> <span>18 HOURS AGO</span> </div>
-            </li>
-            <li class="transaction-item">
-              <div> <span class="transaction-type transaction-out">OUT</span> <span>500 sats</span> </div>
-              <div> <span>PAYMENT</span> </div>
-              <div> <span>1 DAY AGO</span> </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-bolt" style="margin-right: 10px;"></i>QUICK ACTIONS</h2>
-          <div class="wallet-actions">
-            <button id="sendPayment" class="btn btn-warning">
-              <i class="fas fa-paper-plane"></i> SEND PAYMENT (LN)
-            </button>
-            <button id="receivePayment" class="btn btn-success">
-              <i class="fas fa-qrcode"></i> RECEIVE PAYMENT (LN)
-            </button>
-             <button id="sendHvital" class="btn btn-primary" data-tooltip="Send HodlVitality Tokens">
-              <i class="fas fa-paper-plane"></i> SEND HVITAL
-            </button>
-          </div>
-        </div>
+      <div class="sidebar">
+        <button id="closeSidebar" class="close-btn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <ul>
+          <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge-high"></i> DASHBOARD</li>
+          <li data-target="wallet"><i class="fa-solid fa-wallet"></i> WALLET</li>
+          <li data-target="social"><i class="fa-solid fa-users"></i> SOCIAL</li>
+          <li data-target="trading"><i class="fa-solid fa-robot"></i> TRADING BOT</li>
+          <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA</li>
+          <li data-target="exchanges"><i class="fa-solid fa-exchange-alt"></i> EXCHANGES</li>
+          <li data-target="whitepaper"><i class="fa-solid fa-file-alt"></i> WHITE PAPER</li> <li data-target="news"><i class="fa-solid fa-newspaper"></i> NEWS</li>
+          <li data-target="resources"><i class="fa-solid fa-hat-wizard"></i> RESOURCES</li>
+          <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> HELP CREATOR</li>
+          <li data-target="account"><i class="fa-solid fa-user"></i> ACCOUNT</li>
+        </ul>
       </div>
 
-      <div id="social" class="tab-content">
-        <h1><i class="fas fa-users" style="margin-right: 10px;"></i>SOCIAL FEED</h1>
-        <p class="mb-30">CRYPTO COMMUNITY NETWORK INTERFACE | TIP USERS WITH HVITAL!</p>
+      <div id="overlay"></div>
 
-        <div class="social-tabs">
-          <div class="social-tab active" data-tab="following">FOR YOU</div>
-          <div class="social-tab" data-tab="yourpage">YOUR PAGE</div>
-          <div class="social-tab" data-tab="discover">DISCOVER</div>
-        </div>
+      <div class="main-content">
+        <div id="dashboard" class="tab-content active">
+          <h1>DASHBOARD</h1>
+          <p class="mb-30">SYSTEM STATUS: ONLINE | LAST SYNC: <span id="syncTime"></span> | HODLVITALITY PRICE: $0.051</p>
 
-        <div class="social-feed" id="following">
-          <div class="cyber-panel post">
-            <div class="post-header">
-              <img src="https://i.pravatar.cc/150?img=3" alt="avatar" data-tooltip="VIEW CRYPTOGURU'S PROFILE"/>
-              <span data-tooltip="VIEW CRYPTOGURU'S PROFILE">CRYPTOGURU</span>
-              <div class="post-actions">
-                <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTOGURU">
-                  <i class="fas fa-user-plus"></i> FOLLOW
-                </button>
-                <button class="btn btn-sm btn-success send-hvital-tip-btn" data-tooltip="TIP 5 HVITAL TO CRYPTOGURU" data-recipient="CRYPTOGURU">
-                  <i class="fas fa-coins"></i> TIP HVITAL
-                </button>
+          <div class="cyber-panel">
+            <h2><i class="fas fa-gift" style="margin-right: 10px;"></i>DAILY HODLVITALITY REWARD</h2>
+            <p>Claim your daily HodlVitality (HVITAL) reward for engaging with the terminal.</p>
+            <p>Estimated Reward: <span id="dailyRewardAmount">10 HVITAL</span></p>
+            <button id="dailyRewardButton" class="btn btn-primary mt-20 pulse">
+              <i class="fas fa-gift"></i> CLAIM REWARD
+            </button>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>PORTFOLIO VALUE</h3>
+              <div class="stat-value text-primary">$12,450</div>
+            </div>
+            <div class="stat-card">
+              <h3>HVITAL BALANCE</h3>
+              <div class="stat-value text-primary">1,250 HVITAL</div>
+            </div>
+            <div class="stat-card">
+              <h3>24H CHANGE</h3>
+              <div class="stat-value text-success">+2.5%</div>
+            </div>
+            <div class="stat-card">
+              <h3>NEXT DCA</h3>
+              <div class="stat-value">12:00 PM</div>
+            </div>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-chart-bar" style="margin-right: 10px;"></i>MONTHLY HVITAL EARNINGS</h2>
+            <div class="bars">
+              <div class="bar-container" data-tooltip="JAN: 100 HVITAL">
+                <span class="value">100</span>
+                <div class="bar" style="height: 50px;"></div>
+                <span class="label">JAN</span>
               </div>
-            </div>
-            <div class="post-body">
-              <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. Thanks for the daily $HVITAL drops! #crypto #tradingbot #hodlvitality</p>
-              <div class="post-meta">
-                <span class="post-meta-item" data-tooltip="POSTED 2 HOURS AGO"><i class="far fa-clock"></i> 2H AGO</span>
-                <span class="post-meta-item" data-tooltip="42 LIKES"><i class="far fa-heart"></i> 42</span>
-                <span class="post-meta-item" data-tooltip="8 COMMENTS"><i class="far fa-comment"></i> 8</span>
-                <span class="post-meta-item" data-tooltip="RECEIVED 15 HVITAL TIPS"><i class="fas fa-coins text-primary"></i> 15 HVITAL</span>
+              <div class="bar-container" data-tooltip="FEB: 200 HVITAL">
+                <span class="value">200</span>
+                <div class="bar" style="height: 100px;"></div>
+                <span class="label">FEB</span>
+              </div>
+              <div class="bar-container" data-tooltip="MAR: 150 HVITAL">
+                <span class="value">150</span>
+                <div class="bar" style="height: 75px;"></div>
+                <span class="label">MAR</span>
+              </div>
+              <div class="bar-container" data-tooltip="APR: 250 HVITAL">
+                <span class="value">250</span>
+                <div class="bar" style="height: 125px;"></div>
+                <span class="label">APR</span>
+              </div>
+              <div class="bar-container" data-tooltip="MAY: 300 HVITAL">
+                <span class="value">300</span>
+                <div class="bar" style="height: 150px;"></div>
+                <span class="label">MAY</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="social-feed" id="yourpage" style="display: none;">
-            <div class="cyber-panel mb-30">
-                 <h2><i class="fas fa-pencil-alt" style="margin-right: 10px;"></i>CREATE POST</h2>
-                 <textarea id="createPostTextarea" placeholder="WHAT'S ON YOUR MIND? SHARE YOUR CRYPTO THOUGHTS..."></textarea>
-                 <button id="createPostButton" class="btn btn-primary"><i class="fas fa-paper-plane"></i> POST</button>
+        <div id="wallet" class="tab-content">
+          <h1><i class="fas fa-wallet" style="margin-right: 10px;"></i>WALLET DASHBOARD</h1>
+          <p class="mb-30">CRYPTO WALLET MANAGEMENT INTERFACE</p>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-plug" style="margin-right: 10px;"></i>WALLET CONNECTION</h2>
+            <p id="walletStatus">WALLET STATUS: DISCONNECTED</p>
+            <div class="wallet-actions">
+              <button id="connectWalletTab" class="btn">
+                <i class="fas fa-plug"></i> CONNECT WALLET
+              </button>
+              <button id="copyAddress" class="btn" style="display: none;" data-tooltip="COPY WALLET ADDRESS">
+                <i class="fas fa-copy"></i> COPY ADDRESS
+              </button>
             </div>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-info-circle" style="margin-right: 10px;"></i>WALLET DETAILS</h2>
+            <div class="wallet-info">
+              <div class="wallet-info-item">
+                <strong>WALLET ADDRESS</strong>
+                <span id="walletAddress">N/A</span>
+              </div>
+              <div class="wallet-info-item">
+                <strong>LN BALANCE</strong>
+                <span id="walletBalance">0 sats</span>
+              </div>
+               <div class="wallet-info-item">
+                <strong>HVITAL BALANCE</strong>
+                <span id="hvitalBalanceWallet">1,250 HVITAL</span>
+              </div>
+              <div class="wallet-info-item">
+                <strong>NETWORK</strong>
+                <span>BITCOIN MAINNET / LIGHTNING</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRANSACTIONS</h2>
+            <ul id="transactionsList">
+               <li class="transaction-item">
+                 <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">10 HVITAL</span> </div>
+                 <div> <span>DAILY REWARD</span> </div>
+                 <div> <span>JUST NOW</span> </div>
+              </li>
+               <li class="transaction-item">
+                <div> <span class="transaction-type transaction-in">IN</span> <span>1,000 sats</span> </div>
+                 <div> <span>DEPOSIT</span> </div>
+                <div> <span>2 HOURS AGO</span> </div>
+              </li>
+              <li class="transaction-item">
+                 <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">5 HVITAL</span> </div>
+                 <div> <span>TIP @CRYPTOGURU</span> </div>
+                 <div> <span>18 HOURS AGO</span> </div>
+              </li>
+              <li class="transaction-item">
+                <div> <span class="transaction-type transaction-out">OUT</span> <span>500 sats</span> </div>
+                <div> <span>PAYMENT</span> </div>
+                <div> <span>1 DAY AGO</span> </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-bolt" style="margin-right: 10px;"></i>QUICK ACTIONS</h2>
+            <div class="wallet-actions">
+              <button id="sendPayment" class="btn btn-warning">
+                <i class="fas fa-paper-plane"></i> SEND PAYMENT (LN)
+              </button>
+              <button id="receivePayment" class="btn btn-success">
+                <i class="fas fa-qrcode"></i> RECEIVE PAYMENT (LN)
+              </button>
+               <button id="sendHvital" class="btn btn-primary" data-tooltip="Send HodlVitality Tokens">
+                <i class="fas fa-paper-plane"></i> SEND HVITAL
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="social" class="tab-content">
+          <h1><i class="fas fa-users" style="margin-right: 10px;"></i>SOCIAL FEED</h1>
+          <p class="mb-30">CRYPTO COMMUNITY NETWORK INTERFACE | TIP USERS WITH HVITAL!</p>
+
+          <div class="social-tabs">
+            <div class="social-tab active" data-tab="following">FOR YOU</div>
+            <div class="social-tab" data-tab="yourpage">YOUR PAGE</div>
+            <div class="social-tab" data-tab="discover">DISCOVER</div>
+          </div>
+
+          <div class="social-feed" id="following">
             <div class="cyber-panel post">
               <div class="post-header">
-                <img src="https://i.pravatar.cc/150?img=1" alt="avatar" data-tooltip="YOUR PROFILE"/>
-                <span data-tooltip="YOUR PROFILE">YOURUSERNAME</span>
+                <img src="https://i.pravatar.cc/150?img=3" alt="avatar" data-tooltip="VIEW CRYPTOGURU'S PROFILE"/>
+                <span data-tooltip="VIEW CRYPTOGURU'S PROFILE">CRYPTOGURU</span>
                 <div class="post-actions">
-                  <button class="btn btn-sm" data-tooltip="EDIT YOUR POST">
-                    <i class="fas fa-edit"></i> EDIT
+                  <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTOGURU">
+                    <i class="fas fa-user-plus"></i> FOLLOW
                   </button>
-                   <button class="btn btn-sm btn-danger" data-tooltip="DELETE YOUR POST">
-                    <i class="fas fa-trash"></i> DELETE
+                  <button class="btn btn-sm btn-success send-hvital-tip-btn" data-tooltip="TIP 5 HVITAL TO CRYPTOGURU" data-recipient="CRYPTOGURU">
+                    <i class="fas fa-coins"></i> TIP HVITAL
                   </button>
                 </div>
               </div>
               <div class="post-body">
-                <p>Excited about the potential of $HVITAL! Claiming my daily rewards and learning more about crypto. #hodlvitality</p>
+                <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. Thanks for the daily $HVITAL drops! #crypto #tradingbot #hodlvitality</p>
                 <div class="post-meta">
-                    <span class="post-meta-item" data-tooltip="POSTED 1 HOUR AGO"><i class="far fa-clock"></i> 1H AGO</span>
-                    <span class="post-meta-item" data-tooltip="5 LIKES"><i class="far fa-heart"></i> 5</span>
-                    <span class="post-meta-item" data-tooltip="2 COMMENTS"><i class="far fa-comment"></i> 2</span>
-                     <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
+                  <span class="post-meta-item" data-tooltip="POSTED 2 HOURS AGO"><i class="far fa-clock"></i> 2H AGO</span>
+                  <span class="post-meta-item" data-tooltip="42 LIKES"><i class="far fa-heart"></i> 42</span>
+                  <span class="post-meta-item" data-tooltip="8 COMMENTS"><i class="far fa-comment"></i> 8</span>
+                  <span class="post-meta-item" data-tooltip="RECEIVED 15 HVITAL TIPS"><i class="fas fa-coins text-primary"></i> 15 HVITAL</span>
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="social-feed" id="yourpage" style="display: none;">
+              <div class="cyber-panel mb-30">
+                   <h2><i class="fas fa-pencil-alt" style="margin-right: 10px;"></i>CREATE POST</h2>
+                   <textarea id="createPostTextarea" placeholder="WHAT'S ON YOUR MIND? SHARE YOUR CRYPTO THOUGHTS..."></textarea>
+                   <button id="createPostButton" class="btn btn-primary"><i class="fas fa-paper-plane"></i> POST</button>
+              </div>
+              <div class="cyber-panel post">
+                <div class="post-header">
+                  <img src="https://i.pravatar.cc/150?img=1" alt="avatar" data-tooltip="YOUR PROFILE"/>
+                  <span data-tooltip="YOUR PROFILE">YOURUSERNAME</span>
+                  <div class="post-actions">
+                    <button class="btn btn-sm" data-tooltip="EDIT YOUR POST">
+                      <i class="fas fa-edit"></i> EDIT
+                    </button>
+                     <button class="btn btn-sm btn-danger" data-tooltip="DELETE YOUR POST">
+                      <i class="fas fa-trash"></i> DELETE
+                    </button>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <p>Excited about the potential of $HVITAL! Claiming my daily rewards and learning more about crypto. #hodlvitality</p>
+                  <div class="post-meta">
+                      <span class="post-meta-item" data-tooltip="POSTED 1 HOUR AGO"><i class="far fa-clock"></i> 1H AGO</span>
+                      <span class="post-meta-item" data-tooltip="5 LIKES"><i class="far fa-heart"></i> 5</span>
+                      <span class="post-meta-item" data-tooltip="2 COMMENTS"><i class="far fa-comment"></i> 2</span>
+                       <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="social-feed" id="discover" style="display: none;">
+            <div class="cyber-panel">
+              <h2>DISCOVER COMMUNITIES</h2>
+              <p>FIND AND JOIN CRYPTO COMMUNITIES THAT MATCH YOUR INTERESTS.</p>
+              <div class="wallet-actions" style="gap: 10px;">
+                 <button class="btn btn-sm community-tag" data-tooltip="JOIN BITCOIN COMMUNITY"> <i class="fab fa-bitcoin"></i> BITCOIN </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="JOIN ETHEREUM COMMUNITY"> <i class="fab fa-ethereum"></i> ETHEREUM </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="JOIN HODLVITALITY COMMUNITY"> <i class="fas fa-coins"></i> HODLVITALITY </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="JOIN TRADING COMMUNITY"> <i class="fas fa-chart-line"></i> TRADING </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="JOIN DEFI COMMUNITY"> <i class="fas fa-coins"></i> DEFI </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="JOIN NFTS COMMUNITY"> <i class="fas fa-palette"></i> NFTS </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="social-feed" id="discover" style="display: none;">
+        <div id="trading" class="tab-content">
+          <h1><i class="fas fa-robot" style="margin-right: 10px;"></i>TRADING BOT</h1>
+          <p class="mb-30">AUTOMATED TRADING TERMINAL v2.5.1</p>
+
+          <div class="trading-controls">
+            <button class="btn btn-success" data-tooltip="START THE TRADING BOT"> <i class="fas fa-play"></i> START BOT </button>
+            <button class="btn btn-warning" data-tooltip="PAUSE THE TRADING BOT"> <i class="fas fa-pause"></i> PAUSE BOT </button>
+            <button class="btn btn-danger" data-tooltip="STOP THE TRADING BOT"> <i class="fas fa-stop"></i> STOP BOT </button>
+            <button class="btn" data-tooltip="CONFIGURE BOT SETTINGS"> <i class="fas fa-cog"></i> SETTINGS </button>
+          </div>
+
           <div class="cyber-panel">
-            <h2>DISCOVER COMMUNITIES</h2>
-            <p>FIND AND JOIN CRYPTO COMMUNITIES THAT MATCH YOUR INTERESTS.</p>
-            <div class="wallet-actions" style="gap: 10px;">
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN BITCOIN COMMUNITY"> <i class="fab fa-bitcoin"></i> BITCOIN </button>
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN ETHEREUM COMMUNITY"> <i class="fab fa-ethereum"></i> ETHEREUM </button>
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN HODLVITALITY COMMUNITY"> <i class="fas fa-coins"></i> HODLVITALITY </button>
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN TRADING COMMUNITY"> <i class="fas fa-chart-line"></i> TRADING </button>
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN DEFI COMMUNITY"> <i class="fas fa-coins"></i> DEFI </button>
-               <button class="btn btn-sm community-tag" data-tooltip="JOIN NFTS COMMUNITY"> <i class="fas fa-palette"></i> NFTS </button>
+            <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>BITCOIN PRICE CHART</h2>
+            <div class="chart-container">
+              <canvas id="bitcoinChart"></canvas>
+            </div>
+            <div id="priceSuggestions" class="mt-20"></div>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRADES</h2>
+            <div class="table-container">
+             <table class="trading-table">
+              <thead>
+                <tr>
+                  <th>TIME</th> <th>SIGNAL</th> <th>PAIR</th> <th>PRICE</th> <th>AMOUNT</th> <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>09:00</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,120</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                </tr>
+                <tr>
+                  <td>10:30</td> <td><span class="text-error">SELL</span></td> <td>BTC/USD</td> <td>$42,800</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                </tr>
+                <tr>
+                  <td>12:15</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,350</td> <td>0.007 BTC</td> <td><span class="status-active">ACTIVE</span></td>
+                </tr>
+                 <tr>
+                  <td>13:30</td> <td><span class="text-success">BUY</span></td> <td>HVITAL/USD</td> <td>$0.050</td> <td>100 HVITAL</td> <td><span class="status-pending">PENDING</span></td>
+                </tr>
+                <tr>
+                  <td>14:45</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,000</td> <td>0.010 BTC</td> <td><span class="status-pending">PENDING</span></td>
+                </tr>
+                 <tr>
+                  <td>16:00</td> <td><span class="text-error">STOP LOSS</span></td> <td>BTC/USD</td> <td>$41,800</td> <td>0.007 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                </tr>
+              </tbody>
+            </table>
             </div>
           </div>
         </div>
-      </div>
 
-      <div id="trading" class="tab-content">
-        <h1><i class="fas fa-robot" style="margin-right: 10px;"></i>TRADING BOT</h1>
-        <p class="mb-30">AUTOMATED TRADING TERMINAL v2.5.1</p>
+        <div id="dca" class="tab-content">
+          <h1><i class="fas fa-chart-line" style="margin-right: 10px;"></i>DOLLAR-COST AVERAGING</h1>
+          <p class="mb-30">AUTOMATED INVESTMENT PROTOCOL</p>
 
-        <div class="trading-controls">
-          <button class="btn btn-success" data-tooltip="START THE TRADING BOT"> <i class="fas fa-play"></i> START BOT </button>
-          <button class="btn btn-warning" data-tooltip="PAUSE THE TRADING BOT"> <i class="fas fa-pause"></i> PAUSE BOT </button>
-          <button class="btn btn-danger" data-tooltip="STOP THE TRADING BOT"> <i class="fas fa-stop"></i> STOP BOT </button>
-          <button class="btn" data-tooltip="CONFIGURE BOT SETTINGS"> <i class="fas fa-cog"></i> SETTINGS </button>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>BITCOIN PRICE CHART</h2>
-          <div class="chart-container">
-            <canvas id="bitcoinChart"></canvas>
-          </div>
-          <div id="priceSuggestions" class="mt-20"></div>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRADES</h2>
-          <div class="table-container">
-           <table class="trading-table">
-            <thead>
-              <tr>
-                <th>TIME</th> <th>SIGNAL</th> <th>PAIR</th> <th>PRICE</th> <th>AMOUNT</th> <th>STATUS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>09:00</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,120</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
-              </tr>
-              <tr>
-                <td>10:30</td> <td><span class="text-error">SELL</span></td> <td>BTC/USD</td> <td>$42,800</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
-              </tr>
-              <tr>
-                <td>12:15</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,350</td> <td>0.007 BTC</td> <td><span class="status-active">ACTIVE</span></td>
-              </tr>
-               <tr>
-                <td>13:30</td> <td><span class="text-success">BUY</span></td> <td>HVITAL/USD</td> <td>$0.050</td> <td>100 HVITAL</td> <td><span class="status-pending">PENDING</span></td>
-              </tr>
-              <tr>
-                <td>14:45</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,000</td> <td>0.010 BTC</td> <td><span class="status-pending">PENDING</span></td>
-              </tr>
-               <tr>
-                <td>16:00</td> <td><span class="text-error">STOP LOSS</span></td> <td>BTC/USD</td> <td>$41,800</td> <td>0.007 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
-              </tr>
-            </tbody>
-          </table>
-          </div>
-        </div>
-      </div>
-
-      <div id="dca" class="tab-content">
-        <h1><i class="fas fa-chart-line" style="margin-right: 10px;"></i>DOLLAR-COST AVERAGING</h1>
-        <p class="mb-30">AUTOMATED INVESTMENT PROTOCOL</p>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-chart-area" style="margin-right: 10px;"></i>DCA PERFORMANCE</h2>
-          <div class="chart-container">
-            <canvas id="dcaChart"></canvas>
-          </div>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>CURRENT STRATEGY</h2>
-          <div class="wallet-info">
-            <div class="wallet-info-item"> <strong>ASSET</strong> <span>BITCOIN (BTC)</span> </div>
-            <div class="wallet-info-item"> <strong>FREQUENCY</strong> <span>DAILY</span> </div>
-            <div class="wallet-info-item"> <strong>AMOUNT</strong> <span>$50</span> </div>
-            <div class="wallet-info-item"> <strong>NEXT PURCHASE</strong> <span>TOMORROW, 12:00 PM</span> </div>
-          </div>
-          <div class="wallet-actions mt-20">
-            <button class="btn btn-primary" data-tooltip="EDIT DCA SETTINGS"> <i class="fas fa-edit"></i> EDIT STRATEGY </button>
-            <button class="btn btn-danger" data-tooltip="PAUSE AUTOMATIC PURCHASES"> <i class="fas fa-stop"></i> PAUSE DCA </button>
-          </div>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-history" style="margin-right: 10px;"></i>PURCHASE HISTORY</h2>
-          <div class="table-container">
-          <table class="trading-table">
-            <thead>
-              <tr> <th>DATE</th> <th>TIME</th> <th>AMOUNT</th> <th>PRICE</th> <th>BTC RECEIVED</th> </tr>
-            </thead>
-            <tbody>
-              <tr> <td>TODAY</td> <td>12:00</td> <td>$50</td> <td>$42,350</td> <td>0.00118 BTC</td> </tr>
-              <tr> <td>YESTERDAY</td> <td>12:00</td> <td>$50</td> <td>$41,800</td> <td>0.001196 BTC</td> </tr>
-              <tr> <td>2 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$42,100</td> <td>0.001188 BTC</td> </tr>
-              <tr> <td>3 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$41,500</td> <td>0.001205 BTC</td> </tr>
-              <tr> <td>4 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$41,950</td> <td>0.001192 BTC</td> </tr>
-            </tbody>
-          </table>
-          </div>
-        </div>
-      </div>
-
-      <div id="exchanges" class="tab-content">
-        <h1><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>EXCHANGE INTEGRATION</h1>
-        <p class="mb-30">CONNECTED EXCHANGE INTERFACES</p>
-
-        <div class="exchanges-grid">
-          <div class="cyber-panel exchange-card">
-            <div class="exchange-icon"> <i class="fab fa-bitcoin"></i> </div>
-            <h2>BINANCE</h2>
-            <p>WORLD'S LEADING CRYPTOCURRENCY EXCHANGE</p>
-            <button class="btn btn-sm btn-success" disabled> <i class="fas fa-check"></i> CONNECTED </button>
-            <div class="exchange-stats">
-               <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value text-success">CONNECTED</span> </div>
-               <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">0.5 BTC</span> </div>
-               <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">5,000 HVITAL</span> </div>
-               <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value text-success">ACTIVE</span> </div>
+          <div class="cyber-panel">
+            <h2><i class="fas fa-chart-area" style="margin-right: 10px;"></i>DCA PERFORMANCE</h2>
+            <div class="chart-container">
+              <canvas id="dcaChart"></canvas>
             </div>
           </div>
 
-          <div class="cyber-panel exchange-card">
-            <div class="exchange-icon"> <i class="fab fa-ethereum"></i> </div>
-            <h2>COINBASE</h2>
-            <p>SECURE PLATFORM FOR CRYPTO TRADING</p>
-            <button class="btn btn-sm" data-tooltip="CONNECT COINBASE ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
-            <div class="exchange-stats">
-               <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
-               <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
-               <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
-               <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+          <div class="cyber-panel">
+            <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>CURRENT STRATEGY</h2>
+            <div class="wallet-info">
+              <div class="wallet-info-item"> <strong>ASSET</strong> <span>BITCOIN (BTC)</span> </div>
+              <div class="wallet-info-item"> <strong>FREQUENCY</strong> <span>DAILY</span> </div>
+              <div class="wallet-info-item"> <strong>AMOUNT</strong> <span>$50</span> </div>
+              <div class="wallet-info-item"> <strong>NEXT PURCHASE</strong> <span>TOMORROW, 12:00 PM</span> </div>
+            </div>
+            <div class="wallet-actions mt-20">
+              <button class="btn btn-primary" data-tooltip="EDIT DCA SETTINGS"> <i class="fas fa-edit"></i> EDIT STRATEGY </button>
+              <button class="btn btn-danger" data-tooltip="PAUSE AUTOMATIC PURCHASES"> <i class="fas fa-stop"></i> PAUSE DCA </button>
             </div>
           </div>
 
-          <div class="cyber-panel exchange-card">
-            <div class="exchange-icon"> <i class="fas fa-anchor"></i> </div>
-            <h2>KRAKEN</h2>
-            <p>PROFESSIONAL TRADING PLATFORM</p>
-            <button class="btn btn-sm" data-tooltip="CONNECT KRAKEN ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
-            <div class="exchange-stats">
-                <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
-                <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
+          <div class="cyber-panel">
+            <h2><i class="fas fa-history" style="margin-right: 10px;"></i>PURCHASE HISTORY</h2>
+            <div class="table-container">
+            <table class="trading-table">
+              <thead>
+                <tr> <th>DATE</th> <th>TIME</th> <th>AMOUNT</th> <th>PRICE</th> <th>BTC RECEIVED</th> </tr>
+              </thead>
+              <tbody>
+                <tr> <td>TODAY</td> <td>12:00</td> <td>$50</td> <td>$42,350</td> <td>0.00118 BTC</td> </tr>
+                <tr> <td>YESTERDAY</td> <td>12:00</td> <td>$50</td> <td>$41,800</td> <td>0.001196 BTC</td> </tr>
+                <tr> <td>2 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$42,100</td> <td>0.001188 BTC</td> </tr>
+                <tr> <td>3 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$41,500</td> <td>0.001205 BTC</td> </tr>
+                <tr> <td>4 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$41,950</td> <td>0.001192 BTC</td> </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="exchanges" class="tab-content">
+          <h1><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>EXCHANGE INTEGRATION</h1>
+          <p class="mb-30">CONNECTED EXCHANGE INTERFACES</p>
+
+          <div class="exchanges-grid">
+            <div class="cyber-panel exchange-card">
+              <div class="exchange-icon"> <i class="fab fa-bitcoin"></i> </div>
+              <h2>BINANCE</h2>
+              <p>WORLD'S LEADING CRYPTOCURRENCY EXCHANGE</p>
+              <button class="btn btn-sm btn-success" disabled> <i class="fas fa-check"></i> CONNECTED </button>
+              <div class="exchange-stats">
+                 <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value text-success">CONNECTED</span> </div>
+                 <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">0.5 BTC</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">5,000 HVITAL</span> </div>
+                 <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value text-success">ACTIVE</span> </div>
+              </div>
+            </div>
+
+            <div class="cyber-panel exchange-card">
+              <div class="exchange-icon"> <i class="fab fa-ethereum"></i> </div>
+              <h2>COINBASE</h2>
+              <p>SECURE PLATFORM FOR CRYPTO TRADING</p>
+              <button class="btn btn-sm" data-tooltip="CONNECT COINBASE ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
+              <div class="exchange-stats">
+                 <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
+                 <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
                  <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
-                <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+              </div>
+            </div>
+
+            <div class="cyber-panel exchange-card">
+              <div class="exchange-icon"> <i class="fas fa-anchor"></i> </div>
+              <h2>KRAKEN</h2>
+              <p>PROFESSIONAL TRADING PLATFORM</p>
+              <button class="btn btn-sm" data-tooltip="CONNECT KRAKEN ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
+              <div class="exchange-stats">
+                  <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
+                  <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
+                   <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
+                  <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div id="whitepaper" class="tab-content">
-        <h1><i class="fas fa-file-alt" style="margin-right: 10px;"></i>HODLVITALITY (HVITAL) WHITE PAPER</h1>
-        <p class="mb-30">VERSION 1.0 | PROTOCOL SPECIFICATION & VISION</p>
+        <div id="whitepaper" class="tab-content">
+          <h1><i class="fas fa-file-alt" style="margin-right: 10px;"></i>HODLVITALITY (HVITAL) WHITE PAPER</h1>
+          <p class="mb-30">VERSION 1.0 | PROTOCOL SPECIFICATION & VISION</p>
 
-        <div class="cyber-panel">
-          <h2><i class="fas fa-terminal" style="margin-right: 10px;"></i>ABSTRACT</h2>
-          <p>HodlVitality (HVITAL) is a utility token designed to reward user engagement within the HodlVitality Cyberpunk Crypto Terminal ecosystem. It operates on a simple, fair, and transparent protocol, distributing rewards daily to active users. The core philosophy emphasizes consistent user interaction and provides a foundational token for future platform features, while allocating a fixed percentage to the founding creator for ongoing development and maintenance.</p>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-cogs" style="margin-right: 10px;"></i>CORE CONCEPT: DAILY VITALITY REWARDS</h2>
-          <p>The primary distribution mechanism for HVITAL is the Daily Vitality Reward. This system is designed to be straightforward and incentivize regular platform usage.</p>
-          <ul>
-            <li><strong class="text-primary">Eligibility:</strong> Any registered user who logs into the HodlVitality Terminal is eligible for the daily reward.</li>
-            <li><strong class="text-primary">Claiming Mechanism:</strong> Users must actively claim their reward once per 24-hour cycle via the designated "Claim Reward" button on the Dashboard.</li>
-            <li><strong class="text-primary">Reward Amount:</strong> The base daily reward amount is fixed (e.g., 10 HVITAL) but may be subject to future adjustments based on protocol governance or promotional events.</li>
-            <li><strong class="text-primary">Fairness:</strong> The protocol ensures that each eligible user can claim the reward only once per cycle, preventing abuse and ensuring equitable distribution among active participants.</li>
-          </ul>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-coins" style="margin-right: 10px;"></i>TOKENOMICS (HVITAL)</h2>
-          <p>The HVITAL tokenomics are designed for simplicity and sustainability within the HodlVitality ecosystem.</p>
-          <ul>
-            <li><strong class="text-primary">Token Ticker:</strong> HVITAL</li>
-            <li><strong class="text-primary">Total Supply:</strong> 1,000,000,000 HVITAL (One Billion) - Fixed Supply. No further minting beyond the initial structure.</li>
-            <li><strong class="text-primary">Distribution Pool:</strong> A significant portion of the total supply (e.g., 70% = 700,000,000 HVITAL) is allocated to the Daily Vitality Rewards pool, distributed over time.</li>
-            <li><strong class="text-primary">Creator Allocation:</strong> 10% of the total supply (100,000,000 HVITAL) is allocated to the original creator. This allocation vests linearly over a period of 48 months from the protocol launch date to ensure long-term commitment.</li>
-             <li><strong class="text-primary">Ecosystem Growth:</strong> 15% of the total supply (150,000,000 HVITAL) is reserved for future ecosystem development, partnerships, marketing, and community initiatives.</li>
-             <li><strong class="text-primary">Liquidity & Exchange:</strong> 5% of the total supply (50,000,000 HVITAL) is allocated for providing initial liquidity on potential future exchange listings.</li>
-            <li><strong class="text-primary">Utility (Initial):</strong>
-                <ul>
-                    <li>Tipping other users within the Social Feed.</li>
-                    <li>Potential future access to premium features or data within the terminal.</li>
-                    <li>Participation in future governance votes regarding protocol parameters.</li>
-                </ul>
-            </li>
-          </ul>
-        </div>
-
-         <div class="cyber-panel">
-          <h2><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>PROTOCOL & FAIRNESS</h2>
-          <p>The HodlVitality protocol prioritizes fairness, transparency, and simplicity.</p>
-          <ul>
-            <li><strong class="text-primary">Transparency:</strong> All reward distributions and allocations (including creator vesting) will be verifiable (details TBD - potentially on a public ledger or via transparent database logs accessible to users).</li>
-            <li><strong class="text-primary">Simplicity:</strong> The core reward mechanism is intentionally simple to understand and participate in.</li>
-            <li><strong class="text-primary">Fair Distribution:</strong> The daily claim limit ensures rewards are spread across the active user base rather than concentrated.</li>
-            <li><strong class="text-primary">Technology Stack:</strong> While initially managed via a centralized ledger within the HodlVitality application for simplicity and speed, future iterations may explore migration to a decentralized blockchain solution if deemed beneficial for the ecosystem.</li>
-          </ul>
-        </div>
-
-        <div class="cyber-panel">
-            <h2><i class="fas fa-road" style="margin-right: 10px;"></i>ROADMAP SNIPPETS</h2>
-            <p>Future development may include:</p>
-             <ul>
-                <li>Enhanced utility for HVITAL (e.g., feature unlocks, cosmetic upgrades).</li>
-                <li>Integration with additional crypto services.</li>
-                <li>Exploration of decentralized identity solutions.</li>
-                <li>Community governance mechanisms via HVITAL staking.</li>
-                <li>Potential listing on select decentralized or centralized exchanges (subject to feasibility and regulations).</li>
-             </ul>
-        </div>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>DISCLAIMER</h2>
-          <p class="disclaimer">HodlVitality (HVITAL) is a utility token designed for use within the HodlVitality platform. It is not intended as an investment vehicle or security. The value of HVITAL can fluctuate and may be subject to market risks. Users should conduct their own research and understand the risks involved before acquiring or using HVITAL. The creators make no guarantees regarding the future value or utility of the token. This white paper is for informational purposes only and does not constitute financial advice.</p>
-        </div>
-      </div>
-      <div id="news" class="tab-content">
-        <h1><i class="fas fa-newspaper" style="margin-right: 10px;"></i>CRYPTO NEWS</h1>
-        <p class="mb-30">LATEST CRYPTOCURRENCY MARKET UPDATES</p>
-
-        <div class="cyber-panel post">
-          <div class="post-header">
-            <img src="https://i.pravatar.cc/150?img=11" alt="avatar" /> <span>CRYPTONEWS</span>
-            <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTONEWS"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
+          <div class="cyber-panel">
+            <h2><i class="fas fa-terminal" style="margin-right: 10px;"></i>ABSTRACT</h2>
+            <p>HodlVitality (HVITAL) is a utility token designed to reward user engagement within the HodlVitality Cyberpunk Crypto Terminal ecosystem. It operates on a simple, fair, and transparent protocol, distributing rewards daily to active users. The core philosophy emphasizes consistent user interaction and provides a foundational token for future platform features, while allocating a fixed percentage to the founding creator for ongoing development and maintenance.</p>
           </div>
-          <div class="post-body">
-            <h3>BITCOIN SURPASSES $42,000 AMID INSTITUTIONAL DEMAND</h3>
-            <p>Bitcoin has broken through the $42,000 resistance level as institutional investors continue to show strong interest...</p>
-            <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 2 HOURS AGO</span> </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-cogs" style="margin-right: 10px;"></i>CORE CONCEPT: DAILY VITALITY REWARDS</h2>
+            <p>The primary distribution mechanism for HVITAL is the Daily Vitality Reward. This system is designed to be straightforward and incentivize regular platform usage.</p>
+            <ul>
+              <li><strong class="text-primary">Eligibility:</strong> Any registered user who logs into the HodlVitality Terminal is eligible for the daily reward.</li>
+              <li><strong class="text-primary">Claiming Mechanism:</strong> Users must actively claim their reward once per 24-hour cycle via the designated "Claim Reward" button on the Dashboard.</li>
+              <li><strong class="text-primary">Reward Amount:</strong> The base daily reward amount is fixed (e.g., 10 HVITAL) but may be subject to future adjustments based on protocol governance or promotional events.</li>
+              <li><strong class="text-primary">Fairness:</strong> The protocol ensures that each eligible user can claim the reward only once per cycle, preventing abuse and ensuring equitable distribution among active participants.</li>
+            </ul>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-coins" style="margin-right: 10px;"></i>TOKENOMICS (HVITAL)</h2>
+            <p>The HVITAL tokenomics are designed for simplicity and sustainability within the HodlVitality ecosystem.</p>
+            <ul>
+              <li><strong class="text-primary">Token Ticker:</strong> HVITAL</li>
+              <li><strong class="text-primary">Total Supply:</strong> 1,000,000,000 HVITAL (One Billion) - Fixed Supply. No further minting beyond the initial structure.</li>
+              <li><strong class="text-primary">Distribution Pool:</strong> A significant portion of the total supply (e.g., 70% = 700,000,000 HVITAL) is allocated to the Daily Vitality Rewards pool, distributed over time.</li>
+              <li><strong class="text-primary">Creator Allocation:</strong> 10% of the total supply (100,000,000 HVITAL) is allocated to the original creator. This allocation vests linearly over a period of 48 months from the protocol launch date to ensure long-term commitment.</li>
+               <li><strong class="text-primary">Ecosystem Growth:</strong> 15% of the total supply (150,000,000 HVITAL) is reserved for future ecosystem development, partnerships, marketing, and community initiatives.</li>
+               <li><strong class="text-primary">Liquidity & Exchange:</strong> 5% of the total supply (50,000,000 HVITAL) is allocated for providing initial liquidity on potential future exchange listings.</li>
+              <li><strong class="text-primary">Utility (Initial):</strong>
+                  <ul>
+                      <li>Tipping other users within the Social Feed.</li>
+                      <li>Potential future access to premium features or data within the terminal.</li>
+                      <li>Participation in future governance votes regarding protocol parameters.</li>
+                  </ul>
+              </li>
+            </ul>
+          </div>
+
+           <div class="cyber-panel">
+            <h2><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>PROTOCOL & FAIRNESS</h2>
+            <p>The HodlVitality protocol prioritizes fairness, transparency, and simplicity.</p>
+            <ul>
+              <li><strong class="text-primary">Transparency:</strong> All reward distributions and allocations (including creator vesting) will be verifiable (details TBD - potentially on a public ledger or via transparent database logs accessible to users).</li>
+              <li><strong class="text-primary">Simplicity:</strong> The core reward mechanism is intentionally simple to understand and participate in.</li>
+              <li><strong class="text-primary">Fair Distribution:</strong> The daily claim limit ensures rewards are spread across the active user base rather than concentrated.</li>
+              <li><strong class="text-primary">Technology Stack:</strong> While initially managed via a centralized ledger within the HodlVitality application for simplicity and speed, future iterations may explore migration to a decentralized blockchain solution if deemed beneficial for the ecosystem.</li>
+            </ul>
+          </div>
+
+          <div class="cyber-panel">
+              <h2><i class="fas fa-road" style="margin-right: 10px;"></i>ROADMAP SNIPPETS</h2>
+              <p>Future development may include:</p>
+               <ul>
+                  <li>Enhanced utility for HVITAL (e.g., feature unlocks, cosmetic upgrades).</li>
+                  <li>Integration with additional crypto services.</li>
+                  <li>Exploration of decentralized identity solutions.</li>
+                  <li>Community governance mechanisms via HVITAL staking.</li>
+                  <li>Potential listing on select decentralized or centralized exchanges (subject to feasibility and regulations).</li>
+               </ul>
+          </div>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>DISCLAIMER</h2>
+            <p class="disclaimer">HodlVitality (HVITAL) is a utility token designed for use within the HodlVitality platform. It is not intended as an investment vehicle or security. The value of HVITAL can fluctuate and may be subject to market risks. Users should conduct their own research and understand the risks involved before acquiring or using HVITAL. The creators make no guarantees regarding the future value or utility of the token. This white paper is for informational purposes only and does not constitute financial advice.</p>
           </div>
         </div>
-         <div class="cyber-panel post">
-          <div class="post-header">
-            <img src="https://i.pravatar.cc/150?img=12" alt="avatar" /> <span>ALTCOIN WATCH</span>
-            <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW ALTCOIN WATCH"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
-          </div>
-          <div class="post-body">
-            <h3>HODLVITALITY (HVITAL) SEES INCREASED ACTIVITY AFTER PROTOCOL LAUNCH</h3>
-            <p>The newly launched HodlVitality token ($HVITAL) integrated into the Cyberpunk Terminal is seeing growing daily claims and social tipping activity...</p>
-            <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 45 MINUTES AGO</span> </div>
-          </div>
-        </div>
-      </div>
+        <div id="news" class="tab-content">
+          <h1><i class="fas fa-newspaper" style="margin-right: 10px;"></i>CRYPTO NEWS</h1>
+          <p class="mb-30">LATEST CRYPTOCURRENCY MARKET UPDATES</p>
 
-      <div id="resources" class="tab-content">
-        <h1><i class="fas fa-hat-wizard" style="margin-right: 10px;"></i>LEARNING RESOURCES</h1>
-        <p class="mb-30">CRYPTO KNOWLEDGE DATABASE</p>
-
-        <div class="cyber-panel">
-          <h2><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>BEGINNER GUIDES</h2>
-          <div class="wallet-info">
-             <div class="wallet-info-item"> <h3>HODLVITALITY FAQ</h3> <p>FREQUENTLY ASKED QUESTIONS ABOUT HVITAL</p> <button class="btn btn-sm mt-20" data-tooltip="READ HVITAL FAQ" onclick="navigateToTab('whitepaper')"> <i class="fas fa-question-circle"></i> READ FAQ </button> </div>
-             <div class="wallet-info-item"> <h3>BITCOIN WHITEPAPER</h3> <p>THE ORIGINAL PAPER BY SATOSHI NAKAMOTO</p> <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" class="btn btn-sm mt-20" data-tooltip="READ WHITEPAPER"> <i class="fas fa-book"></i> READ </a> </div>
-             <div class="wallet-info-item"> <h3>CRYPTO SECURITY 101</h3> <p>LEARN HOW TO KEEP YOUR CRYPTO SAFE</p> <button class="btn btn-sm mt-20" data-tooltip="LEARN SECURITY BASICS"> <i class="fas fa-shield-alt"></i> LEARN </button> </div>
-             <div class="wallet-info-item"> <h3>WHAT IS BLOCKCHAIN?</h3> <p>A SIMPLE EXPLANATION</p> <button class="btn btn-sm mt-20" data-tooltip="EXPLAIN BLOCKCHAIN"> <i class="fas fa-link"></i> EXPLAIN </button> </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="helpcreator" class="tab-content">
-        <h1><i class="fas fa-qrcode" style="margin-right: 10px;"></i>SUPPORT THE CREATOR</h1>
-        <div class="donate-text">
-          <p>IF YOU FIND HODLVITALITY VALUABLE, CONSIDER SUPPORTING ITS DEVELOPMENT WITH A DONATION VIA LIGHTNING OR BITCOIN. YOUR SUPPORT HELPS FUND IMPROVEMENTS AND NEW FEATURES.</p>
-        </div>
-
-        <div class="qr-container">
-          <div id="helpCreatorQR" data-tooltip="SCAN TO DONATE VIA LIGHTNING"></div>
-          <p>SCAN TO DONATE VIA LIGHTNING NETWORK</p>
-          <div class="donate-address">
-            bc1qsimulateddonationaddress1234567890
-          </div>
-          <button class="btn btn-primary" onclick="copyToClipboard('bc1qsimulateddonationaddress1234567890', 'BTC Address Copied!')" data-tooltip="COPY BTC ADDRESS">
-            <i class="fas fa-copy"></i> COPY ADDRESS
-          </button>
-        </div>
-
-        <div class="cyber-panel mt-30">
-          <h2><i class="fas fa-road" style="margin-right: 10px;"></i>DEVELOPMENT ROADMAP</h2>
-          <ul style="list-style-type: none;">
-             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> CORE PROTOCOL V1 & DAILY REWARDS (LIVE)</h3> <p>HVITAL distribution via daily claims.</p> </li>
-             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> HVITAL SOCIAL TIPPING (LIVE)</h3> <p>Tip users with HVITAL tokens.</p> </li>
-             <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> ADVANCED TRADING FEATURES (NEXT)</h3> <p>More indicators, backtesting, potential HVITAL pairs.</p> </li>
-              <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> GOVERNANCE FRAMEWORK (PLANNED)</h3> <p>Implement voting mechanism using HVITAL.</p> </li>
-             <li> <h3><span class="text-secondary">○</span> MOBILE APP (FUTURE)</h3> <p>Full-featured mobile experience.</p> </li>
-          </ul>
-        </div>
-      </div>
-
-      <div id="account" class="tab-content">
-        <h1><i class="fas fa-user" style="margin-right: 10px;"></i>ACCOUNT OVERVIEW</h1>
-
-        <div class="account-grid">
-          <div class="cyber-panel account-section">
-            <img src="https://i.pravatar.cc/150?img=1" class="account-avatar" alt="User Avatar">
-            <h2 class="text-center">USERNAME</h2>
-            <p class="text-center text-secondary">MEMBER SINCE JUNE 2023</p>
-            <div class="account-stats">
-              <div class="stat-row"> <span class="stat-label">FOLLOWERS:</span> <span class="stat-value">128</span> </div>
-              <div class="stat-row"> <span class="stat-label">FOLLOWING:</span> <span class="stat-value">42</span> </div>
-              <div class="stat-row"> <span class="stat-label">POSTS:</span> <span class="stat-value">18</span> </div>
-               <div class="stat-row"> <span class="stat-label">HVITAL EARNED:</span> <span class="stat-value">1,250 HVITAL</span> </div>
+          <div class="cyber-panel post">
+            <div class="post-header">
+              <img src="https://i.pravatar.cc/150?img=11" alt="avatar" /> <span>CRYPTONEWS</span>
+              <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTONEWS"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
+            </div>
+            <div class="post-body">
+              <h3>BITCOIN SURPASSES $42,000 AMID INSTITUTIONAL DEMAND</h3>
+              <p>Bitcoin has broken through the $42,000 resistance level as institutional investors continue to show strong interest...</p>
+              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 2 HOURS AGO</span> </div>
             </div>
           </div>
-
-          <div class="cyber-panel account-section">
-            <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>WALLET GAINS</h2>
-            <div class="chart-container" style="height: 250px;"> <canvas id="walletGainsChart"></canvas> </div>
-            <div class="account-stats">
-               <div class="stat-row"> <span class="stat-label">ALL TIME:</span> <span class="stat-value text-success">+125%</span> </div>
-               <div class="stat-row"> <span class="stat-label">THIS YEAR:</span> <span class="stat-value text-success">+45%</span> </div>
+           <div class="cyber-panel post">
+            <div class="post-header">
+              <img src="https://i.pravatar.cc/150?img=12" alt="avatar" /> <span>ALTCOIN WATCH</span>
+              <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW ALTCOIN WATCH"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
+            </div>
+            <div class="post-body">
+              <h3>HODLVITALITY (HVITAL) SEES INCREASED ACTIVITY AFTER PROTOCOL LAUNCH</h3>
+              <p>The newly launched HodlVitality token ($HVITAL) integrated into the Cyberpunk Terminal is seeing growing daily claims and social tipping activity...</p>
+              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 45 MINUTES AGO</span> </div>
             </div>
           </div>
+        </div>
 
-          <div class="cyber-panel account-section">
-            <h2><i class="fas fa-robot" style="margin-right: 10px;"></i>TRADING BOT PERFORMANCE</h2>
-            <div class="chart-container" style="height: 250px;"> <canvas id="tradingBotGainsChart"></canvas> </div>
-            <div class="account-stats">
-               <div class="stat-row"> <span class="stat-label">WIN RATE:</span> <span class="stat-value text-success">72%</span> </div>
-               <div class="stat-row"> <span class="stat-label">TOTAL PROFIT:</span> <span class="stat-value">0.15 BTC</span> </div>
+        <div id="resources" class="tab-content">
+          <h1><i class="fas fa-hat-wizard" style="margin-right: 10px;"></i>LEARNING RESOURCES</h1>
+          <p class="mb-30">CRYPTO KNOWLEDGE DATABASE</p>
+
+          <div class="cyber-panel">
+            <h2><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>BEGINNER GUIDES</h2>
+            <div class="wallet-info">
+               <div class="wallet-info-item"> <h3>HODLVITALITY FAQ</h3> <p>FREQUENTLY ASKED QUESTIONS ABOUT HVITAL</p> <button class="btn btn-sm mt-20" data-tooltip="READ HVITAL FAQ" onclick="navigateToTab('whitepaper')"> <i class="fas fa-question-circle"></i> READ FAQ </button> </div>
+               <div class="wallet-info-item"> <h3>BITCOIN WHITEPAPER</h3> <p>THE ORIGINAL PAPER BY SATOSHI NAKAMOTO</p> <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" class="btn btn-sm mt-20" data-tooltip="READ WHITEPAPER"> <i class="fas fa-book"></i> READ </a> </div>
+               <div class="wallet-info-item"> <h3>CRYPTO SECURITY 101</h3> <p>LEARN HOW TO KEEP YOUR CRYPTO SAFE</p> <button class="btn btn-sm mt-20" data-tooltip="LEARN SECURITY BASICS"> <i class="fas fa-shield-alt"></i> LEARN </button> </div>
+               <div class="wallet-info-item"> <h3>WHAT IS BLOCKCHAIN?</h3> <p>A SIMPLE EXPLANATION</p> <button class="btn btn-sm mt-20" data-tooltip="EXPLAIN BLOCKCHAIN"> <i class="fas fa-link"></i> EXPLAIN </button> </div>
             </div>
           </div>
+        </div>
 
-          <div class="cyber-panel account-section">
-            <h2><i class="fas fa-dollar-sign" style="margin-right: 10px;"></i>DCA STATISTICS</h2>
-            <div class="account-stats">
-              <div class="stat-row"> <span class="stat-label">TOTAL INVESTED:</span> <span class="stat-value">$3,250</span> </div>
-              <div class="stat-row"> <span class="stat-label">BTC ACCUMULATED:</span> <span class="stat-value">0.075 BTC</span> </div>
-              <div class="stat-row"> <span class="stat-label">AVERAGE PRICE:</span> <span class="stat-value">$43,333</span> </div>
-              <div class="stat-row"> <span class="stat-label">CURRENT VALUE:</span> <span class="stat-value text-success">$3,450 (+6.2%)</span> </div>
+        <div id="helpcreator" class="tab-content">
+          <h1><i class="fas fa-qrcode" style="margin-right: 10px;"></i>SUPPORT THE CREATOR</h1>
+          <div class="donate-text">
+            <p>IF YOU FIND HODLVITALITY VALUABLE, CONSIDER SUPPORTING ITS DEVELOPMENT WITH A DONATION VIA LIGHTNING OR BITCOIN. YOUR SUPPORT HELPS FUND IMPROVEMENTS AND NEW FEATURES.</p>
+          </div>
+
+          <div class="qr-container">
+            <div id="helpCreatorQR" data-tooltip="SCAN TO DONATE VIA LIGHTNING"></div>
+            <p>SCAN TO DONATE VIA LIGHTNING NETWORK</p>
+            <div class="donate-address">
+              bc1qsimulateddonationaddress1234567890
             </div>
-            <button class="btn btn-primary mt-20" data-tooltip="VIEW DETAILED DCA STATISTICS"> <i class="fas fa-chart-line"></i> VIEW DETAILED STATS </button>
+            <button class="btn btn-primary" onclick="copyToClipboard('bc1qsimulateddonationaddress1234567890', 'BTC Address Copied!')" data-tooltip="COPY BTC ADDRESS">
+              <i class="fas fa-copy"></i> COPY ADDRESS
+            </button>
           </div>
 
-          <div class="cyber-panel account-section">
-             <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>ACCOUNT SETTINGS</h2>
-             <ul style="list-style-type: none; padding-left: 0;">
-               <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-user" style="width: 25px; text-align: center; margin-right: 8px;"></i> PROFILE SETTINGS </button> </li>
-               <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-bell" style="width: 25px; text-align: center; margin-right: 8px;"></i> NOTIFICATIONS </button> </li>
-               <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-lock" style="width: 25px; text-align: center; margin-right: 8px;"></i> SECURITY </button> </li>
-               <li> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-moon" style="width: 25px; text-align: center; margin-right: 8px;"></i> APPEARANCE </button> </li>
-             </ul>
+          <div class="cyber-panel mt-30">
+            <h2><i class="fas fa-road" style="margin-right: 10px;"></i>DEVELOPMENT ROADMAP</h2>
+            <ul style="list-style-type: none;">
+               <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> CORE PROTOCOL V1 & DAILY REWARDS (LIVE)</h3> <p>HVITAL distribution via daily claims.</p> </li>
+               <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> HVITAL SOCIAL TIPPING (LIVE)</h3> <p>Tip users with HVITAL tokens.</p> </li>
+               <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> ADVANCED TRADING FEATURES (NEXT)</h3> <p>More indicators, backtesting, potential HVITAL pairs.</p> </li>
+                <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> GOVERNANCE FRAMEWORK (PLANNED)</h3> <p>Implement voting mechanism using HVITAL.</p> </li>
+               <li> <h3><span class="text-secondary">○</span> MOBILE APP (FUTURE)</h3> <p>Full-featured mobile experience.</p> </li>
+            </ul>
           </div>
+        </div>
 
-          <div class="cyber-panel account-section">
-             <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>CONNECTED EXCHANGES</h2>
-             <ul style="list-style-type: none; padding-left: 0;">
-               <li class="stat-row" style="border-bottom: 1px dashed var(--neon-blue);"> <i class="fab fa-bitcoin" style="margin-right: 10px; color: var(--neon-blue); flex-shrink: 0;"></i> <span style="flex-grow: 1;">BINANCE</span> <span class="text-success" style="flex-shrink: 0;">CONNECTED</span> </li>
-               <li class="stat-row" style="border-bottom: 1px dashed var(--neon-blue);"> <i class="fab fa-ethereum" style="margin-right: 10px; color: #627eea; flex-shrink: 0;"></i> <span style="flex-grow: 1;">COINBASE</span> <span style="flex-shrink: 0;">NOT CONNECTED</span> </li>
-               <li class="stat-row"> <i class="fas fa-anchor" style="margin-right: 10px; color: #5825fc; flex-shrink: 0;"></i> <span style="flex-grow: 1;">KRAKEN</span> <span style="flex-shrink: 0;">NOT CONNECTED</span> </li>
-             </ul>
-             <button class="btn btn-primary mt-20" data-tooltip="ADD NEW EXCHANGE CONNECTION"> <i class="fas fa-plus"></i> ADD EXCHANGE </button>
+        <div id="account" class="tab-content">
+          <h1><i class="fas fa-user" style="margin-right: 10px;"></i>ACCOUNT OVERVIEW</h1>
+
+          <div class="account-grid">
+            <div class="cyber-panel account-section">
+              <img src="https://i.pravatar.cc/150?img=1" class="account-avatar" alt="User Avatar">
+              <h2 class="text-center">USERNAME</h2>
+              <p class="text-center text-secondary">MEMBER SINCE JUNE 2023</p>
+              <div class="account-stats">
+                <div class="stat-row"> <span class="stat-label">FOLLOWERS:</span> <span class="stat-value">128</span> </div>
+                <div class="stat-row"> <span class="stat-label">FOLLOWING:</span> <span class="stat-value">42</span> </div>
+                <div class="stat-row"> <span class="stat-label">POSTS:</span> <span class="stat-value">18</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL EARNED:</span> <span class="stat-value">1,250 HVITAL</span> </div>
+              </div>
+            </div>
+
+            <div class="cyber-panel account-section">
+              <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>WALLET GAINS</h2>
+              <div class="chart-container" style="height: 250px;"> <canvas id="walletGainsChart"></canvas> </div>
+              <div class="account-stats">
+                 <div class="stat-row"> <span class="stat-label">ALL TIME:</span> <span class="stat-value text-success">+125%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">THIS YEAR:</span> <span class="stat-value text-success">+45%</span> </div>
+              </div>
+            </div>
+
+            <div class="cyber-panel account-section">
+              <h2><i class="fas fa-robot" style="margin-right: 10px;"></i>TRADING BOT PERFORMANCE</h2>
+              <div class="chart-container" style="height: 250px;"> <canvas id="tradingBotGainsChart"></canvas> </div>
+              <div class="account-stats">
+                 <div class="stat-row"> <span class="stat-label">WIN RATE:</span> <span class="stat-value text-success">72%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">TOTAL PROFIT:</span> <span class="stat-value">0.15 BTC</span> </div>
+              </div>
+            </div>
+
+            <div class="cyber-panel account-section">
+              <h2><i class="fas fa-dollar-sign" style="margin-right: 10px;"></i>DCA STATISTICS</h2>
+              <div class="account-stats">
+                <div class="stat-row"> <span class="stat-label">TOTAL INVESTED:</span> <span class="stat-value">$3,250</span> </div>
+                <div class="stat-row"> <span class="stat-label">BTC ACCUMULATED:</span> <span class="stat-value">0.075 BTC</span> </div>
+                <div class="stat-row"> <span class="stat-label">AVERAGE PRICE:</span> <span class="stat-value">$43,333</span> </div>
+                <div class="stat-row"> <span class="stat-label">CURRENT VALUE:</span> <span class="stat-value text-success">$3,450 (+6.2%)</span> </div>
+              </div>
+              <button class="btn btn-primary mt-20" data-tooltip="VIEW DETAILED DCA STATISTICS"> <i class="fas fa-chart-line"></i> VIEW DETAILED STATS </button>
+            </div>
+
+            <div class="cyber-panel account-section">
+               <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>ACCOUNT SETTINGS</h2>
+               <ul style="list-style-type: none; padding-left: 0;">
+                 <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-user" style="width: 25px; text-align: center; margin-right: 8px;"></i> PROFILE SETTINGS </button> </li>
+                 <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-bell" style="width: 25px; text-align: center; margin-right: 8px;"></i> NOTIFICATIONS </button> </li>
+                 <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-lock" style="width: 25px; text-align: center; margin-right: 8px;"></i> SECURITY </button> </li>
+                 <li> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-moon" style="width: 25px; text-align: center; margin-right: 8px;"></i> APPEARANCE </button> </li>
+               </ul>
+            </div>
+
+            <div class="cyber-panel account-section">
+               <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>CONNECTED EXCHANGES</h2>
+               <ul style="list-style-type: none; padding-left: 0;">
+                 <li class="stat-row" style="border-bottom: 1px dashed var(--neon-blue);"> <i class="fab fa-bitcoin" style="margin-right: 10px; color: var(--neon-blue); flex-shrink: 0;"></i> <span style="flex-grow: 1;">BINANCE</span> <span class="text-success" style="flex-shrink: 0;">CONNECTED</span> </li>
+                 <li class="stat-row" style="border-bottom: 1px dashed var(--neon-blue);"> <i class="fab fa-ethereum" style="margin-right: 10px; color: #627eea; flex-shrink: 0;"></i> <span style="flex-grow: 1;">COINBASE</span> <span style="flex-shrink: 0;">NOT CONNECTED</span> </li>
+                 <li class="stat-row"> <i class="fas fa-anchor" style="margin-right: 10px; color: #5825fc; flex-shrink: 0;"></i> <span style="flex-grow: 1;">KRAKEN</span> <span style="flex-shrink: 0;">NOT CONNECTED</span> </li>
+               </ul>
+               <button class="btn btn-primary mt-20" data-tooltip="ADD NEW EXCHANGE CONNECTION"> <i class="fas fa-plus"></i> ADD EXCHANGE </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <script>
-    // Function to access terminal (replaces create-account click)
-    function accessTerminal() {
-        document.getElementById('splashScreen').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        setTimeout(() => {
-          document.getElementById('mainContent').classList.add('active');
-          // Set initial sync time
-          updateSyncTime();
-          // Start timer to update sync time periodically
-          setInterval(updateSyncTime, 60000); // Update every minute
-        }, 10);
-    }
-
-    // Update Sync Time Function
-    function updateSyncTime() {
-        const syncTimeEl = document.getElementById('syncTime');
-        if (syncTimeEl) {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-            syncTimeEl.textContent = `TODAY ${timeString} UTC`; // Assuming UTC for consistency
-        }
-    }
-
-     // Global Notification function
-    function showNotification(message, type = 'info', duration = 3000) {
-        const notification = document.createElement('div');
-        notification.style.position = 'fixed';
-        notification.style.bottom = '20px';
-        notification.style.right = '20px';
-        let bgColor = 'var(--neon-blue)';
-        let textColor = 'var(--dark-bg)';
-        if (type === 'error') { bgColor = 'var(--neon-pink)'; textColor = 'white'; }
-        else if (type === 'success') { bgColor = 'var(--neon-green)'; textColor = 'var(--dark-bg)'; }
-        else if (type === 'warning') { bgColor = 'var(--neon-yellow)'; textColor = 'var(--dark-bg)'; }
-
-        notification.style.backgroundColor = bgColor;
-        notification.style.color = textColor;
-        notification.style.padding = '15px 25px';
-        notification.style.borderRadius = '0';
-        notification.style.boxShadow = `0 0 20px ${bgColor}`;
-        notification.style.zIndex = '2000';
-        notification.style.animation = 'fadeIn 0.3s ease-out';
-        notification.style.fontFamily = "'Share Tech Mono', monospace";
-        notification.style.fontSize = '15px';
-        notification.style.border = `2px solid ${bgColor}`;
-        notification.innerHTML = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateX(20px)';
-            setTimeout(() => {
-            notification.remove();
-            }, 300);
-        }, duration);
-    }
-
-    // Clipboard copy function
-    function copyToClipboard(text, successMessage) {
-        navigator.clipboard.writeText(text).then(() => {
-            showNotification(successMessage, 'success');
-        }).catch(err => {
-             showNotification('FAILED TO COPY', 'error');
-             console.error('Clipboard Error:', err);
-        });
-    }
-
-    // Function to navigate to a specific tab programmatically
-    function navigateToTab(targetId) {
-        const targetTab = document.querySelector(`.sidebar li[data-target="${targetId}"]`);
-        if (targetTab) {
-            targetTab.click(); // Simulate click on the tab
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // Splash screen Login button event
-      document.getElementById('loginButton').addEventListener('click', function(e) {
-        e.preventDefault();
-        accessTerminal(); // Use the access function
-      });
-
-      /*** Tab Navigation ***/
-      const tabs = document.querySelectorAll('.sidebar li');
-      const sidebar = document.querySelector('.sidebar');
-      const overlay = document.getElementById('overlay');
-      const mainContent = document.querySelector('.main-content');
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-          // Deactivate current tab/content
-          tabs.forEach(t => t.classList.remove('active'));
-          document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-          // Activate new tab/content
-          this.classList.add('active');
-          const targetId = this.getAttribute('data-target');
-          const targetContent = document.getElementById(targetId);
-          if(targetContent) {
-             targetContent.classList.add('active');
-          }
-
-          // Close sidebar on mobile after selection
-          if (window.innerWidth <= 768) {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-          }
-
-          // Scroll to top of content area
-          // Use documentElement for broader compatibility
-          document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
-          document.body.scrollTo({ top: 0, behavior: 'smooth' }); // Fallback for older browsers
-
-
-           // Re-initialize charts if they are in the newly activated tab
-           if (targetId === 'trading' && bitcoinChartInstance) bitcoinChartInstance.update();
-           if (targetId === 'dca' && dcaChartInstance) dcaChartInstance.update();
-           if (targetId === 'account') {
-               if(walletGainsChartInstance) walletGainsChartInstance.update();
-               if(tradingBotGainsChartInstance) tradingBotGainsChartInstance.update();
-           }
-        });
-      });
-
-      /*** Hamburger Menu Toggle ***/
-      const hamburgerMenu = document.getElementById('hamburgerMenu');
-      const closeSidebar = document.getElementById('closeSidebar');
-
-      hamburgerMenu.addEventListener('click', () => {
-        sidebar.classList.add('open');
-        overlay.classList.add('active');
-        document.body.classList.add('no-scroll');
-      });
-
-      const closeSidebarAction = () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-      };
-
-      closeSidebar.addEventListener('click', closeSidebarAction);
-      overlay.addEventListener('click', closeSidebarAction);
-
-      /*** Daily Reward Button ***/
-      let dailyRewardClaimed = false; // State variable
-      const dailyRewardButton = document.getElementById('dailyRewardButton');
-      const dailyRewardAmountSpan = document.getElementById('dailyRewardAmount');
-      const dailyRewardAmount = 10; // Example amount
-
-      if (dailyRewardButton) {
-          dailyRewardButton.addEventListener('click', function () {
-            if (!dailyRewardClaimed) {
-                this.innerHTML = '<i class="fas fa-check"></i> REWARD CLAIMED';
-                this.classList.remove('btn-primary', 'pulse');
-                this.classList.add('btn-success');
-                this.disabled = true;
-                dailyRewardClaimed = true; // Set state
-
-                // Simulate updating HVITAL balance (add this logic if needed)
-                const hvitalBalanceEl = document.getElementById('hvitalBalanceWallet');
-                if (hvitalBalanceEl) {
-                    let currentBalance = parseInt(hvitalBalanceEl.innerText.replace(' HVITAL', ''), 10);
-                    hvitalBalanceEl.innerText = `${currentBalance + dailyRewardAmount} HVITAL`;
-                }
-                // Update dashboard balance too if separate element exists
-
-                showNotification(`<i class="fas fa-gift"></i> DAILY REWARD CLAIMED! +${dailyRewardAmount} HVITAL`, 'success');
-
-                // Add transaction to history
-                const transactionList = document.getElementById('transactionsList');
-                if (transactionList) {
-                     const newTx = document.createElement('li');
-                     newTx.className = 'transaction-item';
-                     newTx.innerHTML = `
-                        <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">${dailyRewardAmount} HVITAL</span> </div>
-                        <div> <span>DAILY REWARD</span> </div>
-                        <div> <span>JUST NOW</span> </div>
-                     `;
-                     // Insert at the top if list isn't empty, otherwise replace placeholder
-                    const firstItem = transactionList.querySelector('.transaction-item span:contains("NO RECENT")');
-                    if(firstItem) {
-                        transactionList.innerHTML = ''; // Clear placeholder
-                        transactionList.appendChild(newTx);
-                    } else {
-                         transactionList.insertBefore(newTx, transactionList.firstChild);
-                    }
-                }
-
-                // Optional: Set a timer to re-enable the button after 24 hours
-                setTimeout(() => {
-                     this.innerHTML = '<i class="fas fa-gift"></i> CLAIM REWARD';
-                     this.classList.remove('btn-success');
-                     this.classList.add('btn-primary', 'pulse');
-                     this.disabled = false;
-                     dailyRewardClaimed = false; // Reset state
-                     showNotification('DAILY HVITAL REWARD AVAILABLE AGAIN!', 'info');
-                 }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
-
-            } else {
-                showNotification('DAILY REWARD ALREADY CLAIMED. PLEASE WAIT.', 'warning');
-            }
-          });
-      }
-
-
-      /*** Wallet Functions ***/
-      let isWalletConnected = false;
-
-      function updateWalletUI(connected, pubkey = 'N/A', balance = '0 sats') {
-         const statusEl = document.getElementById('walletStatus');
-         const addressEl = document.getElementById('walletAddress');
-         const balanceEl = document.getElementById('walletBalance');
-         const connectHeaderBtn = document.getElementById('connectWalletHeader');
-         const connectTabBtn = document.getElementById('connectWalletTab');
-         const copyBtn = document.getElementById('copyAddress');
-         const transactionList = document.getElementById('transactionsList'); // Keep existing logic for LN tx
-
-         if (connected) {
-              statusEl.innerHTML = `<i class="fas fa-check-circle text-success"></i> CONNECTED: LIGHTNING WALLET`;
-              addressEl.innerText = pubkey;
-              balanceEl.innerText = balance;
-              connectHeaderBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONNECTED';
-              connectTabBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONNECTED';
-              connectHeaderBtn.disabled = true;
-              connectTabBtn.disabled = true;
-              connectHeaderBtn.classList.add('btn-success');
-              connectTabBtn.classList.add('btn-success');
-              copyBtn.style.display = 'inline-block';
-              isWalletConnected = true;
-
-              // Simulate adding some LN transactions if needed
-              // transactionList.innerHTML = `...`; // Keep previous LN tx logic
-         } else {
-              statusEl.innerText = 'WALLET NOT CONNECTED';
-              addressEl.innerText = 'N/A';
-              balanceEl.innerText = '0 sats';
-              connectHeaderBtn.innerHTML = '<i class="fas fa-wallet"></i> CONNECT WALLET';
-              connectTabBtn.innerHTML = '<i class="fas fa-plug"></i> CONNECT WALLET';
-              connectHeaderBtn.disabled = false;
-              connectTabBtn.disabled = false;
-              connectHeaderBtn.classList.remove('btn-success');
-              connectTabBtn.classList.remove('btn-success');
-              copyBtn.style.display = 'none';
-              // Don't clear HVITAL transactions here
-              // transactionList.innerHTML = `<li class="transaction-item"><div><span>NO RECENT LN TRANSACTIONS</span></div></li>`;
-              isWalletConnected = false;
-         }
-      }
-
-      async function connectWallet() {
-        if (window.webln) {
-          try {
-            showNotification('ATTEMPTING TO CONNECT WALLET...');
-            await window.webln.enable();
-            const info = await window.webln.getInfo();
-            const balanceInfo = await window.webln.getBalance();
-            const pubkey = info?.node?.pubkey ?? 'UNAVAILABLE';
-            const balance = balanceInfo?.balance ? `${balanceInfo.balance.toLocaleString()} sats` : 'UNAVAILABLE';
-
-            updateWalletUI(true, pubkey, balance);
-            showNotification('WALLET CONNECTED SUCCESSFULLY!', 'success');
-
-          } catch (error) {
-            console.error("WEBLN ERROR:", error);
-            showNotification(`ERROR CONNECTING WALLET: ${error.message}`, 'error');
-            updateWalletUI(false);
-          }
-        } else {
-          showNotification("WEBLN PROVIDER NOT FOUND. INSTALL ALBY OR BRAVE WALLET.", 'warning', 5000);
-          updateWalletUI(false);
-        }
-      }
-
-     async function sendPayment() {
-         if (!isWalletConnected) {
-             showNotification("PLEASE CONNECT YOUR LIGHTNING WALLET FIRST.", 'warning');
-             return;
-         }
-         if (window.webln && window.webln.sendPayment) {
-             const invoice = prompt("ENTER LIGHTNING INVOICE (BOLT11):");
-             if (invoice && invoice.startsWith('ln')) {
-                 try {
-                     showNotification('SENDING PAYMENT...');
-                     const result = await window.webln.sendPayment(invoice);
-                     console.log("PAYMENT RESULT:", result);
-                     showNotification(`PAYMENT SENT! PREIMAGE: ${result?.preimage?.substring(0,10)}...`, 'success', 5000);
-                     // TODO: Update LN balance and transaction history
-                 } catch (error) {
-                     console.error("SEND PAYMENT ERROR:", error);
-                     showNotification(`PAYMENT FAILED: ${error.message}`, 'error', 5000);
-                 }
-             } else if (invoice) {
-                 showNotification("INVALID LIGHTNING INVOICE FORMAT.", 'error');
-             }
-         } else {
-             showNotification("SENDPAYMENT NOT AVAILABLE. CHECK YOUR WEBLN PROVIDER.", 'warning');
-         }
-     }
-
-     async function receivePayment() {
-         if (!isWalletConnected) {
-             showNotification("PLEASE CONNECT YOUR LIGHTNING WALLET FIRST.", 'warning');
-             return;
-         }
-         if (window.webln && window.webln.makeInvoice) {
-             const amount = prompt("ENTER AMOUNT IN SATS (E.G., 1000):");
-             if (amount && !isNaN(parseInt(amount, 10)) && parseInt(amount, 10) > 0) {
-                 try {
-                      showNotification('CREATING INVOICE...');
-                      const result = await window.webln.makeInvoice({ amount: parseInt(amount, 10) });
-                      const invoice = result.paymentRequest;
-
-                      const modalOverlay = document.createElement('div');
-                      modalOverlay.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 2500; backdrop-filter: blur(5px); padding: 15px;`;
-                      modalOverlay.onclick = (e) => { if(e.target === modalOverlay) modalOverlay.remove(); };
-
-                      const modalContent = document.createElement('div');
-                      modalContent.style.cssText = `background: var(--panel-bg); color: var(--text-primary); padding: 30px; border-radius: 0; box-shadow: 0 0 30px var(--neon-blue); max-width: 500px; width: 100%; border: 2px solid var(--neon-blue); text-align: center;`;
-
-                      modalContent.innerHTML = `
-                         <h3 style="color: var(--neon-blue); margin-bottom: 15px; font-family: 'Orbitron', sans-serif; font-size: 1.5rem;">RECEIVE LN PAYMENT</h3>
-                         <p style="color: var(--text-secondary); margin-bottom: 20px;">SCAN QR CODE OR COPY INVOICE:</p>
-                         <div id="receiveQR" style="background: white; padding: 10px; border-radius: 0; margin: 0 auto 20px; display: inline-block;"></div>
-                         <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 0; font-family: monospace; word-break: break-all; margin-bottom: 25px; font-size: 12px; text-align: left; border: 1px solid var(--neon-blue);">${invoice}</div>
-                         <div style="display: flex; gap: 15px;">
-                             <button id="copyInvoiceBtnModal" class="btn btn-sm btn-primary" style="flex: 1;"> <i class="fas fa-copy"></i> COPY INVOICE </button>
-                             <button id="closeInvoiceBtnModal" class="btn btn-sm" style="flex: 1;"> <i class="fas fa-times"></i> CLOSE </button>
-                         </div>
-                      `;
-
-                      modalOverlay.appendChild(modalContent);
-                      document.body.appendChild(modalOverlay);
-
-                      new QRCode(modalContent.querySelector("#receiveQR"), {
-                          text: `lightning:${invoice}`,
-                          width: 180,
-                          height: 180,
-                          colorDark: "#000000",
-                          colorLight: "#ffffff",
-                          correctLevel: QRCode.CorrectLevel.M
-                      });
-
-                      modalContent.querySelector('#copyInvoiceBtnModal').onclick = () => {
-                          copyToClipboard(invoice, 'LN Invoice Copied!');
-                      };
-                      modalContent.querySelector('#closeInvoiceBtnModal').onclick = () => {
-                          modalOverlay.remove();
-                      };
-
-                 } catch (error) {
-                     console.error("INVOICE CREATION ERROR:", error);
-                     showNotification(`INVOICE CREATION FAILED: ${error.message}`, 'error', 5000);
-                 }
-             } else if (amount) {
-                 showNotification("PLEASE ENTER A VALID POSITIVE NUMBER FOR SATS.", 'error');
-             }
-         } else {
-             showNotification("MAKEINVOICE NOT AVAILABLE. CHECK YOUR WEBLN PROVIDER.", 'warning');
-         }
-     }
-
-     // --- HVITAL Specific Wallet Functions ---
-     function sendHvital() {
-          const recipient = prompt("Enter recipient username:");
-          if (!recipient) return;
-
-          const amountStr = prompt(`Enter HVITAL amount to send to ${recipient}:`);
-          const amount = parseInt(amountStr, 10);
-
-          if (isNaN(amount) || amount <= 0) {
-               showNotification("Invalid HVITAL amount.", 'error');
-               return;
-          }
-
-          // Simulate checking balance
-          const hvitalBalanceEl = document.getElementById('hvitalBalanceWallet');
-          let currentBalance = 0;
-          if (hvitalBalanceEl) {
-            currentBalance = parseInt(hvitalBalanceEl.innerText.replace(' HVITAL', ''), 10);
-          }
-
-          if (amount > currentBalance) {
-            showNotification("Insufficient HVITAL balance.", 'error');
-            return;
-          }
-
-          // Simulate successful send
-          showNotification(`Sending ${amount} HVITAL to ${recipient}...`, 'info');
-          setTimeout(() => {
-              // Update balance
-              if (hvitalBalanceEl) {
-                  hvitalBalanceEl.innerText = `${currentBalance - amount} HVITAL`;
-              }
-               // Update dashboard balance too if separate element exists
-
-              // Add transaction to history
-              const transactionList = document.getElementById('transactionsList');
-              if (transactionList) {
-                   const newTx = document.createElement('li');
-                   newTx.className = 'transaction-item';
-                   newTx.innerHTML = `
-                       <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">${amount} HVITAL</span> </div>
-                       <div> <span>SEND TO @${recipient.toUpperCase()}</span> </div>
-                       <div> <span>JUST NOW</span> </div>
-                   `;
-                   transactionList.insertBefore(newTx, transactionList.firstChild);
-              }
-              showNotification(`Successfully sent ${amount} HVITAL to ${recipient}!`, 'success');
-          }, 1500); // Simulate network delay
-     }
-
-      /*** Wallet Event Listeners ***/
-       const connectWalletHeader = document.getElementById('connectWalletHeader');
-       const connectWalletTab = document.getElementById('connectWalletTab');
-       const sendPaymentButton = document.getElementById('sendPayment');
-       const receivePaymentButton = document.getElementById('receivePayment');
-       const copyAddressButton = document.getElementById('copyAddress');
-       const sendHvitalButton = document.getElementById('sendHvital'); // Added HVITAL send button
-
-       if (connectWalletHeader) connectWalletHeader.addEventListener('click', connectWallet);
-       if (connectWalletTab) connectWalletTab.addEventListener('click', connectWallet);
-       if (sendPaymentButton) sendPaymentButton.addEventListener('click', sendPayment);
-       if (receivePaymentButton) receivePaymentButton.addEventListener('click', receivePayment);
-       if (sendHvitalButton) sendHvitalButton.addEventListener('click', sendHvital); // Added listener
-       if (copyAddressButton) {
-            copyAddressButton.addEventListener('click', () => {
-                const walletAddress = document.getElementById('walletAddress').innerText;
-                if (walletAddress && walletAddress !== 'N/A') {
-                    copyToClipboard(walletAddress, 'Wallet Address Copied!');
-                }
-            });
-       }
-
-        // --- HVITAL Social Tipping ---
-        function handleHvitalTip(event) {
-            const button = event.target.closest('.send-hvital-tip-btn');
-            if (!button) return;
-
-            const recipient = button.dataset.recipient;
-            const amount = 5; // Fixed tip amount for simplicity
-
-            // Simulate checking balance
-            const hvitalBalanceEl = document.getElementById('hvitalBalanceWallet');
-            let currentBalance = 0;
-            if (hvitalBalanceEl) {
-                currentBalance = parseInt(hvitalBalanceEl.innerText.replace(' HVITAL', ''), 10);
-            }
-
-            if (amount > currentBalance) {
-                showNotification("Insufficient HVITAL balance to tip.", 'error');
-                return;
-            }
-
-            showNotification(`Sending ${amount} HVITAL tip to ${recipient}...`, 'info');
-            setTimeout(() => {
-                 // Update balance
-                if (hvitalBalanceEl) {
-                    hvitalBalanceEl.innerText = `${currentBalance - amount} HVITAL`;
-                }
-                 // Update dashboard balance too if separate element exists
-
-                 // Add transaction to history
-                const transactionList = document.getElementById('transactionsList');
-                if (transactionList) {
-                    const newTx = document.createElement('li');
-                    newTx.className = 'transaction-item';
-                    newTx.innerHTML = `
-                        <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">${amount} HVITAL</span> </div>
-                        <div> <span>TIP @${recipient.toUpperCase()}</span> </div>
-                        <div> <span>JUST NOW</span> </div>
-                    `;
-                    transactionList.insertBefore(newTx, transactionList.firstChild);
-                }
-
-                 // Update the post's tip counter (optional visual feedback)
-                 const postMeta = button.closest('.post').querySelector('.post-meta');
-                 const tipCounter = postMeta.querySelector('.fa-coins')?.parentElement;
-                 if (tipCounter) {
-                     let currentTips = parseInt(tipCounter.textContent.match(/(\d+)/)?.[0] || '0', 10);
-                     tipCounter.innerHTML = `<i class="fas fa-coins text-primary"></i> ${currentTips + amount} HVITAL`;
-                     tipCounter.dataset.tooltip = `RECEIVED ${currentTips + amount} HVITAL TIPS`;
-                 }
-
-                showNotification(`Successfully tipped ${amount} HVITAL to ${recipient}!`, 'success');
-            }, 1500); // Simulate network delay
-        }
-
-        // Add event listener to the social feed container(s) for delegation
-        const socialFeedFollowing = document.getElementById('following');
-        if (socialFeedFollowing) {
-            socialFeedFollowing.addEventListener('click', handleHvitalTip);
-        }
-         // Add listeners to other feeds if they also have tipping buttons
-
-
-       /*** Chart Variables ***/
-       let bitcoinChartInstance = null;
-       let dcaChartInstance = null;
-       let walletGainsChartInstance = null;
-       let tradingBotGainsChartInstance = null;
-
-       /*** Chart Common Options & Functions ***/
-        const commonChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: false,
-                ticks: { color: '#b0b0b0', font: { family: 'Share Tech Mono' } },
-                grid: { color: 'rgba(0, 217, 232, 0.2)', borderDash: [3, 3] }
-              },
-              x: {
-                ticks: { color: '#b0b0b0', font: { family: 'Share Tech Mono' } },
-                grid: { display: false }
-              }
-            },
-            plugins: {
-              legend: { labels: { color: 'var(--text-primary)', font: { family: 'Share Tech Mono' } } },
-              tooltip: {
-                enabled: true,
-                backgroundColor: 'var(--panel-bg)',
-                titleColor: 'var(--neon-blue)',
-                bodyColor: 'var(--text-primary)',
-                borderColor: 'var(--neon-blue)',
-                borderWidth: 1,
-                padding: 12,
-                titleFont: { family: 'Orbitron', weight: 'normal', size: 16 },
-                bodyFont: { family: 'Share Tech Mono' },
-                boxPadding: 5,
-                callbacks: {
-                  label: function(context) {
-                    let label = context.dataset.label || '';
-                    if (label) label += ': ';
-                    if (context.parsed.y !== null) {
-                         const scale = context.chart.options.scales.y;
-                         // Check if the scale callback includes '%' to determine format
-                         if (scale?.ticks?.callback && typeof scale.ticks.callback === 'function' && scale.ticks.callback(1).includes('%')) {
-                            label += context.parsed.y.toFixed(1) + '%';
-                         } else {
-                            // Default to currency format
-                            label += '$' + context.parsed.y.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                         }
-                    }
-                    return label;
-                  }
-                }
-              }
-            },
-            interaction: {
-                mode: 'index',
-                intersect: false,
-            },
-            hover: {
-                mode: 'nearest', // Changed for better line chart interaction
-                intersect: false,
-                axis: 'x'
-            },
-        };
-
-       // Deep merge function for chart options
-       function mergeOptions(target, ...sources) {
-            sources.forEach(source => {
-                Object.keys(source).forEach(key => {
-                    const targetValue = target[key];
-                    const sourceValue = source[key];
-                    if (sourceValue !== null && typeof sourceValue === 'object' && !Array.isArray(sourceValue) && targetValue !== null && typeof targetValue === 'object') {
-                         // Recursively merge objects
-                         target[key] = mergeOptions({}, targetValue, sourceValue); // Create new object for merge result
-                    } else if (sourceValue !== undefined) {
-                        // Assign primitive values or replace arrays/non-objects
-                         target[key] = sourceValue;
-                    }
-                });
-            });
-            return target;
-       }
-
-
-      /*** Trading Bot Chart ***/
-      const bitcoinChartCtx = document.getElementById('bitcoinChart')?.getContext('2d');
-      if (bitcoinChartCtx) {
-          const priceData = [42000, 42120, 42350, 42800, 42500, 42300, 42350, 42400, 42650, 42550, 42700, 42900];
-          const labels = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN', 'MON+1', 'TUE+1', 'WED+1', 'THU+1', 'FRI+1'];
-
-          bitcoinChartInstance = new Chart(bitcoinChartCtx, {
-            type: 'line',
-            data: {
-              labels: labels,
-              datasets: [{
-                label: 'BTC PRICE (USD)',
-                data: priceData,
-                borderColor: 'rgba(5, 217, 232, 1)',
-                borderWidth: 2.5,
-                fill: true,
-                backgroundColor: 'rgba(0, 217, 232, 0.1)',
-                tension: 0.4,
-                pointBackgroundColor: 'rgba(5, 217, 232, 1)',
-                pointBorderColor: 'rgba(13, 2, 33, 1)',
-                pointBorderWidth: 1.5,
-                pointRadius: 4,
-                pointHoverRadius: 7,
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(5, 217, 232, 1)'
-              }]
-            },
-            options: mergeOptions({}, commonChartOptions, {
-                plugins: { tooltip: { callbacks: { label: (ctx) => `BTC: $${ctx.parsed.y.toLocaleString()}` } } }
-            })
-          });
-
-          const buySuggestion = Math.min(...priceData) * 0.995;
-          const sellSuggestion = Math.max(...priceData) * 1.005;
-          const priceSuggestionsEl = document.getElementById('priceSuggestions');
-          if (priceSuggestionsEl) {
-            priceSuggestionsEl.innerHTML = `
-            <div class="wallet-info" style="grid-template-columns: 1fr 1fr; gap: 15px;">
-              <div class="wallet-info-item" style="border-left-color: var(--neon-green);">
-                <strong><i class="fas fa-arrow-down text-success"></i> POTENTIAL BUY ZONE</strong>
-                <span style="font-size: 1.1em; color: var(--text-primary);">$${buySuggestion.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
-              </div>
-              <div class="wallet-info-item" style="border-left-color: var(--neon-pink);">
-                <strong><i class="fas fa-arrow-up text-error"></i> POTENTIAL SELL ZONE</strong>
-                <span style="font-size: 1.1em; color: var(--text-primary);">$${sellSuggestion.toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
-              </div>
-            </div>`;
-          }
-      }
-
-      /*** DCA Chart ***/
-       const dcaChartCtx = document.getElementById('dcaChart')?.getContext('2d');
-       if (dcaChartCtx) {
-            const marketPriceData = [42000, 41800, 42100, 41500, 41950, 42350, 42100, 42500, 42200, 42600];
-            const labels = marketPriceData.map((_, i) => `DAY ${i + 1}`);
-            let totalInvested = 0;
-            let totalBtc = 0;
-            const avgCostData = marketPriceData.map(price => {
-                const investment = 50;
-                totalInvested += investment;
-                totalBtc += investment / price;
-                return totalBtc > 0 ? totalInvested / totalBtc : price;
-            });
-
-            dcaChartInstance = new Chart(dcaChartCtx, {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: [
-                  {
-                    label: 'MARKET PRICE',
-                    data: marketPriceData,
-                    borderColor: 'rgba(0, 255, 159, 1)',
-                    borderWidth: 2,
-                    fill: false,
-                    tension: 0.1,
-                    pointRadius: 3,
-                    pointHoverRadius: 5
-                  },
-                  {
-                    label: 'AVERAGE COST BASIS',
-                    data: avgCostData,
-                    borderColor: 'rgba(247, 247, 0, 1)',
-                    borderWidth: 2,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0.1,
-                    pointRadius: 0, // Hide points for average cost
-                     pointHoverRadius: 0
-                  }
-                ]
-              },
-              options: mergeOptions({}, commonChartOptions, {
-                  plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 0})}` } } }
-              })
-            });
-        }
-
-    // Function to create bar charts with common percentage options
-    function createPercentageBarChart(canvasId, data, label) {
-         const ctx = document.getElementById(canvasId)?.getContext('2d');
-         if (!ctx) return null;
-
-         // Define custom options for percentage scale and tooltip
-         const customOptions = {
-             scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { callback: function(value) { return value + '%'; } } // Add % to y-axis ticks
-                }
-             },
-             plugins: {
-                 legend: { display: false },
-                 tooltip: {
-                      callbacks: { label: (ctx) => `${label}: ${ctx.parsed.y.toFixed(1)}%` } // Format tooltip label as percentage
-                 }
-             }
-         };
-
-         // Merge common options with custom options
-         const chartOptions = mergeOptions({}, commonChartOptions, customOptions);
-
-
-         return new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: ['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY', 'ALL TIME'],
-              datasets: [{
-                label: label,
-                data: data,
-                backgroundColor: [
-                    'rgba(0, 217, 232, 0.6)', 'rgba(0, 217, 232, 0.7)', 'rgba(0, 217, 232, 0.8)',
-                    'rgba(0, 255, 170, 0.7)', 'rgba(0, 255, 170, 0.8)'
-                ],
-                borderColor: [
-                    'var(--neon-blue)', 'var(--neon-blue)', 'var(--neon-blue)',
-                    'var(--neon-green)', 'var(--neon-green)'
-                ],
-                borderWidth: 1.5,
-                borderRadius: 0,
-                barThickness: 'flex',
-                maxBarThickness: 30
-              }]
-            },
-            options: chartOptions // Use the merged options
-         });
-    }
-
-    /*** Account Tab Charts ***/
-    walletGainsChartInstance = createPercentageBarChart('walletGainsChart', [0.5, 2.1, 6.5, 45, 125], 'WALLET GAINS');
-    tradingBotGainsChartInstance = createPercentageBarChart('tradingBotGainsChart', [0.2, 1.5, 5.0, 40, 90], 'BOT GAINS');
-
-    /*** Social Tabs Toggle ***/
-    const socialTabs = document.querySelectorAll('.social-tab');
-    socialTabs.forEach(tab => {
-      tab.addEventListener('click', function () {
-        socialTabs.forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        document.querySelectorAll('.social-feed').forEach(feed => feed.style.display = 'none');
-        const selectedTabId = this.getAttribute('data-tab');
-        const activeFeed = document.getElementById(selectedTabId);
-        if (activeFeed) {
-            activeFeed.style.display = 'block';
-            // Force reflow/repaint to restart animation
-            activeFeed.style.animation = 'none';
-             // Reading offsetHeight forces reflow
-            void activeFeed.offsetHeight;
-            activeFeed.style.animation = '';
-        }
-      });
-    });
-
-    /*** QR Code Generation ***/
-    const qrElement = document.getElementById("helpCreatorQR");
-    if (qrElement && typeof QRCode !== 'undefined') {
-        try {
-            // Using a placeholder LN invoice - replace with actual if available
-            const lnInvoicePlaceholder = "lnbc1..."; // Replace
-            new QRCode(qrElement, {
-                text: `lightning:${lnInvoicePlaceholder}`, // Use actual LN invoice if generated
-                width: 220,
-                height: 220,
-                colorDark: "#121212",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.M
-            });
-        } catch (e) {
-            console.error("QR GENERATION ERROR:", e);
-            qrElement.innerHTML = "<p style='color:var(--neon-pink);'>QR ERROR</p>";
-        }
-    } else if (qrElement) {
-        qrElement.innerHTML = "<p style='color:var(--neon-yellow);'>QR LIBRARY MISSING</p>";
-    }
-
-    // Create Post Functionality
-    const createPostTextarea = document.getElementById('createPostTextarea');
-    const createPostButton = document.getElementById('createPostButton');
-    const yourPageFeed = document.getElementById('yourpage');
-    const createPostCard = yourPageFeed?.querySelector('.cyber-panel:has(#createPostTextarea)');
-
-    if (createPostButton && createPostTextarea && yourPageFeed && createPostCard) {
-        createPostButton.addEventListener('click', () => {
-            const postText = createPostTextarea.value.trim();
-
-            if (postText) {
-                const escapedText = postText.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
-
-                const newPostHTML = `
-                <div class="cyber-panel post" style="animation: fadeIn 0.5s ease;">
-                  <div class="post-header">
-                    <img src="https://i.pravatar.cc/150?img=1" alt="avatar" data-tooltip="YOUR PROFILE"/>
-                    <span data-tooltip="YOUR PROFILE">YOURUSERNAME</span>
-                    <div class="post-actions">
-                      <button class="btn btn-sm edit-post-btn" data-tooltip="EDIT YOUR POST"> <i class="fas fa-edit"></i> EDIT </button>
-                      <button class="btn btn-sm btn-danger delete-post-btn" data-tooltip="DELETE YOUR POST"> <i class="fas fa-trash"></i> DELETE </button>
-                    </div>
-                  </div>
-                  <div class="post-body">
-                    <p>${escapedText}</p>
-                    <div class="post-meta">
-                      <span class="post-meta-item" data-tooltip="POSTED JUST NOW"><i class="far fa-clock"></i> JUST NOW</span>
-                      <span class="post-meta-item" data-tooltip="0 LIKES"><i class="far fa-heart"></i> 0</span>
-                      <span class="post-meta-item" data-tooltip="0 COMMENTS"><i class="far fa-comment"></i> 0</span>
-                       <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
-                    </div>
-                  </div>
-                </div>`;
-
-                createPostCard.insertAdjacentHTML('afterend', newPostHTML);
-                createPostTextarea.value = '';
-                showNotification('POST CREATED SUCCESSFULLY!', 'success');
-
-            } else {
-                showNotification('CANNOT CREATE EMPTY POST.', 'warning');
-            }
-        });
-
-        // Add event listener for delete/edit buttons (using event delegation on the feed)
-        yourPageFeed.addEventListener('click', (event) => {
-            const deleteBtn = event.target.closest('.delete-post-btn');
-            const editBtn = event.target.closest('.edit-post-btn'); // Placeholder for edit
-
-            if (deleteBtn) {
-                const postElement = deleteBtn.closest('.post');
-                if(confirm('DELETE THIS POST?')) {
-                    postElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    postElement.style.opacity = '0';
-                    postElement.style.transform = 'scale(0.95)';
-                    setTimeout(() => postElement.remove(), 300);
-                    showNotification('POST DELETED.', 'info');
-                }
-            } else if (editBtn) {
-                // Add edit functionality here later
-                 showNotification('EDIT FUNCTIONALITY NOT IMPLEMENTED YET.', 'warning');
-            }
-        });
-
-    } else {
-        console.warn("Create post elements not found.");
-    }
-
-
-    }); // End DOMContentLoaded
-  </script>
-</body>
-</html>
+  </body>
+</html> 
