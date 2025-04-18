@@ -6,7 +6,7 @@
   <title>HodlVitality - Cyberpunk Crypto Terminal</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" /> 
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="script.js"></script>
@@ -16,6 +16,7 @@
       <div class="splash-container">
         <h1 class="title glitch">Hodl Vitality</h1>
         <p>CYBERPUNK CRYPTO TERMINAL v3.1.4</p>
+        <p class="text-secondary mt-10">Your Gateway to the Crypto Future</p>
         <div class="button-container">
           <button class="btn btn-primary create-account pulse" onclick="accessTerminal()">
             <i class="fas fa-user-plus"></i> ACCESS TERMINAL
@@ -31,25 +32,29 @@
       <div class="header">
         <div class="logo">
           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjMDVkOWU4IiBkPSJNNTAsMEMyMi40LDAsMCwyMi40LDAsNTBzMjIuNCw1MCw1MCw1MHM1MC0yMi40LDUwLTUwUzc3LjYsMCw1MCwwWk03MC40LDY0LjdsLTYuNCwzLjJDNTkuMSw3MCw1Myw3Miw0Ny4zLDcyYy05LjMsMC0xNC45LTUuNS0xNC45LTEzLjVjMC04LjYsNS44LTEzLjgsMTUtMTMuOGMyLjksMCw1LjYsMC42LDcuOCwxLjdsNi41LTMuNmMtMy42LTIuNS04LjItMy45LTEzLjMtMy45Yy0xMy42LDAtMjIuOCw5LjUtMjIuOCwyMS43YzAsMTIuNyw5LjIsMjEuNCwyMy4xLDIxLjRjNS43LDAsMTEtMS42LDE1LjEtNC41bDYuMywzLjZMNzAuNCw2NC43WiIvPjwvc3ZnPg==" alt="HodlVitality Logo" class="logo-image">
+          <span class="logo-text"></span>
         </div>
         <button id="hamburgerMenu" class="hamburger">
           <i class="fa-solid fa-bars"></i>
         </button>
         <div class="header-right">
-          <button id="connectWalletHeader" class="btn btn-sm">
-            <i class="fas fa-wallet"></i> CONNECT WALLET
-          </button>
+            <span class="system-time" id="systemTimeDisplay"></span>
+           <button id="connectWalletHeader" class="btn btn-sm">
+             <i class="fas fa-wallet"></i> CONNECT WALLET
+           </button>
         </div>
       </div>
 
       <div class="marquee">
         <div class="marquee-inner">
-           <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
-           <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
-           <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
-           <span>⚡ WELCOME TO HODLVITALITY CYBERPUNK TERMINAL ⚡</span>
-           <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | HVITAL: $0.05 (+5.1%) 📊</span>
-           <span>🔌 LIGHTNING NETWORK INTEGRATION: ONLINE | HODLVITALITY PROTOCOL: v1.0 🔌</span>
+           <span>⚡ WELCOME TO HODLVITALITY // CYBERPUNK TERMINAL v3.1.4 ⚡</span>
+           <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | SOL: $150 (-0.5%) | HVITAL: $0.051 (+5.1%) | MARKET CAP: $1.8T (+1.9%) 📊</span>
+           <span>🔌 LIGHTNING NETWORK: ONLINE | HODLVITALITY PROTOCOL: v1.0 | EXCHANGE API (BINANCE): CONNECTED 🔌</span>
+           <span>📰 LATEST NEWS: Bitcoin Surges Past $42k | HVITAL sees increased social activity 📰</span>
+           <span>⚡ WELCOME TO HODLVITALITY // CYBERPUNK TERMINAL v3.1.4 ⚡</span>
+           <span>📊 BTC: $42,350 (+2.5%) | ETH: $2,250 (+1.8%) | SOL: $150 (-0.5%) | HVITAL: $0.051 (+5.1%) | MARKET CAP: $1.8T (+1.9%) 📊</span>
+           <span>🔌 LIGHTNING NETWORK: ONLINE | HODLVITALITY PROTOCOL: v1.0 | EXCHANGE API (BINANCE): CONNECTED 🔌</span>
+           <span>📰 LATEST NEWS: Bitcoin Surges Past $42k | HVITAL sees increased social activity 📰</span>
         </div>
       </div>
 
@@ -60,76 +65,107 @@
         <ul>
           <li class="active" data-target="dashboard"><i class="fa-solid fa-gauge-high"></i> DASHBOARD</li>
           <li data-target="wallet"><i class="fa-solid fa-wallet"></i> WALLET</li>
-          <li data-target="social"><i class="fa-solid fa-users"></i> SOCIAL</li>
+          <li data-target="social"><i class="fa-solid fa-users"></i> SOCIAL HUB</li>
           <li data-target="trading"><i class="fa-solid fa-robot"></i> TRADING BOT</li>
-          <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA</li>
+          <li data-target="dca"><i class="fa-solid fa-chart-line"></i> DCA STRATEGY</li>
           <li data-target="exchanges"><i class="fa-solid fa-exchange-alt"></i> EXCHANGES</li>
-          <li data-target="whitepaper"><i class="fa-solid fa-file-alt"></i> WHITE PAPER</li> <li data-target="news"><i class="fa-solid fa-newspaper"></i> NEWS</li>
+          <li data-target="whitepaper"><i class="fa-solid fa-file-alt"></i> WHITEPAPER</li>
+          <li data-target="news"><i class="fa-solid fa-newspaper"></i> NEWS FEED</li>
           <li data-target="resources"><i class="fa-solid fa-hat-wizard"></i> RESOURCES</li>
-          <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> HELP CREATOR</li>
+          <li data-target="helpcreator"><i class="fa-solid fa-qrcode"></i> SUPPORT DEV</li>
           <li data-target="account"><i class="fa-solid fa-user"></i> ACCOUNT</li>
         </ul>
+        <div class="sidebar-footer">
+          <p>HodlVitality v3.1.4</p>
+          <p>&copy; 2025 Project HodlVitality</p>
+        </div>
       </div>
 
       <div id="overlay"></div>
 
       <div class="main-content">
         <div id="dashboard" class="tab-content active">
-          <h1>DASHBOARD</h1>
-          <p class="mb-30">SYSTEM STATUS: ONLINE | LAST SYNC: <span id="syncTime"></span> | HODLVITALITY PRICE: $0.051</p>
+          <h1><i class="fa-solid fa-gauge-high" style="margin-right: 10px;"></i>DASHBOARD OVERVIEW</h1>
+          <p class="mb-30">SYSTEM STATUS: <span class="text-success">ONLINE</span> | LAST SYNC: <span id="syncTime">LOADING...</span> | HVITAL PRICE: <span class="text-primary">$0.051</span></p>
 
-          <div class="cyber-panel">
+          <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-bullhorn" style="margin-right: 10px;"></i>TERMINAL ANNOUNCEMENTS</h2>
+            <p> <span class="text-primary">[UPDATE]</span> HVITAL Social Tipping is now live! Reward fellow users for quality content. </p>
+            <p> <span class="text-warning">[MAINTENANCE]</span> Brief downtime scheduled for Sunday 03:00 UTC for system upgrades. </p>
+          </div>
+
+          <div class="cyber-panel mb-30">
             <h2><i class="fas fa-gift" style="margin-right: 10px;"></i>DAILY HODLVITALITY REWARD</h2>
             <p>Claim your daily HodlVitality (HVITAL) reward for engaging with the terminal.</p>
-            <p>Estimated Reward: <span id="dailyRewardAmount">10 HVITAL</span></p>
+            <p>Base Reward: <span id="dailyRewardAmount">10 HVITAL</span> | Bonus: <span id="dailyRewardBonus">0 HVITAL</span> (Based on activity)</p>
             <button id="dailyRewardButton" class="btn btn-primary mt-20 pulse">
               <i class="fas fa-gift"></i> CLAIM REWARD
             </button>
+             <p class="text-secondary mt-10">Next claim available in: <span id="claimTimer">23h 59m 59s</span></p>
           </div>
 
           <div class="stats-grid">
             <div class="stat-card">
               <h3>PORTFOLIO VALUE</h3>
-              <div class="stat-value text-primary">$12,450</div>
+              <div class="stat-value text-primary">$12,450.75</div>
+               <div class="stat-change text-success">+ $301.15 (+2.5%)</div>
             </div>
             <div class="stat-card">
               <h3>HVITAL BALANCE</h3>
               <div class="stat-value text-primary">1,250 HVITAL</div>
+              <div class="stat-change text-secondary">≈ $63.75</div>
             </div>
             <div class="stat-card">
-              <h3>24H CHANGE</h3>
+              <h3>24H GAIN/LOSS</h3>
               <div class="stat-value text-success">+2.5%</div>
+              <div class="stat-change text-secondary">Across all assets</div>
+            </div>
+             <div class="stat-card">
+              <h3>TOP PERFORMER (24H)</h3>
+              <div class="stat-value">HVITAL</div>
+              <div class="stat-change text-success">+5.1%</div>
             </div>
             <div class="stat-card">
               <h3>NEXT DCA</h3>
-              <div class="stat-value">12:00 PM</div>
+              <div class="stat-value">TOMORROW</div>
+              <div class="stat-change text-secondary">12:00 PM (BTC $50)</div>
+            </div>
+             <div class="stat-card">
+              <h3>MARKET SENTIMENT</h3>
+              <div class="stat-value text-warning">NEUTRAL <i class="fa-solid fa-minus"></i></div>
+               <div class="stat-change text-secondary">Based on social feeds</div>
             </div>
           </div>
 
           <div class="cyber-panel">
-            <h2><i class="fas fa-chart-bar" style="margin-right: 10px;"></i>MONTHLY HVITAL EARNINGS</h2>
+            <h2><i class="fas fa-chart-bar" style="margin-right: 10px;"></i>MONTHLY HVITAL EARNINGS (LAST 6 MONTHS)</h2>
             <div class="bars">
-              <div class="bar-container" data-tooltip="JAN: 100 HVITAL">
+              <div class="bar-container" data-tooltip="DEC '24: 80 HVITAL">
+                <span class="value">80</span>
+                <div class="bar" style="height: 40px;"></div>
+                <span class="label">DEC</span>
+              </div>
+              <div class="bar-container" data-tooltip="JAN '25: 100 HVITAL">
                 <span class="value">100</span>
                 <div class="bar" style="height: 50px;"></div>
                 <span class="label">JAN</span>
               </div>
-              <div class="bar-container" data-tooltip="FEB: 200 HVITAL">
+              <div class="bar-container" data-tooltip="FEB '25: 200 HVITAL">
                 <span class="value">200</span>
                 <div class="bar" style="height: 100px;"></div>
                 <span class="label">FEB</span>
               </div>
-              <div class="bar-container" data-tooltip="MAR: 150 HVITAL">
+              <div class="bar-container" data-tooltip="MAR '25: 150 HVITAL">
                 <span class="value">150</span>
                 <div class="bar" style="height: 75px;"></div>
                 <span class="label">MAR</span>
               </div>
-              <div class="bar-container" data-tooltip="APR: 250 HVITAL">
+              <div class="bar-container" data-tooltip="APR '25: 250 HVITAL">
                 <span class="value">250</span>
                 <div class="bar" style="height: 125px;"></div>
                 <span class="label">APR</span>
               </div>
-              <div class="bar-container" data-tooltip="MAY: 300 HVITAL">
+              <div class="bar-container" data-tooltip="MAY '25: 300 HVITAL">
                 <span class="value">300</span>
                 <div class="bar" style="height: 150px;"></div>
                 <span class="label">MAY</span>
@@ -140,14 +176,14 @@
 
         <div id="wallet" class="tab-content">
           <h1><i class="fas fa-wallet" style="margin-right: 10px;"></i>WALLET DASHBOARD</h1>
-          <p class="mb-30">CRYPTO WALLET MANAGEMENT INTERFACE</p>
+          <p class="mb-30">MANAGE YOUR CRYPTO ASSETS AND TRANSACTIONS</p>
 
-          <div class="cyber-panel">
+          <div class="cyber-panel mb-30">
             <h2><i class="fas fa-plug" style="margin-right: 10px;"></i>WALLET CONNECTION</h2>
-            <p id="walletStatus">WALLET STATUS: DISCONNECTED</p>
+            <p id="walletStatus">WALLET STATUS: <span class="text-error">DISCONNECTED</span></p>
             <div class="wallet-actions">
               <button id="connectWalletTab" class="btn">
-                <i class="fas fa-plug"></i> CONNECT WALLET
+                <i class="fas fa-plug"></i> CONNECT WALLET (e.g., Metamask, LN Node)
               </button>
               <button id="copyAddress" class="btn" style="display: none;" data-tooltip="COPY WALLET ADDRESS">
                 <i class="fas fa-copy"></i> COPY ADDRESS
@@ -155,52 +191,92 @@
             </div>
           </div>
 
-          <div class="cyber-panel">
-            <h2><i class="fas fa-info-circle" style="margin-right: 10px;"></i>WALLET DETAILS</h2>
+          <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-info-circle" style="margin-right: 10px;"></i>CONNECTED WALLET DETAILS</h2>
+             <p class="text-secondary mb-10">(Showing simulated data. Connect wallet to see live info.)</p>
             <div class="wallet-info">
               <div class="wallet-info-item">
-                <strong>WALLET ADDRESS</strong>
+                <strong>WALLET ADDRESS (BTC)</strong>
                 <span id="walletAddress">N/A</span>
               </div>
+               <div class="wallet-info-item">
+                <strong>WALLET ADDRESS (ETH/HVITAL)</strong>
+                <span id="ethWalletAddress">N/A</span>
+              </div>
               <div class="wallet-info-item">
-                <strong>LN BALANCE</strong>
-                <span id="walletBalance">0 sats</span>
+                <strong>BTC MAINNET BALANCE</strong>
+                <span id="btcBalance">0.00 BTC</span>
+              </div>
+              <div class="wallet-info-item">
+                <strong>LIGHTNING BALANCE</strong>
+                <span id="walletBalance">10,000 sats</span>
               </div>
                <div class="wallet-info-item">
-                <strong>HVITAL BALANCE</strong>
+                <strong>HVITAL BALANCE (ON-CHAIN)</strong>
                 <span id="hvitalBalanceWallet">1,250 HVITAL</span>
               </div>
               <div class="wallet-info-item">
-                <strong>NETWORK</strong>
-                <span>BITCOIN MAINNET / LIGHTNING</span>
+                <strong>CONNECTED NETWORK(S)</strong>
+                <span>BITCOIN MAINNET / LIGHTNING / ETHEREUM (SIMULATED)</span>
               </div>
             </div>
+             <div class="wallet-actions mt-20">
+                 <button class="btn btn-sm" data-tooltip="REFRESH WALLET BALANCES"><i class="fas fa-sync"></i> REFRESH</button>
+                 <button class="btn btn-sm btn-danger" data-tooltip="DISCONNECT WALLET"><i class="fas fa-unlink"></i> DISCONNECT</button>
+             </div>
           </div>
 
-          <div class="cyber-panel">
-            <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRANSACTIONS</h2>
+           <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>WALLET SECURITY</h2>
+             <ul class="security-tips">
+               <li><i class="fas fa-check-circle text-success"></i> Always backup your seed phrase securely offline.</li>
+               <li><i class="fas fa-exclamation-triangle text-warning"></i> Never share your private keys or seed phrase.</li>
+               <li><i class="fas fa-check-circle text-success"></i> Use a hardware wallet for significant amounts.</li>
+               <li><i class="fas fa-exclamation-triangle text-warning"></i> Beware of phishing scams asking for wallet details.</li>
+             </ul>
+           </div>
+
+
+          <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRANSACTIONS (LAST 10)</h2>
             <ul id="transactionsList">
                <li class="transaction-item">
                  <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">10 HVITAL</span> </div>
-                 <div> <span>DAILY REWARD</span> </div>
-                 <div> <span>JUST NOW</span> </div>
+                 <div> <span>DAILY REWARD CLAIM</span> </div>
+                 <div> <span>5 MINUTES AGO</span> </div>
               </li>
                <li class="transaction-item">
-                <div> <span class="transaction-type transaction-in">IN</span> <span>1,000 sats</span> </div>
-                 <div> <span>DEPOSIT</span> </div>
-                <div> <span>2 HOURS AGO</span> </div>
-              </li>
+                 <div> <span class="transaction-type transaction-in">IN</span> <span>2,500 sats</span> </div>
+                 <div> <span>LN INVOICE PAID (FROM @USERX)</span> </div>
+                 <div> <span>1 HOUR AGO</span> </div>
+               </li>
               <li class="transaction-item">
                  <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">5 HVITAL</span> </div>
-                 <div> <span>TIP @CRYPTOGURU</span> </div>
+                 <div> <span>TIP SENT TO @CRYPTOGURU</span> </div>
                  <div> <span>18 HOURS AGO</span> </div>
               </li>
               <li class="transaction-item">
-                <div> <span class="transaction-type transaction-out">OUT</span> <span>500 sats</span> </div>
-                <div> <span>PAYMENT</span> </div>
+                <div> <span class="transaction-type transaction-in">IN</span> <span>0.001 BTC</span> </div>
+                 <div> <span>DEPOSIT FROM BINANCE</span> </div>
                 <div> <span>1 DAY AGO</span> </div>
               </li>
+               <li class="transaction-item">
+                 <div> <span class="transaction-type transaction-out">OUT</span> <span class="text-primary">20 HVITAL</span> </div>
+                 <div> <span>SWAP HVITAL -> SATs (Internal)</span> </div>
+                 <div> <span>2 DAYS AGO</span> </div>
+              </li>
+              <li class="transaction-item">
+                <div> <span class="transaction-type transaction-out">OUT</span> <span>500 sats</span> </div>
+                <div> <span>LN PAYMENT (MERCHANT XYZ)</span> </div>
+                <div> <span>2 DAYS AGO</span> </div>
+              </li>
+               <li class="transaction-item">
+                 <div> <span class="transaction-type transaction-in">IN</span> <span class="text-primary">10 HVITAL</span> </div>
+                 <div> <span>DAILY REWARD CLAIM</span> </div>
+                 <div> <span>3 DAYS AGO</span> </div>
+              </li>
             </ul>
+            <button class="btn btn-sm mt-20" data-tooltip="VIEW FULL TRANSACTION HISTORY"><i class="fas fa-history"></i> VIEW ALL</button>
           </div>
 
           <div class="cyber-panel">
@@ -215,28 +291,35 @@
                <button id="sendHvital" class="btn btn-primary" data-tooltip="Send HodlVitality Tokens">
                 <i class="fas fa-paper-plane"></i> SEND HVITAL
               </button>
+               <button id="depositCrypto" class="btn" data-tooltip="Deposit BTC or other Crypto">
+                <i class="fas fa-arrow-down"></i> DEPOSIT CRYPTO
+              </button>
+               <button id="withdrawCrypto" class="btn" data-tooltip="Withdraw BTC or other Crypto">
+                <i class="fas fa-arrow-up"></i> WITHDRAW CRYPTO
+              </button>
             </div>
           </div>
         </div>
 
         <div id="social" class="tab-content">
-          <h1><i class="fas fa-users" style="margin-right: 10px;"></i>SOCIAL FEED</h1>
-          <p class="mb-30">CRYPTO COMMUNITY NETWORK INTERFACE | TIP USERS WITH HVITAL!</p>
+          <h1><i class="fas fa-users" style="margin-right: 10px;"></i>SOCIAL HUB</h1>
+          <p class="mb-30">CONNECT WITH THE CRYPTO COMMUNITY | EARN & TIP HVITAL!</p>
 
           <div class="social-tabs">
             <div class="social-tab active" data-tab="following">FOR YOU</div>
             <div class="social-tab" data-tab="yourpage">YOUR PAGE</div>
             <div class="social-tab" data-tab="discover">DISCOVER</div>
+            <div class="social-tab" data-tab="trending">TRENDING</div>
           </div>
 
           <div class="social-feed" id="following">
             <div class="cyber-panel post">
               <div class="post-header">
                 <img src="https://i.pravatar.cc/150?img=3" alt="avatar" data-tooltip="VIEW CRYPTOGURU'S PROFILE"/>
-                <span data-tooltip="VIEW CRYPTOGURU'S PROFILE">CRYPTOGURU</span>
+                <span data-tooltip="VIEW CRYPTOGURU'S PROFILE">CRYPTOGURU <i class="fas fa-check-circle text-primary" data-tooltip="Verified User"></i></span>
                 <div class="post-actions">
-                  <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTOGURU">
-                    <i class="fas fa-user-plus"></i> FOLLOW
+                  <button class="btn btn-sm follow-btn active" data-tooltip="UNFOLLOW CRYPTOGURU">
+                    <i class="fas fa-user-minus"></i> FOLLOWING
                   </button>
                   <button class="btn btn-sm btn-success send-hvital-tip-btn" data-tooltip="TIP 5 HVITAL TO CRYPTOGURU" data-recipient="CRYPTOGURU">
                     <i class="fas fa-coins"></i> TIP HVITAL
@@ -244,12 +327,36 @@
                 </div>
               </div>
               <div class="post-body">
-                <p>Just made a profitable trade with my new trading bot! The HodlVitality platform makes automated trading so easy. Thanks for the daily $HVITAL drops! #crypto #tradingbot #hodlvitality</p>
+                <p>Just made a profitable trade with my new trading bot config! The HodlVitality terminal makes automated trading so accessible. Loving the daily $HVITAL drops too! #crypto #tradingbot #hodlvitality #BTC</p>
+                <img src="https://via.placeholder.com/400x200.png?text=Chart+Screenshot" alt="Chart Screenshot" class="post-image">
                 <div class="post-meta">
                   <span class="post-meta-item" data-tooltip="POSTED 2 HOURS AGO"><i class="far fa-clock"></i> 2H AGO</span>
-                  <span class="post-meta-item" data-tooltip="42 LIKES"><i class="far fa-heart"></i> 42</span>
-                  <span class="post-meta-item" data-tooltip="8 COMMENTS"><i class="far fa-comment"></i> 8</span>
+                  <span class="post-meta-item interactive" data-tooltip="LIKE POST"><i class="far fa-heart"></i> 42 LIKES</span>
+                  <span class="post-meta-item interactive" data-tooltip="COMMENT ON POST"><i class="far fa-comment"></i> 8 COMMENTS</span>
                   <span class="post-meta-item" data-tooltip="RECEIVED 15 HVITAL TIPS"><i class="fas fa-coins text-primary"></i> 15 HVITAL</span>
+                </div>
+              </div>
+            </div>
+             <div class="cyber-panel post">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?img=5" alt="avatar" data-tooltip="VIEW ETHMAXI'S PROFILE"/>
+                <span data-tooltip="VIEW ETHMAXI'S PROFILE">ETHMAXI</span>
+                 <div class="post-actions">
+                  <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW ETHMAXI">
+                    <i class="fas fa-user-plus"></i> FOLLOW
+                  </button>
+                  <button class="btn btn-sm btn-success send-hvital-tip-btn" data-tooltip="TIP 1 HVITAL TO ETHMAXI" data-recipient="ETHMAXI">
+                    <i class="fas fa-coins"></i> TIP HVITAL
+                  </button>
+                </div>
+              </div>
+              <div class="post-body">
+                <p>Exploring the potential of Layer 2 solutions on Ethereum. Scalability is key for mass adoption! What are your favorite L2s? #ETH #Layer2 #Scalability</p>
+                 <div class="post-meta">
+                  <span class="post-meta-item" data-tooltip="POSTED 5 HOURS AGO"><i class="far fa-clock"></i> 5H AGO</span>
+                  <span class="post-meta-item interactive" data-tooltip="LIKE POST"><i class="far fa-heart"></i> 18 LIKES</span>
+                  <span class="post-meta-item interactive" data-tooltip="COMMENT ON POST"><i class="far fa-comment"></i> 12 COMMENTS</span>
+                  <span class="post-meta-item" data-tooltip="RECEIVED 3 HVITAL TIPS"><i class="fas fa-coins text-primary"></i> 3 HVITAL</span>
                 </div>
               </div>
             </div>
@@ -258,8 +365,37 @@
           <div class="social-feed" id="yourpage" style="display: none;">
               <div class="cyber-panel mb-30">
                    <h2><i class="fas fa-pencil-alt" style="margin-right: 10px;"></i>CREATE POST</h2>
-                   <textarea id="createPostTextarea" placeholder="WHAT'S ON YOUR MIND? SHARE YOUR CRYPTO THOUGHTS..."></textarea>
-                   <button id="createPostButton" class="btn btn-primary"><i class="fas fa-paper-plane"></i> POST</button>
+                   <textarea id="createPostTextarea" placeholder="WHAT'S ON YOUR MIND, OPERATOR? SHARE YOUR CRYPTO INSIGHTS, QUESTIONS, OR VICTORIES..."></textarea>
+                   <div class="create-post-actions">
+                       <button class="btn btn-sm" data-tooltip="ADD IMAGE"><i class="fas fa-image"></i></button>
+                       <button class="btn btn-sm" data-tooltip="ADD POLL"><i class="fas fa-poll"></i></button>
+                       <button class="btn btn-sm" data-tooltip="TAG USER"><i class="fas fa-at"></i></button>
+                       <button id="createPostButton" class="btn btn-primary"><i class="fas fa-paper-plane"></i> POST</button>
+                   </div>
+              </div>
+              <h2 class="mb-20"><i class="fas fa-stream" style="margin-right: 10px;"></i>YOUR RECENT POSTS</h2>
+              <div class="cyber-panel post">
+                <div class="post-header">
+                  <img src="https://i.pravatar.cc/150?img=1" alt="avatar" data-tooltip="YOUR PROFILE"/>
+                  <span data-tooltip="YOUR PROFILE">YOURUSERNAME</span>
+                  <div class="post-actions">
+                    <button class="btn btn-sm" data-tooltip="EDIT YOUR POST">
+                      <i class="fas fa-edit"></i> EDIT
+                    </button>
+                     <button class="btn btn-sm btn-danger" data-tooltip="DELETE YOUR POST">
+                      <i class="fas fa-trash"></i> DELETE
+                    </button>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <p>Excited about the potential of $HVITAL! Claiming my daily rewards and learning more about crypto within this awesome terminal. What features do you use most? #hodlvitality #crypto</p>
+                  <div class="post-meta">
+                      <span class="post-meta-item" data-tooltip="POSTED 1 HOUR AGO"><i class="far fa-clock"></i> 1H AGO</span>
+                      <span class="post-meta-item interactive" data-tooltip="LIKES"><i class="far fa-heart"></i> 5 LIKES</span>
+                      <span class="post-meta-item interactive" data-tooltip="COMMENTS"><i class="far fa-comment"></i> 2 COMMENTS</span>
+                       <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
+                  </div>
+                </div>
               </div>
               <div class="cyber-panel post">
                 <div class="post-header">
@@ -275,171 +411,269 @@
                   </div>
                 </div>
                 <div class="post-body">
-                  <p>Excited about the potential of $HVITAL! Claiming my daily rewards and learning more about crypto. #hodlvitality</p>
+                  <p>Just set up my first DCA strategy for BTC using the terminal. Smooth process! Hoping for good long-term results. #DCA #Bitcoin #investing</p>
                   <div class="post-meta">
-                      <span class="post-meta-item" data-tooltip="POSTED 1 HOUR AGO"><i class="far fa-clock"></i> 1H AGO</span>
-                      <span class="post-meta-item" data-tooltip="5 LIKES"><i class="far fa-heart"></i> 5</span>
-                      <span class="post-meta-item" data-tooltip="2 COMMENTS"><i class="far fa-comment"></i> 2</span>
-                       <span class="post-meta-item" data-tooltip="RECEIVED 0 HVITAL TIPS"><i class="fas fa-coins text-secondary"></i> 0 HVITAL</span>
+                      <span class="post-meta-item" data-tooltip="POSTED 3 DAYS AGO"><i class="far fa-clock"></i> 3D AGO</span>
+                      <span class="post-meta-item interactive" data-tooltip="LIKES"><i class="far fa-heart"></i> 12 LIKES</span>
+                      <span class="post-meta-item interactive" data-tooltip="COMMENTS"><i class="far fa-comment"></i> 4 COMMENTS</span>
+                       <span class="post-meta-item" data-tooltip="RECEIVED 2 HVITAL TIPS"><i class="fas fa-coins text-primary"></i> 2 HVITAL</span>
                   </div>
                 </div>
               </div>
           </div>
 
           <div class="social-feed" id="discover" style="display: none;">
-            <div class="cyber-panel">
-              <h2>DISCOVER COMMUNITIES</h2>
+            <div class="cyber-panel mb-30">
+              <h2><i class="fas fa-search" style="margin-right: 10px;"></i>DISCOVER COMMUNITIES & TOPICS</h2>
               <p>FIND AND JOIN CRYPTO COMMUNITIES THAT MATCH YOUR INTERESTS.</p>
-              <div class="wallet-actions" style="gap: 10px;">
-                 <button class="btn btn-sm community-tag" data-tooltip="JOIN BITCOIN COMMUNITY"> <i class="fab fa-bitcoin"></i> BITCOIN </button>
-                 <button class="btn btn-sm community-tag" data-tooltip="JOIN ETHEREUM COMMUNITY"> <i class="fab fa-ethereum"></i> ETHEREUM </button>
-                 <button class="btn btn-sm community-tag" data-tooltip="JOIN HODLVITALITY COMMUNITY"> <i class="fas fa-coins"></i> HODLVITALITY </button>
-                 <button class="btn btn-sm community-tag" data-tooltip="JOIN TRADING COMMUNITY"> <i class="fas fa-chart-line"></i> TRADING </button>
-                 <button class="btn btn-sm community-tag" data-tooltip="JOIN DEFI COMMUNITY"> <i class="fas fa-coins"></i> DEFI </button>
-                 <button class="btn btn-sm community-tag" data-tooltip="JOIN NFTS COMMUNITY"> <i class="fas fa-palette"></i> NFTS </button>
+              <div class="wallet-actions" style="gap: 10px; flex-wrap: wrap;">
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE BITCOIN TOPICS"> <i class="fab fa-bitcoin"></i> BITCOIN </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE ETHEREUM TOPICS"> <i class="fab fa-ethereum"></i> ETHEREUM </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE HODLVITALITY TOPICS"> <i class="fas fa-coins"></i> HODLVITALITY </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE TRADING STRATEGIES"> <i class="fas fa-chart-line"></i> TRADING </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE DEFI PROJECTS"> <i class="fas fa-coins"></i> DEFI </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE NFTS & METAVERSE"> <i class="fas fa-palette"></i> NFTS </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE ALTCOIN GEMS"> <i class="fas fa-rocket"></i> ALTCOINS </button>
+                 <button class="btn btn-sm community-tag" data-tooltip="EXPLORE CRYPTO SECURITY"> <i class="fas fa-shield-alt"></i> SECURITY </button>
               </div>
+            </div>
+             <div class="cyber-panel">
+              <h2><i class="fas fa-user-friends" style="margin-right: 10px;"></i>SUGGESTED USERS TO FOLLOW</h2>
+                <ul class="user-suggestions">
+                  <li> <img src="https://i.pravatar.cc/150?img=8" alt="avatar"/> <span>DEFI_WIZARD</span> <button class="btn btn-xs follow-btn"><i class="fas fa-user-plus"></i> FOLLOW</button> </li>
+                  <li> <img src="https://i.pravatar.cc/150?img=9" alt="avatar"/> <span>NFT_QUEEN</span> <button class="btn btn-xs follow-btn"><i class="fas fa-user-plus"></i> FOLLOW</button> </li>
+                  <li> <img src="https://i.pravatar.cc/150?img=10" alt="avatar"/> <span>LN_EVANGELIST</span> <button class="btn btn-xs follow-btn"><i class="fas fa-user-plus"></i> FOLLOW</button> </li>
+                </ul>
+            </div>
+          </div>
+
+          <div class="social-feed" id="trending" style="display: none;">
+            <div class="cyber-panel">
+              <h2><i class="fas fa-fire" style="margin-right: 10px;"></i>TRENDING NOW</h2>
+              <ul class="trending-list">
+                 <li>#BitcoinHalving <span class="text-secondary">- 1.5K Posts</span></li>
+                 <li>$HVITAL <span class="text-secondary">- 850 Posts</span></li>
+                 <li>#DeFiSummer <span class="text-secondary">- 700 Posts</span></li>
+                 <li>#NFTMarketplace <span class="text-secondary">- 550 Posts</span></li>
+                 <li>#CryptoRegulation <span class="text-secondary">- 400 Posts</span></li>
+              </ul>
             </div>
           </div>
         </div>
 
+
         <div id="trading" class="tab-content">
-          <h1><i class="fas fa-robot" style="margin-right: 10px;"></i>TRADING BOT</h1>
-          <p class="mb-30">AUTOMATED TRADING TERMINAL v2.5.1</p>
+          <h1><i class="fas fa-robot" style="margin-right: 10px;"></i>AUTOMATED TRADING BOT</h1>
+          <p class="mb-30">TRADING TERMINAL v2.5.1 | EXECUTE STRATEGIES AUTOMATICALLY</p>
 
-          <div class="trading-controls">
-            <button class="btn btn-success" data-tooltip="START THE TRADING BOT"> <i class="fas fa-play"></i> START BOT </button>
-            <button class="btn btn-warning" data-tooltip="PAUSE THE TRADING BOT"> <i class="fas fa-pause"></i> PAUSE BOT </button>
-            <button class="btn btn-danger" data-tooltip="STOP THE TRADING BOT"> <i class="fas fa-stop"></i> STOP BOT </button>
-            <button class="btn" data-tooltip="CONFIGURE BOT SETTINGS"> <i class="fas fa-cog"></i> SETTINGS </button>
-          </div>
+           <div class="cyber-panel mb-30">
+                <h2><i class="fas fa-tachometer-alt" style="margin-right: 10px;"></i>BOT STATUS & PERFORMANCE</h2>
+                <div class="wallet-info">
+                  <div class="wallet-info-item"> <strong>BOT STATUS</strong> <span class="text-success">ACTIVE <i class="fas fa-check-circle"></i></span> </div>
+                  <div class="wallet-info-item"> <strong>ACTIVE STRATEGY</strong> <span>BTC/USD Momentum Scalp</span> </div>
+                  <div class="wallet-info-item"> <strong>RISK LEVEL</strong> <span class="text-warning">MEDIUM</span> </div>
+                  <div class="wallet-info-item"> <strong>24H P&L</strong> <span class="text-success">+0.0015 BTC (≈ $63)</span> </div>
+                  <div class="wallet-info-item"> <strong>TOTAL P&L</strong> <span class="text-success">+0.15 BTC</span> </div>
+                  <div class="wallet-info-item"> <strong>WIN RATE (LAST 100)</strong> <span>72%</span> </div>
+                </div>
+                 <div class="trading-controls mt-20">
+                    <button class="btn btn-success" disabled data-tooltip="BOT IS ALREADY RUNNING"> <i class="fas fa-play"></i> START BOT </button>
+                    <button class="btn btn-warning" data-tooltip="PAUSE THE TRADING BOT"> <i class="fas fa-pause"></i> PAUSE BOT </button>
+                    <button class="btn btn-danger" data-tooltip="STOP THE TRADING BOT"> <i class="fas fa-stop"></i> STOP BOT </button>
+                    <button class="btn" data-tooltip="CONFIGURE BOT SETTINGS & STRATEGIES"> <i class="fas fa-cog"></i> SETTINGS </button>
+                 </div>
+            </div>
 
-          <div class="cyber-panel">
-            <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>BITCOIN PRICE CHART</h2>
+
+          <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>MARKET VIEW (BTC/USD)</h2>
             <div class="chart-container">
               <canvas id="bitcoinChart"></canvas>
             </div>
-            <div id="priceSuggestions" class="mt-20"></div>
+            <div id="priceSuggestions" class="mt-20">
+                <span class="text-secondary">Current Price: $42,350 | 24h High: $42,900 | 24h Low: $41,750 | Volume: 35.2K BTC</span>
+            </div>
           </div>
 
           <div class="cyber-panel">
-            <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT TRADES</h2>
+            <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>RECENT BOT TRADES</h2>
             <div class="table-container">
              <table class="trading-table">
               <thead>
                 <tr>
-                  <th>TIME</th> <th>SIGNAL</th> <th>PAIR</th> <th>PRICE</th> <th>AMOUNT</th> <th>STATUS</th>
+                  <th>TIME</th> <th>SIGNAL</th> <th>PAIR</th> <th>PRICE</th> <th>AMOUNT</th> <th>PNL</th> <th>STATUS</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>09:00</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,120</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
-                </tr>
-                <tr>
-                  <td>10:30</td> <td><span class="text-error">SELL</span></td> <td>BTC/USD</td> <td>$42,800</td> <td>0.005 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
-                </tr>
-                <tr>
-                  <td>12:15</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,350</td> <td>0.007 BTC</td> <td><span class="status-active">ACTIVE</span></td>
+                  <td>16:00</td> <td><span class="text-error">STOP LOSS</span></td> <td>BTC/USD</td> <td>$41,800</td> <td>0.007 BTC</td> <td><span class="text-error">- $35</span></td> <td><span class="status-executed">EXECUTED</span></td>
                 </tr>
                  <tr>
-                  <td>13:30</td> <td><span class="text-success">BUY</span></td> <td>HVITAL/USD</td> <td>$0.050</td> <td>100 HVITAL</td> <td><span class="status-pending">PENDING</span></td>
+                  <td>14:45</td> <td><span class="text-warning">LIMIT SELL</span></td> <td>BTC/USD</td> <td>$42,950</td> <td>0.010 BTC</td> <td>-</td> <td><span class="status-pending">PENDING</span></td>
                 </tr>
                 <tr>
-                  <td>14:45</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,000</td> <td>0.010 BTC</td> <td><span class="status-pending">PENDING</span></td>
+                  <td>13:30</td> <td><span class="text-success">BUY</span></td> <td>HVITAL/USD</td> <td>$0.050</td> <td>100 HVITAL</td> <td>-</td> <td><span class="status-executed">EXECUTED</span></td>
                 </tr>
                  <tr>
-                  <td>16:00</td> <td><span class="text-error">STOP LOSS</span></td> <td>BTC/USD</td> <td>$41,800</td> <td>0.007 BTC</td> <td><span class="status-executed">EXECUTED</span></td>
+                  <td>12:15</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,350</td> <td>0.007 BTC</td> <td>-</td> <td><span class="status-active">ACTIVE</span></td>
+                </tr>
+                 <tr>
+                  <td>10:30</td> <td><span class="text-error">SELL</span></td> <td>BTC/USD</td> <td>$42,800</td> <td>0.005 BTC</td><td><span class="text-success">+ $34</span></td> <td><span class="status-executed">EXECUTED</span></td>
+                </tr>
+                <tr>
+                  <td>09:00</td> <td><span class="text-success">BUY</span></td> <td>BTC/USD</td> <td>$42,120</td> <td>0.005 BTC</td> <td>-</td> <td><span class="status-executed">EXECUTED</span></td>
+                </tr>
+                 <tr>
+                  <td>08:15</td> <td><span class="text-error">SELL</span></td> <td>ETH/USD</td> <td>$2,280</td> <td>0.1 ETH</td> <td><span class="text-error">- $15</span></td><td><span class="status-executed">EXECUTED</span></td>
+                </tr>
+                 <tr>
+                  <td>07:30</td> <td><span class="text-primary">CANCELLED</span></td> <td>BTC/USD</td> <td>$41,900</td> <td>0.002 BTC</td> <td>-</td> <td><span class="status-cancelled">CANCELLED</span></td>
                 </tr>
               </tbody>
             </table>
             </div>
+             <button class="btn btn-sm mt-20" data-tooltip="VIEW FULL TRADE HISTORY"><i class="fas fa-history"></i> VIEW ALL TRADES</button>
           </div>
         </div>
 
         <div id="dca" class="tab-content">
-          <h1><i class="fas fa-chart-line" style="margin-right: 10px;"></i>DOLLAR-COST AVERAGING</h1>
-          <p class="mb-30">AUTOMATED INVESTMENT PROTOCOL</p>
+          <h1><i class="fas fa-chart-line" style="margin-right: 10px;"></i>DOLLAR-COST AVERAGING (DCA)</h1>
+          <p class="mb-30">AUTOMATED INVESTMENT PROTOCOL | BUILD YOUR STACK OVER TIME</p>
 
-          <div class="cyber-panel">
-            <h2><i class="fas fa-chart-area" style="margin-right: 10px;"></i>DCA PERFORMANCE</h2>
+          <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-chart-area" style="margin-right: 10px;"></i>DCA PERFORMANCE (BTC)</h2>
             <div class="chart-container">
               <canvas id="dcaChart"></canvas>
             </div>
+             <div class="account-stats mt-20">
+                <div class="stat-row"> <span class="stat-label">TOTAL INVESTED:</span> <span class="stat-value">$3,250</span> </div>
+                <div class="stat-row"> <span class="stat-label">BTC ACCUMULATED:</span> <span class="stat-value">0.075005 BTC</span> </div>
+                <div class="stat-row"> <span class="stat-label">AVERAGE BUY PRICE:</span> <span class="stat-value">$43,331</span> </div>
+                <div class="stat-row"> <span class="stat-label">CURRENT VALUE:</span> <span class="stat-value text-success">$3,172.71</span> </div>
+                 <div class="stat-row"> <span class="stat-label">OVERALL GAIN/LOSS:</span> <span class="stat-value text-error">-$77.29 (-2.38%)</span> </div>
+                 <p class="text-secondary mt-10">Note: DCA is a long-term strategy. Short-term fluctuations are expected.</p>
+              </div>
           </div>
 
-          <div class="cyber-panel">
-            <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>CURRENT STRATEGY</h2>
+          <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>CURRENT DCA STRATEGY (BTC)</h2>
             <div class="wallet-info">
               <div class="wallet-info-item"> <strong>ASSET</strong> <span>BITCOIN (BTC)</span> </div>
               <div class="wallet-info-item"> <strong>FREQUENCY</strong> <span>DAILY</span> </div>
-              <div class="wallet-info-item"> <strong>AMOUNT</strong> <span>$50</span> </div>
-              <div class="wallet-info-item"> <strong>NEXT PURCHASE</strong> <span>TOMORROW, 12:00 PM</span> </div>
+              <div class="wallet-info-item"> <strong>AMOUNT PER PURCHASE</strong> <span>$50</span> </div>
+              <div class="wallet-info-item"> <strong>FUNDING SOURCE</strong> <span>CONNECTED WALLET (LN)</span> </div>
+              <div class="wallet-info-item"> <strong>STATUS</strong> <span class="text-success">ACTIVE</span> </div>
+              <div class="wallet-info-item"> <strong>NEXT PURCHASE</strong> <span>TOMORROW, 12:00 PM PST</span> </div>
             </div>
             <div class="wallet-actions mt-20">
               <button class="btn btn-primary" data-tooltip="EDIT DCA SETTINGS"> <i class="fas fa-edit"></i> EDIT STRATEGY </button>
-              <button class="btn btn-danger" data-tooltip="PAUSE AUTOMATIC PURCHASES"> <i class="fas fa-stop"></i> PAUSE DCA </button>
+              <button class="btn btn-warning" data-tooltip="PAUSE AUTOMATIC PURCHASES"> <i class="fas fa-pause"></i> PAUSE DCA </button>
+               <button class="btn btn-danger" data-tooltip="DELETE THIS DCA STRATEGY"> <i class="fas fa-trash"></i> DELETE STRATEGY </button>
+               <button class="btn" data-tooltip="CREATE A NEW DCA STRATEGY (e.g., for ETH, HVITAL)"> <i class="fas fa-plus"></i> NEW STRATEGY </button>
             </div>
           </div>
 
           <div class="cyber-panel">
-            <h2><i class="fas fa-history" style="margin-right: 10px;"></i>PURCHASE HISTORY</h2>
+            <h2><i class="fas fa-history" style="margin-right: 10px;"></i>RECENT PURCHASE HISTORY (BTC DCA)</h2>
             <div class="table-container">
             <table class="trading-table">
               <thead>
-                <tr> <th>DATE</th> <th>TIME</th> <th>AMOUNT</th> <th>PRICE</th> <th>BTC RECEIVED</th> </tr>
+                <tr> <th>DATE</th> <th>TIME</th> <th>AMOUNT (USD)</th> <th>BTC PRICE</th> <th>BTC RECEIVED</th> <th>STATUS</th> </tr>
               </thead>
               <tbody>
-                <tr> <td>TODAY</td> <td>12:00</td> <td>$50</td> <td>$42,350</td> <td>0.00118 BTC</td> </tr>
-                <tr> <td>YESTERDAY</td> <td>12:00</td> <td>$50</td> <td>$41,800</td> <td>0.001196 BTC</td> </tr>
-                <tr> <td>2 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$42,100</td> <td>0.001188 BTC</td> </tr>
-                <tr> <td>3 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$41,500</td> <td>0.001205 BTC</td> </tr>
-                <tr> <td>4 DAYS AGO</td> <td>12:00</td> <td>$50</td> <td>$41,950</td> <td>0.001192 BTC</td> </tr>
+                <tr> <td>TODAY</td> <td>12:00 PM</td> <td>$50.00</td> <td>$42,350</td> <td>0.0011806 BTC</td> <td><span class="status-executed">EXECUTED</span></td></tr>
+                <tr> <td>YESTERDAY</td> <td>12:00 PM</td> <td>$50.00</td> <td>$41,800</td> <td>0.0011961 BTC</td> <td><span class="status-executed">EXECUTED</span></td></tr>
+                <tr> <td>2 DAYS AGO</td> <td>12:00 PM</td> <td>$50.00</td> <td>$42,100</td> <td>0.0011876 BTC</td> <td><span class="status-executed">EXECUTED</span></td></tr>
+                <tr> <td>3 DAYS AGO</td> <td>12:00 PM</td> <td>$50.00</td> <td>$41,500</td> <td>0.0012048 BTC</td> <td><span class="status-executed">EXECUTED</span></td></tr>
+                <tr> <td>4 DAYS AGO</td> <td>12:00 PM</td> <td>$50.00</td> <td>$41,950</td> <td>0.0011919 BTC</td> <td><span class="status-executed">EXECUTED</span></td></tr>
+                 <tr> <td>5 DAYS AGO</td> <td>12:00 PM</td> <td>$50.00</td> <td>$42,500</td> <td>0.0011765 BTC</td> <td><span class="status-executed">EXECUTED</span></td></tr>
               </tbody>
             </table>
             </div>
+             <button class="btn btn-sm mt-20" data-tooltip="VIEW FULL PURCHASE HISTORY"><i class="fas fa-history"></i> VIEW ALL PURCHASES</button>
           </div>
         </div>
 
         <div id="exchanges" class="tab-content">
           <h1><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>EXCHANGE INTEGRATION</h1>
-          <p class="mb-30">CONNECTED EXCHANGE INTERFACES</p>
+          <p class="mb-30">CONNECT AND MANAGE YOUR EXCHANGE ACCOUNTS VIA API</p>
+
+           <div class="cyber-panel mb-30">
+               <h2><i class="fas fa-plug" style="margin-right: 10px;"></i>MANAGE CONNECTIONS</h2>
+               <p>Connect exchanges to enable trading bot execution, portfolio tracking, and balance management directly from the terminal.</p>
+               <button class="btn btn-primary" data-tooltip="ADD NEW EXCHANGE CONNECTION"> <i class="fas fa-plus"></i> CONNECT NEW EXCHANGE </button>
+           </div>
 
           <div class="exchanges-grid">
             <div class="cyber-panel exchange-card">
-              <div class="exchange-icon"> <i class="fab fa-bitcoin"></i> </div>
-              <h2>BINANCE</h2>
-              <p>WORLD'S LEADING CRYPTOCURRENCY EXCHANGE</p>
+              <div class="exchange-header">
+                 <div class="exchange-icon"> <img src="https://s2.coinmarketcap.com/static/img/exchanges/64x64/270.png" alt="Binance Logo"/> </div>
+                 <h2>BINANCE</h2>
+              </div>
+              <p class="exchange-description">World's leading cryptocurrency exchange by volume.</p>
               <button class="btn btn-sm btn-success" disabled> <i class="fas fa-check"></i> CONNECTED </button>
               <div class="exchange-stats">
                  <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value text-success">CONNECTED</span> </div>
-                 <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">0.5 BTC</span> </div>
-                 <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">5,000 HVITAL</span> </div>
-                 <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value text-success">ACTIVE</span> </div>
+                 <div class="stat-row"> <span class="stat-label">TOTAL BALANCE (EST):</span> <span class="stat-value">$5,800</span> </div>
+                 <div class="stat-row"> <span class="stat-label">BTC BALANCE:</span> <span class="stat-value">0.05 BTC</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL BALANCE:</span> <span class="stat-value">5,000 HVITAL</span> </div>
+                 <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value text-success">ACTIVE (Read, Trade)</span> </div>
+                 <div class="stat-row"> <span class="stat-label">LAST SYNC:</span> <span class="stat-value">2 minutes ago</span> </div>
               </div>
+               <div class="wallet-actions mt-10">
+                   <button class="btn btn-xs" data-tooltip="MANAGE API KEY PERMISSIONS"><i class="fas fa-key"></i> Manage API</button>
+                   <button class="btn btn-xs btn-danger" data-tooltip="DISCONNECT BINANCE"><i class="fas fa-unlink"></i> Disconnect</button>
+               </div>
             </div>
 
             <div class="cyber-panel exchange-card">
-              <div class="exchange-icon"> <i class="fab fa-ethereum"></i> </div>
-              <h2>COINBASE</h2>
-              <p>SECURE PLATFORM FOR CRYPTO TRADING</p>
+              <div class="exchange-header">
+                <div class="exchange-icon"> <img src="https://s2.coinmarketcap.com/static/img/exchanges/64x64/89.png" alt="Coinbase Logo"/> </div>
+                <h2>COINBASE</h2>
+              </div>
+              <p class="exchange-description">User-friendly platform for buying, selling, and storing crypto.</p>
               <button class="btn btn-sm" data-tooltip="CONNECT COINBASE ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
               <div class="exchange-stats">
                  <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
-                 <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
-                 <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">TOTAL BALANCE (EST):</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">BTC BALANCE:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL BALANCE:</span> <span class="stat-value">-</span> </div>
                  <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">LAST SYNC:</span> <span class="stat-value">-</span> </div>
               </div>
             </div>
 
             <div class="cyber-panel exchange-card">
-              <div class="exchange-icon"> <i class="fas fa-anchor"></i> </div>
-              <h2>KRAKEN</h2>
-              <p>PROFESSIONAL TRADING PLATFORM</p>
+              <div class="exchange-header">
+                <div class="exchange-icon"> <img src="https://s2.coinmarketcap.com/static/img/exchanges/64x64/24.png" alt="Kraken Logo"/> </div>
+                <h2>KRAKEN</h2>
+              </div>
+              <p class="exchange-description">Secure exchange known for robust features and security.</p>
               <button class="btn btn-sm" data-tooltip="CONNECT KRAKEN ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
               <div class="exchange-stats">
                   <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
-                  <div class="stat-row"> <span class="stat-label">BALANCE:</span> <span class="stat-value">-</span> </div>
-                   <div class="stat-row"> <span class="stat-label">HVITAL:</span> <span class="stat-value">-</span> </div>
+                  <div class="stat-row"> <span class="stat-label">TOTAL BALANCE (EST):</span> <span class="stat-value">-</span> </div>
+                   <div class="stat-row"> <span class="stat-label">BTC BALANCE:</span> <span class="stat-value">-</span> </div>
+                   <div class="stat-row"> <span class="stat-label">HVITAL BALANCE:</span> <span class="stat-value">-</span> </div>
                   <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+                  <div class="stat-row"> <span class="stat-label">LAST SYNC:</span> <span class="stat-value">-</span> </div>
+              </div>
+            </div>
+
+             <div class="cyber-panel exchange-card">
+              <div class="exchange-header">
+                 <div class="exchange-icon"> <img src="https://s2.coinmarketcap.com/static/img/exchanges/64x64/311.png" alt="KuCoin Logo"/> </div>
+                 <h2>KUCOIN</h2>
+              </div>
+              <p class="exchange-description">Wide variety of cryptocurrencies and trading features.</p>
+              <button class="btn btn-sm" data-tooltip="CONNECT KUCOIN ACCOUNT"> <i class="fas fa-link"></i> CONNECT </button>
+              <div class="exchange-stats">
+                 <div class="stat-row"> <span class="stat-label">STATUS:</span> <span class="stat-value">NOT CONNECTED</span> </div>
+                 <div class="stat-row"> <span class="stat-label">TOTAL BALANCE (EST):</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">BTC BALANCE:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL BALANCE:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">API STATUS:</span> <span class="stat-value">-</span> </div>
+                 <div class="stat-row"> <span class="stat-label">LAST SYNC:</span> <span class="stat-value">-</span> </div>
               </div>
             </div>
           </div>
@@ -447,166 +681,311 @@
 
         <div id="whitepaper" class="tab-content">
           <h1><i class="fas fa-file-alt" style="margin-right: 10px;"></i>HODLVITALITY (HVITAL) WHITE PAPER</h1>
-          <p class="mb-30">VERSION 1.0 | PROTOCOL SPECIFICATION & VISION</p>
+          <p class="mb-30">VERSION 1.0 | PROTOCOL SPECIFICATION & ECOSYSTEM VISION</p>
 
-          <div class="cyber-panel">
+          <div class="cyber-panel mb-20">
             <h2><i class="fas fa-terminal" style="margin-right: 10px;"></i>ABSTRACT</h2>
-            <p>HodlVitality (HVITAL) is a utility token designed to reward user engagement within the HodlVitality Cyberpunk Crypto Terminal ecosystem. It operates on a simple, fair, and transparent protocol, distributing rewards daily to active users. The core philosophy emphasizes consistent user interaction and provides a foundational token for future platform features, while allocating a fixed percentage to the founding creator for ongoing development and maintenance.</p>
+            <p>HodlVitality (HVITAL) is a utility token intrinsic to the HodlVitality Cyberpunk Crypto Terminal. It functions as the primary mechanism for rewarding user engagement, fostering community interaction, and unlocking potential future platform enhancements. Built on principles of simplicity, fairness, and transparency, HVITAL aims to create a vibrant ecosystem where user activity is directly acknowledged and incentivized. A portion of the token supply is allocated to the founding creator for sustained development and platform growth, ensuring long-term alignment with the project's success.</p>
           </div>
 
-          <div class="cyber-panel">
+          <div class="cyber-panel mb-20">
             <h2><i class="fas fa-cogs" style="margin-right: 10px;"></i>CORE CONCEPT: DAILY VITALITY REWARDS</h2>
-            <p>The primary distribution mechanism for HVITAL is the Daily Vitality Reward. This system is designed to be straightforward and incentivize regular platform usage.</p>
+            <p>The cornerstone of HVITAL distribution is the Daily Vitality Reward, designed to encourage consistent interaction with the HodlVitality Terminal.</p>
             <ul>
-              <li><strong class="text-primary">Eligibility:</strong> Any registered user who logs into the HodlVitality Terminal is eligible for the daily reward.</li>
-              <li><strong class="text-primary">Claiming Mechanism:</strong> Users must actively claim their reward once per 24-hour cycle via the designated "Claim Reward" button on the Dashboard.</li>
-              <li><strong class="text-primary">Reward Amount:</strong> The base daily reward amount is fixed (e.g., 10 HVITAL) but may be subject to future adjustments based on protocol governance or promotional events.</li>
-              <li><strong class="text-primary">Fairness:</strong> The protocol ensures that each eligible user can claim the reward only once per cycle, preventing abuse and ensuring equitable distribution among active participants.</li>
+              <li><strong class="text-primary">Eligibility:</strong> Any registered user who actively accesses the terminal interface is eligible.</li>
+              <li><strong class="text-primary">Claiming Mechanism:</strong> Users must manually claim their reward once per 24-hour cycle (resetting at 00:00 UTC) via the designated "Claim Reward" button on the Dashboard. This requires user intention and confirms activity.</li>
+              <li><strong class="text-primary">Base Reward Amount:</strong> The standard daily reward is initially set at 10 HVITAL. This amount is subject to potential future adjustments based on community governance or specific platform milestones.</li>
+              <li><strong class="text-primary">Potential Bonuses:</strong> Future iterations may introduce bonus rewards based on specific actions (e.g., completing tasks, consecutive logins, social engagement metrics), further incentivizing deeper platform usage.</li>
+              <li><strong class="text-primary">Fairness Protocol:</strong> The system strictly enforces a one-claim-per-user-per-cycle rule, logged against the user account to prevent exploitation and ensure equitable distribution among the active user base.</li>
             </ul>
           </div>
 
-          <div class="cyber-panel">
+          <div class="cyber-panel mb-20">
             <h2><i class="fas fa-coins" style="margin-right: 10px;"></i>TOKENOMICS (HVITAL)</h2>
-            <p>The HVITAL tokenomics are designed for simplicity and sustainability within the HodlVitality ecosystem.</p>
+            <p>HVITAL tokenomics prioritize ecosystem health and user utility.</p>
             <ul>
+              <li><strong class="text-primary">Token Name:</strong> HodlVitality</li>
               <li><strong class="text-primary">Token Ticker:</strong> HVITAL</li>
-              <li><strong class="text-primary">Total Supply:</strong> 1,000,000,000 HVITAL (One Billion) - Fixed Supply. No further minting beyond the initial structure.</li>
-              <li><strong class="text-primary">Distribution Pool:</strong> A significant portion of the total supply (e.g., 70% = 700,000,000 HVITAL) is allocated to the Daily Vitality Rewards pool, distributed over time.</li>
-              <li><strong class="text-primary">Creator Allocation:</strong> 10% of the total supply (100,000,000 HVITAL) is allocated to the original creator. This allocation vests linearly over a period of 48 months from the protocol launch date to ensure long-term commitment.</li>
-               <li><strong class="text-primary">Ecosystem Growth:</strong> 15% of the total supply (150,000,000 HVITAL) is reserved for future ecosystem development, partnerships, marketing, and community initiatives.</li>
-               <li><strong class="text-primary">Liquidity & Exchange:</strong> 5% of the total supply (50,000,000 HVITAL) is allocated for providing initial liquidity on potential future exchange listings.</li>
-              <li><strong class="text-primary">Utility (Initial):</strong>
+              <li><strong class="text-primary">Total Supply:</strong> 1,000,000,000 HVITAL (One Billion) - Fixed, non-inflationary supply. No additional tokens can be minted.</li>
+              <li><strong class="text-primary">Distribution Pool (User Rewards):</strong> 70% (700,000,000 HVITAL). This pool is dedicated to Daily Vitality Rewards and potential future engagement incentives, released gradually over many years to sustain the reward mechanism.</li>
+              <li><strong class="text-primary">Creator Allocation:</strong> 10% (100,000,000 HVITAL). Allocated to the original creator/founding team, vesting linearly over 48 months post-launch (approx. 2.08M HVITAL per month) to demonstrate long-term commitment and fund ongoing development.</li>
+              <li><strong class="text-primary">Ecosystem Growth Fund:</strong> 15% (150,000,000 HVITAL). Reserved for strategic initiatives including partnerships, marketing campaigns, community grants, developer bounties, and platform upgrades.</li>
+              <li><strong class="text-primary">Liquidity & Exchange Fund:</strong> 5% (50,000,000 HVITAL). Earmarked for providing initial liquidity on decentralized exchanges (DEXs) or centralized exchanges (CEXs) if listed in the future, facilitating market access.</li>
+              <li><strong class="text-primary">Initial Utility:</strong>
                   <ul>
-                      <li>Tipping other users within the Social Feed.</li>
-                      <li>Potential future access to premium features or data within the terminal.</li>
-                      <li>Participation in future governance votes regarding protocol parameters.</li>
+                      <li><i class="fas fa-gift"></i> Tipping: Send HVITAL to other users on the Social Hub to reward valuable content or contributions.</li>
+                      <li><i class="fas fa-lock-open"></i> Access: Potential future use for unlocking premium features, data analytics, advanced bot strategies, or cosmetic customizations within the terminal.</li>
+                      <li><i class="fas fa-vote-yea"></i> Governance: Planned implementation for participation in community governance polls regarding protocol parameters, feature prioritization, or fund allocation.</li>
                   </ul>
               </li>
             </ul>
           </div>
 
-           <div class="cyber-panel">
+           <div class="cyber-panel mb-20">
             <h2><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>PROTOCOL & FAIRNESS</h2>
-            <p>The HodlVitality protocol prioritizes fairness, transparency, and simplicity.</p>
+            <p>The HodlVitality protocol is designed with fairness and transparency as core tenets.</p>
             <ul>
-              <li><strong class="text-primary">Transparency:</strong> All reward distributions and allocations (including creator vesting) will be verifiable (details TBD - potentially on a public ledger or via transparent database logs accessible to users).</li>
-              <li><strong class="text-primary">Simplicity:</strong> The core reward mechanism is intentionally simple to understand and participate in.</li>
-              <li><strong class="text-primary">Fair Distribution:</strong> The daily claim limit ensures rewards are spread across the active user base rather than concentrated.</li>
-              <li><strong class="text-primary">Technology Stack:</strong> While initially managed via a centralized ledger within the HodlVitality application for simplicity and speed, future iterations may explore migration to a decentralized blockchain solution if deemed beneficial for the ecosystem.</li>
+              <li><strong class="text-primary">Transparency:</strong> Key metrics such as total distributed rewards, remaining reward pool balance, and creator vesting schedule will be made publicly accessible (e.g., via a dedicated stats page or API endpoint). Transaction logs for tips and rewards are visible within the user's wallet history.</li>
+              <li><strong class="text-primary">Simplicity:</strong> The initial reward mechanism is intentionally straightforward, minimizing complexity for the end-user.</li>
+              <li><strong class="text-primary">Fair Distribution:</strong> The daily claim limit per user prevents hoarding and ensures rewards are distributed broadly across active participants.</li>
+               <li><strong class="text-primary">Technology Stack (Initial):</strong> HVITAL operates initially on a centralized ledger managed within the HodlVitality application backend. This allows for rapid deployment, gasless internal transactions (tipping, rewards), and a simplified user experience.</li>
+               <li><strong class="text-primary">Future Decentralization:</strong> Exploration into migrating HVITAL onto a suitable blockchain (e.g., a Layer 2 solution or dedicated sidechain) is part of the long-term roadmap. This would enhance transparency, censorship resistance, and interoperability, but requires careful consideration of user experience (gas fees, wallet management) and technical feasibility.</li>
             </ul>
           </div>
 
-          <div class="cyber-panel">
-              <h2><i class="fas fa-road" style="margin-right: 10px;"></i>ROADMAP SNIPPETS</h2>
-              <p>Future development may include:</p>
+          <div class="cyber-panel mb-20">
+              <h2><i class="fas fa-road" style="margin-right: 10px;"></i>ROADMAP HIGHLIGHTS</h2>
+              <p>Key milestones and future development directions:</p>
                <ul>
-                  <li>Enhanced utility for HVITAL (e.g., feature unlocks, cosmetic upgrades).</li>
-                  <li>Integration with additional crypto services.</li>
-                  <li>Exploration of decentralized identity solutions.</li>
-                  <li>Community governance mechanisms via HVITAL staking.</li>
-                  <li>Potential listing on select decentralized or centralized exchanges (subject to feasibility and regulations).</li>
+                  <li><strong>Phase 1 (Completed):</strong> Core Terminal Launch, Daily HVITAL Rewards, Basic Social Feed, BTC/LN Wallet Integration, Basic Trading Bot, DCA Feature, Whitepaper v1.0.</li>
+                  <li><strong>Phase 2 (In Progress):</strong> HVITAL Social Tipping, Exchange API Integration (Binance), Enhanced Charting, User Profile Customization.</li>
+                  <li><strong>Phase 3 (Planned):</strong> Advanced Trading Bot Features (more indicators, backtesting), HVITAL Utility Expansion (feature unlocks), Community Governance Module (staking & voting), Additional Exchange Integrations, Resource Center Expansion.</li>
+                  <li><strong>Phase 4 (Future Exploration):</strong> Mobile Application Development, Decentralization Study (HVITAL on-chain migration), NFT Integration for Achievements/Profiles, Expansion to other blockchains/assets.</li>
                </ul>
           </div>
 
           <div class="cyber-panel">
             <h2><i class="fas fa-exclamation-triangle" style="margin-right: 10px;"></i>DISCLAIMER</h2>
-            <p class="disclaimer">HodlVitality (HVITAL) is a utility token designed for use within the HodlVitality platform. It is not intended as an investment vehicle or security. The value of HVITAL can fluctuate and may be subject to market risks. Users should conduct their own research and understand the risks involved before acquiring or using HVITAL. The creators make no guarantees regarding the future value or utility of the token. This white paper is for informational purposes only and does not constitute financial advice.</p>
+            <p class="disclaimer">HodlVitality (HVITAL) is a utility token created solely for use within the HodlVitality platform ecosystem. It is intended to reward engagement and facilitate interactions, not as an investment, security, or speculative asset. The value of HVITAL is subject to market forces and platform usage, and can fluctuate significantly or become zero. There is no guarantee of future value, liquidity, or exchange listing. Users acquire and use HVITAL at their own risk and should perform their own due diligence. This white paper provides information about the project's goals and mechanics but does not constitute financial advice, investment advice, or an offer to sell securities. The development roadmap is aspirational and subject to change based on technical feasibility, market conditions, and resource availability.</p>
           </div>
         </div>
+
         <div id="news" class="tab-content">
-          <h1><i class="fas fa-newspaper" style="margin-right: 10px;"></i>CRYPTO NEWS</h1>
-          <p class="mb-30">LATEST CRYPTOCURRENCY MARKET UPDATES</p>
+          <h1><i class="fas fa-newspaper" style="margin-right: 10px;"></i>CRYPTO NEWS FEED</h1>
+          <p class="mb-30">AGGREGATED MARKET UPDATES & ANALYSIS</p>
 
           <div class="cyber-panel post">
             <div class="post-header">
-              <img src="https://i.pravatar.cc/150?img=11" alt="avatar" /> <span>CRYPTONEWS</span>
-              <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW CRYPTONEWS"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
+              <img src="https://i.pravatar.cc/150?img=11" alt="avatar" /> <span>CRYPTONEWS CENTRAL</span>
+              <div class="post-actions"> <a href="#" class="btn btn-sm" data-tooltip="READ FULL ARTICLE"> <i class="fas fa-external-link-alt"></i> READ MORE </a> </div>
             </div>
             <div class="post-body">
-              <h3>BITCOIN SURPASSES $42,000 AMID INSTITUTIONAL DEMAND</h3>
-              <p>Bitcoin has broken through the $42,000 resistance level as institutional investors continue to show strong interest...</p>
-              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 2 HOURS AGO</span> </div>
+              <h3>BITCOIN SURPASSES $42,000 AMID INSTITUTIONAL DEMAND AND POSITIVE ETF FLOWS</h3>
+              <p>Bitcoin (BTC) has reclaimed the $42,000 level, driven by continued interest from institutional players and positive net inflows into recently approved spot Bitcoin ETFs...</p>
+              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 2 HOURS AGO</span> <span class="post-meta-item"><i class="fas fa-tags"></i> #Bitcoin #ETF #Institutional</span></div>
             </div>
           </div>
-           <div class="cyber-panel post">
+
+          <div class="cyber-panel post">
             <div class="post-header">
-              <img src="https://i.pravatar.cc/150?img=12" alt="avatar" /> <span>ALTCOIN WATCH</span>
-              <div class="post-actions"> <button class="btn btn-sm follow-btn" data-tooltip="FOLLOW ALTCOIN WATCH"> <i class="fas fa-bell"></i> FOLLOW </button> </div>
+              <img src="https://i.pravatar.cc/150?img=12" alt="avatar" /> <span>ALTCOIN WATCHER</span>
+              <div class="post-actions"> <a href="#" class="btn btn-sm" data-tooltip="READ FULL ARTICLE"> <i class="fas fa-external-link-alt"></i> READ MORE </a> </div>
             </div>
             <div class="post-body">
-              <h3>HODLVITALITY (HVITAL) SEES INCREASED ACTIVITY AFTER PROTOCOL LAUNCH</h3>
-              <p>The newly launched HodlVitality token ($HVITAL) integrated into the Cyberpunk Terminal is seeing growing daily claims and social tipping activity...</p>
-              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 45 MINUTES AGO</span> </div>
+              <h3>HODLVITALITY (HVITAL) SEES INCREASED ACTIVITY AS SOCIAL TIPPING LAUNCHES</h3>
+              <p>The utility token $HVITAL, integrated into the HodlVitality Cyberpunk Terminal, is experiencing a surge in daily claims and peer-to-peer tipping following the launch of its social tipping feature...</p>
+              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 45 MINUTES AGO</span> <span class="post-meta-item"><i class="fas fa-tags"></i> #HodlVitality #HVITAL #UtilityToken #SocialFi</span></div>
+            </div>
+          </div>
+
+           <div class="cyber-panel post">
+            <div class="post-header">
+              <img src="https://i.pravatar.cc/150?img=13" alt="avatar" /> <span>DEFI DISPATCH</span>
+              <div class="post-actions"> <a href="#" class="btn btn-sm" data-tooltip="READ FULL ARTICLE"> <i class="fas fa-external-link-alt"></i> READ MORE </a> </div>
+            </div>
+            <div class="post-body">
+              <h3>ETHEREUM LAYER 2 SOLUTIONS GAIN TRACTION AS GAS FEES REMAIN A CONCERN</h3>
+              <p>Projects building on Ethereum Layer 2 networks like Arbitrum, Optimism, and Polygon zkEVM are seeing increased user adoption as developers and users seek lower transaction costs and faster speeds...</p>
+              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED 5 HOURS AGO</span> <span class="post-meta-item"><i class="fas fa-tags"></i> #Ethereum #Layer2 #DeFi #Scalability</span></div>
+            </div>
+          </div>
+
+           <div class="cyber-panel post">
+            <div class="post-header">
+              <img src="https://i.pravatar.cc/150?img=14" alt="avatar" /> <span>REGULATION SCANNER</span>
+               <div class="post-actions"> <a href="#" class="btn btn-sm" data-tooltip="READ FULL ARTICLE"> <i class="fas fa-external-link-alt"></i> READ MORE </a> </div>
+            </div>
+            <div class="post-body">
+              <h3>GLOBAL REGULATORS CONTINUE TO DEBATE CRYPTO FRAMEWORKS</h3>
+              <p>Financial regulators across major jurisdictions are intensifying discussions on establishing comprehensive frameworks for digital assets, focusing on investor protection, market stability, and illicit finance risks...</p>
+              <div class="post-meta"> <span class="post-meta-item"><i class="far fa-clock"></i> PUBLISHED YESTERDAY</span> <span class="post-meta-item"><i class="fas fa-tags"></i> #Regulation #Policy #Global #Crypto</span></div>
             </div>
           </div>
         </div>
 
         <div id="resources" class="tab-content">
           <h1><i class="fas fa-hat-wizard" style="margin-right: 10px;"></i>LEARNING RESOURCES</h1>
-          <p class="mb-30">CRYPTO KNOWLEDGE DATABASE</p>
+          <p class="mb-30">EXPAND YOUR KNOWLEDGE | CRYPTO KNOWLEDGE DATABASE</p>
 
-          <div class="cyber-panel">
+          <div class="cyber-panel mb-30">
             <h2><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>BEGINNER GUIDES</h2>
-            <div class="wallet-info">
-               <div class="wallet-info-item"> <h3>HODLVITALITY FAQ</h3> <p>FREQUENTLY ASKED QUESTIONS ABOUT HVITAL</p> <button class="btn btn-sm mt-20" data-tooltip="READ HVITAL FAQ" onclick="navigateToTab('whitepaper')"> <i class="fas fa-question-circle"></i> READ FAQ </button> </div>
-               <div class="wallet-info-item"> <h3>BITCOIN WHITEPAPER</h3> <p>THE ORIGINAL PAPER BY SATOSHI NAKAMOTO</p> <a href="https://bitcoin.org/bitcoin.pdf" target="_blank" class="btn btn-sm mt-20" data-tooltip="READ WHITEPAPER"> <i class="fas fa-book"></i> READ </a> </div>
-               <div class="wallet-info-item"> <h3>CRYPTO SECURITY 101</h3> <p>LEARN HOW TO KEEP YOUR CRYPTO SAFE</p> <button class="btn btn-sm mt-20" data-tooltip="LEARN SECURITY BASICS"> <i class="fas fa-shield-alt"></i> LEARN </button> </div>
-               <div class="wallet-info-item"> <h3>WHAT IS BLOCKCHAIN?</h3> <p>A SIMPLE EXPLANATION</p> <button class="btn btn-sm mt-20" data-tooltip="EXPLAIN BLOCKCHAIN"> <i class="fas fa-link"></i> EXPLAIN </button> </div>
+            <div class="resources-grid">
+               <div class="resource-card">
+                 <i class="fas fa-question-circle fa-2x text-primary mb-10"></i>
+                 <h3>HODLVITALITY FAQ</h3>
+                 <p>Your questions about HVITAL tokens, rewards, and tipping answered.</p>
+                 <button class="btn btn-sm mt-20" data-tooltip="READ HVITAL FAQ" onclick="navigateToTab('whitepaper')"> <i class="fas fa-book-open"></i> READ FAQ </button>
+               </div>
+               <div class="resource-card">
+                 <i class="fab fa-bitcoin fa-2x" style="color: #f7931a;" class="mb-10"></i>
+                 <h3>WHAT IS BITCOIN?</h3>
+                 <p>Understand the original cryptocurrency and its core concepts.</p>
+                 <a href="https://bitcoin.org/en/getting-started" target="_blank" class="btn btn-sm mt-20" data-tooltip="LEARN ABOUT BITCOIN"> <i class="fas fa-external-link-alt"></i> LEARN </a>
+               </div>
+                <div class="resource-card">
+                 <i class="fas fa-link fa-2x text-secondary mb-10"></i>
+                 <h3>BLOCKCHAIN EXPLAINED</h3>
+                 <p>A simple explanation of the technology behind cryptocurrencies.</p>
+                 <a href="https://www.investopedia.com/terms/b/blockchain.asp" target="_blank" class="btn btn-sm mt-20" data-tooltip="EXPLAIN BLOCKCHAIN"> <i class="fas fa-external-link-alt"></i> EXPLAIN </a>
+               </div>
+                <div class="resource-card">
+                 <i class="fas fa-shield-alt fa-2x text-success mb-10"></i>
+                 <h3>CRYPTO SECURITY 101</h3>
+                 <p>Essential tips to keep your digital assets safe from threats.</p>
+                 <button class="btn btn-sm mt-20" data-tooltip="LEARN SECURITY BASICS"> <i class="fas fa-book-open"></i> LEARN </button>
+               </div>
+                <div class="resource-card">
+                  <i class="fas fa-wallet fa-2x text-warning mb-10"></i>
+                  <h3>TYPES OF WALLETS</h3>
+                  <p>Learn about hot wallets, cold wallets, hardware wallets, and more.</p>
+                  <button class="btn btn-sm mt-20" data-tooltip="UNDERSTAND WALLETS"> <i class="fas fa-book-open"></i> LEARN </button>
+               </div>
             </div>
           </div>
+
+           <div class="cyber-panel mb-30">
+            <h2><i class="fas fa-bolt" style="margin-right: 10px;"></i>INTERMEDIATE CONCEPTS</h2>
+            <div class="resources-grid">
+               <div class="resource-card">
+                 <i class="fab fa-ethereum fa-2x" style="color: #627eea;" class="mb-10"></i>
+                 <h3>INTRODUCTION TO ETHEREUM & SMART CONTRACTS</h3>
+                 <p>Explore the world computer and programmable money.</p>
+                 <a href="https://ethereum.org/en/developers/docs/intro-to-ethereum/" target="_blank" class="btn btn-sm mt-20" data-tooltip="LEARN ABOUT ETHEREUM"> <i class="fas fa-external-link-alt"></i> LEARN </a>
+               </div>
+               <div class="resource-card">
+                 <i class="fas fa-coins fa-2x text-primary mb-10"></i>
+                 <h3>WHAT IS DEFI?</h3>
+                 <p>Understand Decentralized Finance and its applications.</p>
+                  <a href="https://www.coinbase.com/learn/crypto-basics/what-is-defi" target="_blank" class="btn btn-sm mt-20" data-tooltip="LEARN ABOUT DEFI"> <i class="fas fa-external-link-alt"></i> LEARN </a>
+               </div>
+                <div class="resource-card">
+                 <i class="fas fa-palette fa-2x text-info mb-10"></i>
+                 <h3>NFTs EXPLAINED</h3>
+                 <p>Learn about Non-Fungible Tokens and digital ownership.</p>
+                 <a href="https://ethereum.org/en/nft/" target="_blank" class="btn btn-sm mt-20" data-tooltip="LEARN ABOUT NFTS"> <i class="fas fa-external-link-alt"></i> LEARN </a>
+               </div>
+                 <div class="resource-card">
+                 <i class="fas fa-chart-line fa-2x text-success mb-10"></i>
+                 <h3>INTRODUCTION TO DCA</h3>
+                 <p>Understand the Dollar-Cost Averaging investment strategy.</p>
+                 <button class="btn btn-sm mt-20" data-tooltip="LEARN ABOUT DCA" onclick="navigateToTab('dca')"> <i class="fas fa-book-open"></i> READ </button>
+               </div>
+            </div>
+          </div>
+
+           <div class="cyber-panel">
+            <h2><i class="fas fa-book" style="margin-right: 10px;"></i>GLOSSARY & TOOLS</h2>
+            <div class="resources-grid">
+              <div class="resource-card">
+                 <i class="fas fa-spell-check fa-2x text-secondary mb-10"></i>
+                 <h3>CRYPTO GLOSSARY</h3>
+                 <p>Definitions for common cryptocurrency terms and acronyms.</p>
+                 <button class="btn btn-sm mt-20" data-tooltip="VIEW GLOSSARY"> <i class="fas fa-book-open"></i> VIEW </button>
+               </div>
+                <div class="resource-card">
+                 <i class="fas fa-calculator fa-2x text-warning mb-10"></i>
+                 <h3>CRYPTO CALCULATOR</h3>
+                 <p>Convert between different cryptocurrencies and fiat.</p>
+                 <button class="btn btn-sm mt-20" data-tooltip="USE CALCULATOR"> <i class="fas fa-calculator"></i> USE </button>
+               </div>
+                 <div class="resource-card">
+                 <i class="fas fa-map-marked-alt fa-2x text-primary mb-10"></i>
+                 <h3>BLOCK EXPLORERS</h3>
+                 <p>Tools to view transactions and data on various blockchains.</p>
+                 <button class="btn btn-sm mt-20" data-tooltip="ACCESS EXPLORERS"> <i class="fas fa-search"></i> ACCESS </button>
+               </div>
+            </div>
+           </div>
+
         </div>
 
         <div id="helpcreator" class="tab-content">
-          <h1><i class="fas fa-qrcode" style="margin-right: 10px;"></i>SUPPORT THE CREATOR</h1>
-          <div class="donate-text">
-            <p>IF YOU FIND HODLVITALITY VALUABLE, CONSIDER SUPPORTING ITS DEVELOPMENT WITH A DONATION VIA LIGHTNING OR BITCOIN. YOUR SUPPORT HELPS FUND IMPROVEMENTS AND NEW FEATURES.</p>
+          <h1><i class="fas fa-qrcode" style="margin-right: 10px;"></i>SUPPORT DEVELOPMENT</h1>
+          <div class="donate-text mb-30">
+            <p>HodlVitality is developed and maintained by a solo creator. If you find this terminal useful and appreciate the ongoing development, consider showing your support.</p>
+            <p>Donations help cover server costs, API subscriptions, and fuel the addition of new features based on the roadmap and community feedback. Every contribution, big or small, makes a difference!</p>
+            <p>You can donate via Bitcoin Lightning Network for fast, low-fee transactions, or directly to the Bitcoin address.</p>
+             <p>Alternatively, actively using the platform, providing feedback, and sharing it with others also greatly supports the project!</p>
           </div>
 
           <div class="qr-container">
             <div id="helpCreatorQR" data-tooltip="SCAN TO DONATE VIA LIGHTNING"></div>
-            <p>SCAN TO DONATE VIA LIGHTNING NETWORK</p>
-            <div class="donate-address">
-              bc1qsimulateddonationaddress1234567890
+            <p class="mt-10">SCAN TO DONATE VIA LIGHTNING NETWORK</p>
+             <p class="text-secondary mt-10">Or use Lightning Address: <span class="text-primary">developer@hodlvitality.dev</span></p>
+            <div class="donate-address mt-20">
+              <span class="text-secondary">BTC Address:</span> bc1qhodlvitalitydevaddressxxxxxxxxx
             </div>
-            <button class="btn btn-primary" onclick="copyToClipboard('bc1qsimulateddonationaddress1234567890', 'BTC Address Copied!')" data-tooltip="COPY BTC ADDRESS">
-              <i class="fas fa-copy"></i> COPY ADDRESS
+            <button class="btn btn-primary mt-10" onclick="copyToClipboard('bc1qhodlvitalitydevaddressxxxxxxxxx', 'BTC Address Copied!')" data-tooltip="COPY BTC ADDRESS">
+              <i class="fas fa-copy"></i> COPY BTC ADDRESS
             </button>
+             <p class="text-primary mt-20">Thank you for your support!</p>
           </div>
 
           <div class="cyber-panel mt-30">
-            <h2><i class="fas fa-road" style="margin-right: 10px;"></i>DEVELOPMENT ROADMAP</h2>
-            <ul style="list-style-type: none;">
-               <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> CORE PROTOCOL V1 & DAILY REWARDS (LIVE)</h3> <p>HVITAL distribution via daily claims.</p> </li>
-               <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-success">✓</span> HVITAL SOCIAL TIPPING (LIVE)</h3> <p>Tip users with HVITAL tokens.</p> </li>
-               <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> ADVANCED TRADING FEATURES (NEXT)</h3> <p>More indicators, backtesting, potential HVITAL pairs.</p> </li>
-                <li style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--neon-blue);"> <h3><span class="text-primary">→</span> GOVERNANCE FRAMEWORK (PLANNED)</h3> <p>Implement voting mechanism using HVITAL.</p> </li>
-               <li> <h3><span class="text-secondary">○</span> MOBILE APP (FUTURE)</h3> <p>Full-featured mobile experience.</p> </li>
+            <h2><i class="fas fa-road" style="margin-right: 10px;"></i>DEVELOPMENT ROADMAP SNAPSHOT</h2>
+             <p class="mb-10">Your support helps accelerate these goals:</p>
+            <ul style="list-style-type: none; padding: 0;">
+               <li class="roadmap-item completed">
+                 <h3><span class="text-success"><i class="fas fa-check-circle"></i></span> CORE PROTOCOL V1 & DAILY REWARDS</h3>
+                 <p>HVITAL distribution via daily claims implemented.</p>
+               </li>
+               <li class="roadmap-item completed">
+                 <h3><span class="text-success"><i class="fas fa-check-circle"></i></span> HVITAL SOCIAL TIPPING</h3>
+                 <p>Peer-to-peer HVITAL tipping enabled on Social Hub.</p>
+               </li>
+               <li class="roadmap-item in-progress">
+                 <h3><span class="text-primary"><i class="fas fa-cogs"></i></span> ADVANCED TRADING BOT FEATURES</h3>
+                 <p>Integrating more technical indicators, strategy backtesting, and potential HVITAL trading pairs.</p>
+               </li>
+                <li class="roadmap-item planned">
+                 <h3><span class="text-warning"><i class="fas fa-tasks"></i></span> GOVERNANCE FRAMEWORK V1</h3>
+                 <p>Developing a basic proposal and voting mechanism using HVITAL staking (details TBD).</p>
+               </li>
+               <li class="roadmap-item planned">
+                 <h3><span class="text-warning"><i class="fas fa-tasks"></i></span> ENHANCED CUSTOMIZATION & THEMES</h3>
+                 <p>Adding more user interface customization options and themes.</p>
+               </li>
+               <li class="roadmap-item future">
+                 <h3><span class="text-secondary"><i class="fas fa-cloud"></i></span> MOBILE APP (iOS & Android)</h3>
+                 <p>Researching and planning for a native mobile terminal experience.</p>
+               </li>
+                <li class="roadmap-item future">
+                 <h3><span class="text-secondary"><i class="fas fa-cloud"></i></span> HVITAL ON-CHAIN MIGRATION STUDY</h3>
+                 <p>Investigating feasibility and benefits of moving HVITAL to a public blockchain.</p>
+               </li>
             </ul>
           </div>
         </div>
 
+
         <div id="account" class="tab-content">
           <h1><i class="fas fa-user" style="margin-right: 10px;"></i>ACCOUNT OVERVIEW</h1>
+          <p class="mb-30">MANAGE YOUR PROFILE, SETTINGS, AND VIEW PERFORMANCE METRICS</p>
 
           <div class="account-grid">
             <div class="cyber-panel account-section">
               <img src="https://i.pravatar.cc/150?img=1" class="account-avatar" alt="User Avatar">
-              <h2 class="text-center">USERNAME</h2>
-              <p class="text-center text-secondary">MEMBER SINCE JUNE 2023</p>
+              <h2 class="text-center mt-10">YOURUSERNAME</h2>
+              <p class="text-center text-secondary">MEMBER SINCE: <span id="memberSinceDate">APRIL 10, 2025</span></p>
               <div class="account-stats">
                 <div class="stat-row"> <span class="stat-label">FOLLOWERS:</span> <span class="stat-value">128</span> </div>
                 <div class="stat-row"> <span class="stat-label">FOLLOWING:</span> <span class="stat-value">42</span> </div>
-                <div class="stat-row"> <span class="stat-label">POSTS:</span> <span class="stat-value">18</span> </div>
-                 <div class="stat-row"> <span class="stat-label">HVITAL EARNED:</span> <span class="stat-value">1,250 HVITAL</span> </div>
+                <div class="stat-row"> <span class="stat-label">POSTS MADE:</span> <span class="stat-value">18</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL EARNED (REWARDS):</span> <span class="stat-value">1,150 HVITAL</span> </div>
+                 <div class="stat-row"> <span class="stat-label">HVITAL EARNED (TIPS):</span> <span class="stat-value">100 HVITAL</span> </div>
+                 <div class="stat-row"> <span class="stat-label">TOTAL HVITAL:</span> <span class="stat-value text-primary">1,250 HVITAL</span> </div>
               </div>
+               <button class="btn btn-primary mt-20" data-tooltip="EDIT YOUR PROFILE DETAILS"> <i class="fas fa-edit"></i> EDIT PROFILE </button>
             </div>
 
             <div class="cyber-panel account-section">
-              <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>WALLET GAINS</h2>
+              <h2><i class="fas fa-chart-line" style="margin-right: 10px;"></i>PORTFOLIO PERFORMANCE</h2>
               <div class="chart-container" style="height: 250px;"> <canvas id="walletGainsChart"></canvas> </div>
               <div class="account-stats">
-                 <div class="stat-row"> <span class="stat-label">ALL TIME:</span> <span class="stat-value text-success">+125%</span> </div>
-                 <div class="stat-row"> <span class="stat-label">THIS YEAR:</span> <span class="stat-value text-success">+45%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">ALL TIME RETURN:</span> <span class="stat-value text-success">+125%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">YEAR-TO-DATE (YTD):</span> <span class="stat-value text-success">+45%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">30-DAY CHANGE:</span> <span class="stat-value text-success">+8.2%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">BEST PERFORMER (ALL TIME):</span> <span class="stat-value">BTC</span> </div>
               </div>
             </div>
 
@@ -614,44 +993,51 @@
               <h2><i class="fas fa-robot" style="margin-right: 10px;"></i>TRADING BOT PERFORMANCE</h2>
               <div class="chart-container" style="height: 250px;"> <canvas id="tradingBotGainsChart"></canvas> </div>
               <div class="account-stats">
-                 <div class="stat-row"> <span class="stat-label">WIN RATE:</span> <span class="stat-value text-success">72%</span> </div>
-                 <div class="stat-row"> <span class="stat-label">TOTAL PROFIT:</span> <span class="stat-value">0.15 BTC</span> </div>
+                 <div class="stat-row"> <span class="stat-label">OVERALL WIN RATE:</span> <span class="stat-value text-success">72%</span> </div>
+                 <div class="stat-row"> <span class="stat-label">TOTAL PROFIT (BTC):</span> <span class="stat-value">0.15 BTC</span> </div>
+                 <div class="stat-row"> <span class="stat-label">PROFIT FACTOR:</span> <span class="stat-value">1.85</span> </div>
+                 <div class="stat-row"> <span class="stat-label">ACTIVE STRATEGIES:</span> <span class="stat-value">1</span> </div>
               </div>
+              <button class="btn btn-primary mt-20" data-tooltip="VIEW DETAILED TRADING BOT ANALYTICS" onclick="navigateToTab('trading')"> <i class="fas fa-search-dollar"></i> VIEW BOT DETAILS </button>
             </div>
 
             <div class="cyber-panel account-section">
-              <h2><i class="fas fa-dollar-sign" style="margin-right: 10px;"></i>DCA STATISTICS</h2>
+              <h2><i class="fas fa-dollar-sign" style="margin-right: 10px;"></i>DCA STATISTICS (BTC)</h2>
               <div class="account-stats">
-                <div class="stat-row"> <span class="stat-label">TOTAL INVESTED:</span> <span class="stat-value">$3,250</span> </div>
-                <div class="stat-row"> <span class="stat-label">BTC ACCUMULATED:</span> <span class="stat-value">0.075 BTC</span> </div>
-                <div class="stat-row"> <span class="stat-label">AVERAGE PRICE:</span> <span class="stat-value">$43,333</span> </div>
-                <div class="stat-row"> <span class="stat-label">CURRENT VALUE:</span> <span class="stat-value text-success">$3,450 (+6.2%)</span> </div>
+                <div class="stat-row"> <span class="stat-label">TOTAL INVESTED (USD):</span> <span class="stat-value">$3,250</span> </div>
+                <div class="stat-row"> <span class="stat-label">BTC ACCUMULATED:</span> <span class="stat-value">0.075005 BTC</span> </div>
+                <div class="stat-row"> <span class="stat-label">AVERAGE BUY PRICE:</span> <span class="stat-value">$43,331</span> </div>
+                <div class="stat-row"> <span class="stat-label">CURRENT VALUE:</span> <span class="stat-value">$3,172.71</span> </div>
+                <div class="stat-row"> <span class="stat-label">UNREALIZED P&L:</span> <span class="stat-value text-error">-$77.29 (-2.38%)</span> </div>
+                <div class="stat-row"> <span class="stat-label">ACTIVE STRATEGIES:</span> <span class="stat-value">1</span> </div>
               </div>
-              <button class="btn btn-primary mt-20" data-tooltip="VIEW DETAILED DCA STATISTICS"> <i class="fas fa-chart-line"></i> VIEW DETAILED STATS </button>
+              <button class="btn btn-primary mt-20" data-tooltip="VIEW DETAILED DCA STATISTICS" onclick="navigateToTab('dca')"> <i class="fas fa-chart-line"></i> VIEW DCA DETAILS </button>
             </div>
 
             <div class="cyber-panel account-section">
                <h2><i class="fas fa-cog" style="margin-right: 10px;"></i>ACCOUNT SETTINGS</h2>
-               <ul style="list-style-type: none; padding-left: 0;">
-                 <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-user" style="width: 25px; text-align: center; margin-right: 8px;"></i> PROFILE SETTINGS </button> </li>
-                 <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-bell" style="width: 25px; text-align: center; margin-right: 8px;"></i> NOTIFICATIONS </button> </li>
-                 <li style="margin-bottom: 10px;"> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-lock" style="width: 25px; text-align: center; margin-right: 8px;"></i> SECURITY </button> </li>
-                 <li> <button class="btn btn-sm" style="width: 100%; text-align: left; justify-content: flex-start;"> <i class="fas fa-moon" style="width: 25px; text-align: center; margin-right: 8px;"></i> APPEARANCE </button> </li>
+               <ul class="settings-list">
+                 <li> <button class="btn btn-sm setting-btn"> <i class="fas fa-user"></i> PROFILE SETTINGS </button> </li>
+                 <li> <button class="btn btn-sm setting-btn"> <i class="fas fa-envelope"></i> EMAIL & NOTIFICATIONS </button> </li>
+                 <li> <button class="btn btn-sm setting-btn"> <i class="fas fa-lock"></i> SECURITY (PASSWORD, 2FA) </button> </li>
+                 <li> <button class="btn btn-sm setting-btn"> <i class="fas fa-key"></i> API KEYS </button> </li>
+                 <li> <button class="btn btn-sm setting-btn"> <i class="fas fa-moon"></i> APPEARANCE & THEME </button> </li>
+                 <li> <button class="btn btn-sm setting-btn"> <i class="fas fa-user-shield"></i> PRIVACY SETTINGS </button> </li>
+                 <li> <button class="btn btn-sm btn-danger setting-btn"> <i class="fas fa-sign-out-alt"></i> LOGOUT </button> </li>
                </ul>
             </div>
 
             <div class="cyber-panel account-section">
                <h2><i class="fas fa-exchange-alt" style="margin-right: 10px;"></i>CONNECTED EXCHANGES</h2>
-               <ul style="list-style-type: none; padding-left: 0;">
-                 <li class="stat-row" style="border-bottom: 1px dashed var(--neon-blue);"> <i class="fab fa-bitcoin" style="margin-right: 10px; color: var(--neon-blue); flex-shrink: 0;"></i> <span style="flex-grow: 1;">BINANCE</span> <span class="text-success" style="flex-shrink: 0;">CONNECTED</span> </li>
-                 <li class="stat-row" style="border-bottom: 1px dashed var(--neon-blue);"> <i class="fab fa-ethereum" style="margin-right: 10px; color: #627eea; flex-shrink: 0;"></i> <span style="flex-grow: 1;">COINBASE</span> <span style="flex-shrink: 0;">NOT CONNECTED</span> </li>
-                 <li class="stat-row"> <i class="fas fa-anchor" style="margin-right: 10px; color: #5825fc; flex-shrink: 0;"></i> <span style="flex-grow: 1;">KRAKEN</span> <span style="flex-shrink: 0;">NOT CONNECTED</span> </li>
+               <ul class="connected-exchanges-list">
+                 <li> <i class="fab fa-bitcoin" style="color: var(--neon-blue);"></i> BINANCE <span class="status text-success">CONNECTED</span> <button class="btn btn-xs" data-tooltip="Manage"><i class="fas fa-cog"></i></button> </li>
+                 <li> <i class="fab fa-ethereum" style="color: #627eea;"></i> COINBASE <span class="status">NOT CONNECTED</span> <button class="btn btn-xs" data-tooltip="Connect"><i class="fas fa-link"></i></button></li>
+                 <li> <i class="fas fa-anchor" style="color: #5825fc;"></i> KRAKEN <span class="status">NOT CONNECTED</span> <button class="btn btn-xs" data-tooltip="Connect"><i class="fas fa-link"></i></button></li>
+                 <li> <img src="https://s2.coinmarketcap.com/static/img/exchanges/64x64/311.png" alt="KuCoin" style="width: 1em; height: 1em; vertical-align: middle;"/> KUCOIN <span class="status">NOT CONNECTED</span> <button class="btn btn-xs" data-tooltip="Connect"><i class="fas fa-link"></i></button></li>
                </ul>
-               <button class="btn btn-primary mt-20" data-tooltip="ADD NEW EXCHANGE CONNECTION"> <i class="fas fa-plus"></i> ADD EXCHANGE </button>
+               <button class="btn btn-primary mt-20" data-tooltip="ADD NEW EXCHANGE CONNECTION" onclick="navigateToTab('exchanges')"> <i class="fas fa-plus"></i> MANAGE EXCHANGES </button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </body>
-</html> 
+      </div> </div> </body>
+</html>
