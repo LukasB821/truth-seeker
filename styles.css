@@ -108,7 +108,7 @@ h1 {
 
 
 h2 {
-  font-size: 2rem;
+  font-size: .5rem;
   position: relative;
   padding-bottom: 10px;
   color: var(--neon-blue);
@@ -370,7 +370,7 @@ ul li:hover::before {
 .marquee-inner {
   display: inline-block;
   white-space: nowrap;
-  animation: marquee 50s linear infinite; /* Slightly slower */
+  animation: marquee 100s linear infinite; /* Slightly slower */
   padding-left: 100%; /* Start off screen */
 }
 
@@ -451,7 +451,7 @@ ul li:hover::before {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(0, 217, 232, 0.2), transparent);
-  transition: left var(--wipe-transition); /* Use wipe transition */
+  transition: left var(0.1s); /* Use wipe transition */
   z-index: -1; /* Behind text and icon */
 }
 
